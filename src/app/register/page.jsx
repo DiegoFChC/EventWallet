@@ -3,8 +3,8 @@
 import "./register.css";
 import Link from "next/link";
 import Image from "next/image";
-import { postRequest } from "@/server/requests";
 import { useRouter } from "next/navigation";
+import { registerResponse } from "@/services/register.post";
 
 export default function Register() {
   const router = useRouter();
@@ -22,9 +22,9 @@ export default function Register() {
     };
     console.log(data);
 
-    const res = await postRequest("http://127.0.0.1:8000/core/create", data);
+    const res = await registerResponse(data);
     console.log(res);
-    router.push("/login")
+    router.push("/login");
   }
 
   return (
@@ -40,15 +40,16 @@ export default function Register() {
           <h1>Registro</h1>
           <form onSubmit={handleSubmit}>
             <div className="inputs">
-              <input name="name" type="text" placeholder="Nombre" />
-              <input name="lastname" type="text" placeholder="Apellido" />
-              <input name="nickname" type="text" placeholder="Apodo" />
+              <input name="name" type="text" placeholder="Nombre" required />
+              <input name="lastname" type="text" placeholder="Apellido" required />
+              <input name="nickname" type="text" placeholder="Apodo" required />
               <input
                 name="email"
                 type="email"
                 placeholder="Correo electrónico"
+                required
               />
-              <input name="password" type="password" placeholder="Contraseña" />
+              <input name="password" type="password" placeholder="Contraseña" required />
             </div>
             <input name="avatar" type="file" placeholder="Avatar" />
             <button type="submit">REGISTRARME</button>

@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap");
 
 :root {
-  --background1: rgba(211, 211, 211, 0.43);
-  --background2: 255, 255, 255;
+  --background1: rgb(232, 232, 233);
+  --background2: rgba(255, 255, 255, 0.6);
   --background1-no-alpha: 211, 211, 211;
   --text-light: 255, 255, 255;
   --text-dark: 0, 0, 0;
@@ -16,7 +16,7 @@
 
 [data-theme="dark"] {
   --background1: rgb(11, 14, 54);
-  --background2: 0, 0, 0;
+  --background2: rgba(0, 0, 0, 0.3);
   --background1-no-alpha: 11, 14, 54;
   --text-light: 255, 255, 255;
   --text-dark: 0, 0, 0;
