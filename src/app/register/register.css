@@ -154,7 +154,7 @@
       .container {
         margin: 40px;
         padding: 20px;
-        background-color: rgba(var(--background2), 0.3);
+        background-color: var(--background2);
 
         & h1 {
           font-size: 2.7rem;
@@ -207,7 +207,7 @@
       .container {
         margin: 60px;
         padding: 20px;
-        background-color: rgba(var(--background2), 0.3);
+        background-color: var(--background2);
 
         & h1 {
           font-size: 3.5rem;
