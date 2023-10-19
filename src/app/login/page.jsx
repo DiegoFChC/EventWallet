@@ -4,10 +4,24 @@ import Image from "next/image";
 import "./login.css";
 import { useRouter } from "next/navigation";
 import { loginResponse } from "@/services/login.post";
-import { setCookie } from 'cookies-next';
+import { setCookie } from "cookies-next";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const router = useRouter();
+  const notify = () => {
+    toast.error("Credenciales incorrectas", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -19,8 +33,13 @@ export default function Login() {
     console.log(data);
     const res = await loginResponse(data);
     console.log(res);
-    setCookie("Token", "Token " + res.token)
-    router.push("/application");
+    if (!res.error) {
+      setCookie("Token", "Token " + res.token);
+      router.push("/application");
+    } else {
+      console.log("datos incorrectos");
+      notify();
+    }
   }
 
   return (
@@ -52,6 +71,18 @@ export default function Login() {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </main>
   );
 }

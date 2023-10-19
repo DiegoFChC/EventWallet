@@ -1,18 +1,14 @@
-import { useState } from "react";
-import "./modalconfirm.css";
-import { useRouter } from "next/navigation";
-import { deleteUserPut } from "@/services/deleteUser.put";
+import "./modalCreateContact.css";
+import { newContacts } from "@/services/contacts.post";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const ModalConfirm = ({ onCloseModal }) => {
-  const [deleteModal, setDeleteModal] = useState("ModalConfirm");
-  const router = useRouter();
+export const ModalCreateContact = ({ onCloseModal }) => {
 
-  const notify = (message) => {
+  const notifyError = (message) => {
     toast.error(message, {
       position: "top-center",
-      autoClose: 5000,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -21,32 +17,35 @@ export const ModalConfirm = ({ onCloseModal }) => {
       theme: "colored",
     });
   };
-
   async function handleSubmit(e) {
     e.preventDefault();
 
     let data = {
-      password: e.target.password.value,
+      email: e.target.email.value,
     };
 
-    const response = await deleteUserPut(data);
-
+    const response = await newContacts(data);
     console.log(response);
     if (!response.error) {
-      router.push("/");
+      onCloseModal(true);
     } else {
-      notify(response.informacion);
+      notifyError(response.informacion);
     }
   }
-
   return (
-    <div className={`${deleteModal}`}>
+    <div className="ModalCreateContact">
       <div className="container_modalC">
-        <h1>¿Estas seguro de que quieres eliminar tu cuenta?</h1>
-        <form onSubmit={handleSubmit} className="inputs">
-          <div className="inp">
-            <label>Contraseña</label>
-            <input type="password" name="password" id="password" required />
+        <h1>Añadir nuevo contacto</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="inputs">
+            <label>Correo del nuevo contacto</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Correo electrónico"
+              required
+            />
           </div>
           <div className="buttons">
             <label
@@ -57,20 +56,13 @@ export const ModalConfirm = ({ onCloseModal }) => {
             >
               Cancelar
             </label>
-            <button
-              type="submit"
-              // onClick={() => {
-              //   setDeleteModal("delete");
-              // }}
-            >
-              Eliminar cuenta
-            </button>
+            <button type="submit">Añadir contacto</button>
           </div>
         </form>
       </div>
       <ToastContainer
         position="top-center"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
