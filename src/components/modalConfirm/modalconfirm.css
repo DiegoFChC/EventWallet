@@ -74,7 +74,7 @@
         flex-wrap: wrap;
         gap: 10px;
 
-        & button {
+        & button, label {
           margin-top: 20px;
           width: 130px;
           height: 35px;
@@ -91,6 +91,13 @@
             cursor: pointer;
             background-color: rgb(var(--color4), 0.8);
           }
+        }
+
+        & label {
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         & .cancel {

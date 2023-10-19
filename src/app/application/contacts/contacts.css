@@ -1,0 +1,52 @@
+.Contacts {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--background1);
+  overflow: hidden;
+
+  .container {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+
+    .cards {
+      width: 100%;
+      height: 200px;
+      background-color: var(--background2);
+      border-radius: 10px;
+    }
+
+    .createContact {
+      width: 100px;
+      height: 100px;
+      background-color: rgb(var(--color2));
+      border-radius: 50%;
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.349);
+      z-index: 99;
+
+      &::before {
+        content: "+";
+        color: white;
+        font-size: 7rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -58%);
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .Contacts {
+    & .container {
+      padding: 20px;
+    }
+  }
+}
