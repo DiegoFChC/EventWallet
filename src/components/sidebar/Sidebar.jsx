@@ -3,6 +3,11 @@ import Image from "next/image";
 import "./sidebar.css";
 import Link from "next/link";
 import { useState } from "react";
+import { AiOutlineHome } from "react-icons/ai";
+import { BsCalendarEvent } from "react-icons/bs";
+import { RiContactsBookLine } from "react-icons/ri";
+import { BiMoneyWithdraw } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 
 export const Sidebar = () => {
   const [linkSelected, setLinkSelected] = useState({
@@ -12,11 +17,6 @@ export const Sidebar = () => {
     deudas: "",
     profile: "",
   });
-  // const [isCollapsed, setIsCollapsed] = useState(false);
-
-  // const toggleSidebar = () => {
-  //   setIsCollapsed(!isCollapsed);
-  // };
 
   return (
     <nav className="Sidebar">
@@ -46,6 +46,7 @@ export const Sidebar = () => {
                 });
               }}
             >
+              <AiOutlineHome size={"2em"}/>
               Dashboard
             </Link>
             <Link
@@ -61,6 +62,7 @@ export const Sidebar = () => {
                 });
               }}
             >
+              <BsCalendarEvent size={"2em"}/>
               Eventos
             </Link>
             <Link
@@ -76,6 +78,7 @@ export const Sidebar = () => {
                 });
               }}
             >
+              <RiContactsBookLine size={"2em"}/>
               Contactos
             </Link>
             <Link
@@ -91,6 +94,7 @@ export const Sidebar = () => {
                 });
               }}
             >
+              <BiMoneyWithdraw size={"2em"}/>
               Deudas
             </Link>
             <Link
@@ -106,6 +110,7 @@ export const Sidebar = () => {
                 });
               }}
             >
+              <CgProfile size={"2em"}/>
               Perfil
             </Link>
           </div>

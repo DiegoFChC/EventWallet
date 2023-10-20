@@ -1,5 +1,6 @@
 "use client";
 import { Sidebar } from "@/components/sidebar/Sidebar";
+import Bottombar from "@/components/bottombar/Bottombar";
 import "./appLayout.css";
 import React, { useState, useEffect } from "react";
 
@@ -9,7 +10,7 @@ export default function ApplicationLayout({ children }) {
   useEffect(() => {
     const updateWidth = () => {
       const width = document.body.clientWidth;
-      console.log(`updateWidth con ${width}`);
+      // console.log(`updateWidth con ${width}`);
       setWidth(width);
     };
     updateWidth();
@@ -18,7 +19,7 @@ export default function ApplicationLayout({ children }) {
 
   return (
     <main className="ApplicationLayout">
-      {width >= 768 ? <Sidebar /> : null}
+      {width >= 768 ? <Sidebar /> : <Bottombar />}
       {children}
     </main>
   );
