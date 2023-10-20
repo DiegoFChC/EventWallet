@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100vh;
   background-color: var(--background1);
-  overflow: hidden;
+  position: relative;
 
   .container {
     width: 100%;
@@ -10,7 +10,6 @@
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    position: relative;
 
     .cards {
       width: 100%;
@@ -25,8 +24,8 @@
       background-color: rgb(var(--color2));
       border-radius: 50%;
       position: absolute;
-      bottom: 20px;
-      right: 20px;
+      bottom: 100px;
+      right: 10px;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.349);
       z-index: 99;
 
@@ -47,6 +46,10 @@
   .Contacts {
     & .container {
       padding: 20px;
+      .createContact {
+        bottom: 20px;
+        right: 20px;
+      }
     }
   }
 }

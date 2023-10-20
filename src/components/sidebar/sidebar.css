@@ -1,26 +1,85 @@
 .Sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 250px;
-  padding: 10px 14px;
-  background: rgba(0, 0, 0, 0.233);
+  min-height: 100vh;
+  min-width: 270px;
+  padding: 15px;
+  overflow: hidden;
 
-  .image-text {
+  .container {
+    width: 100%;
+    height: 100%;
+    background: var(--background2);
+    border-radius: 10px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-  }
+    padding-left: 15px;
+    padding-right: 15px;
 
-  .text {
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
+    & header {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-  & header .image-text {
-    display: flex;
-    align-items: center;
-  }
+      .image-text {
+        display: flex;
+        padding-top: 30px;
+        padding-bottom: 15px;
+        align-items: center;
+        justify-content: center;
 
+        & span {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: rgb(var(--color4));
+          padding-left: 10px;
+        }
+      }
+
+      & hr {
+        width: 90%;
+        height: 2px;
+        border: 1px solid rgb(var(--color4));
+        margin-bottom: 20px;
+      }
+
+      .links {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        & a {
+          height: 50px;
+          width: 100%;
+          text-decoration: none;
+          color: rgb(var(--color4));
+          padding-left: 10px;
+          font-size: 1.2rem;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          transition: background-color .5s ease;
+
+          &:hover {
+            background-color: rgba(var(--color2), 0.1);
+            color: rgb(var(--color4));
+          }
+        }
+
+        & .selected {
+          background-color: rgb(var(--color3));
+          color: var(--background1);
+          
+          &:hover {
+            background-color: rgb(var(--color3));
+          color: var(--background1);
+          }
+        }
+      }
+    }
+  }
 }

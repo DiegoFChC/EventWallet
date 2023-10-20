@@ -1,0 +1,4 @@
+.ApplicationLayout {
+  background-color: var(--background1);
+  display: flex;
+}
