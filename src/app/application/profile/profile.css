@@ -1,6 +1,6 @@
 .Profile {
   width: 100%;
-  min-height: 100vh;
+  height: calc(100vh + 100px);
   background-color: var(--background1);
   overflow: hidden;
 
@@ -211,6 +211,7 @@
 
 @media (min-width: 768px) {
   .Profile {
+    height: 100vh;
     .container {
       padding: 20px;
       gap: 20px;
@@ -240,6 +241,8 @@
 }
 @media (min-width: 1024px) {
   .Profile {
+    height: 100vh;
+
     .container {
       flex-direction: row;
     }

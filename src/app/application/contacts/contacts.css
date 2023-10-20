@@ -1,12 +1,11 @@
 .Contacts {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   background-color: var(--background1);
   position: relative;
 
   .container {
     width: 100%;
-    height: 100%;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
@@ -24,7 +23,7 @@
       background-color: rgb(var(--color2));
       border-radius: 50%;
       position: absolute;
-      bottom: 100px;
+      bottom: 120px;
       right: 10px;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.349);
       z-index: 99;

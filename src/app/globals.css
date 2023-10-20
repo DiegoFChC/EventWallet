@@ -4,6 +4,7 @@
   --background1: rgb(232, 232, 233);
   --background2: rgba(255, 255, 255, 0.6);
   --background1-no-alpha: 211, 211, 211;
+  --background2-no-alpha: 255, 255, 255;
   --text-light: 255, 255, 255;
   --text-dark: 0, 0, 0;
   --color1: 123, 194, 230;
@@ -20,6 +21,7 @@
   --background1: rgb(11, 14, 54);
   --background2: rgba(0, 0, 0, 0.3);
   --background1-no-alpha: 11, 14, 54;
+  --background2-no-alpha: 0, 0, 0;
   --text-light: 255, 255, 255;
   --text-dark: 0, 0, 0;
   --color1: 46, 54, 115;
