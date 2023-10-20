@@ -1,0 +1,277 @@
+.Login {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--background1);
+
+  .changeToRegister {
+    height: 30vh;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      width: 1500px;
+      height: 1500px;
+      background-color: rgb(var(--color3));
+      position: absolute;
+      border-radius: 50%;
+      bottom: 100%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      animation: scaleAndFadeIn2 1s ease-in-out 0.2s forwards;
+    }
+
+    .info {
+      height: auto;
+      margin-top: 3vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: rgb(var(--text-light));
+      opacity: 0;
+      animation: scaleAndFadeIn 1s ease-in-out 0.2s forwards;
+
+      & h2 {
+        font-weight: 700;
+        font-size: 1.7rem;
+      }
+
+      & p {
+        margin: 20px;
+        max-width: 500px;
+        font-weight: 300;
+        font-size: 1.1rem;
+        text-align: center;
+      }
+
+      & a {
+        font-weight: 300;
+        font-size: 1.1rem;
+        text-decoration: none;
+        color: rgb(var(--text-light));
+        padding: 10px;
+        border: 2px solid rgb(var(--text-light));
+        border-radius: 10px;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: rgb(var(--color1));
+        }
+      }
+    }
+  }
+
+  .formLogin {
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: scaleAndFadeIn 1s ease-in-out 1s forwards;
+
+    .container {
+      width: 90%;
+      height: auto;
+      padding: 20px;
+      margin: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      /* background-color: rgba(var(--background2), 0.3); */
+
+      & h1 {
+        color: rgb(var(--color4));
+        font-weight: 700;
+        font-size: 2.5rem;
+      }
+
+      & form {
+        width: 100% ;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+
+        & input {
+          width: 80%;
+          height: 45px;
+          margin: 10px;
+          padding: 10px;
+          border-radius: 10px;
+          border: none;
+          outline: none;
+          font-size: 1.2rem;
+          color: rgb(var(--color4));
+          background-color: rgba(var(--background1-no-alpha), 0.5);
+          transition: border 0.2s ease;
+
+          &:focus {
+            border: 2px solid rgb(var(--color3));
+          }
+        }
+
+        & button {
+          margin-top: 20px;
+          width: 170px;
+          height: 40px;
+          font-weight: 500;
+          font-size: 1.2rem;
+          border-radius: 10px;
+          background-color: rgb(var(--color4));
+          color: rgb(var(--text-light));
+          border: none;
+          box-shadow: 1px 1px 2px rgb(var(--color1));
+          transition: 0.3s ease;
+
+          &:hover {
+            cursor: pointer;
+            background-color: rgb(var(--color4), 0.8);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .Login {
+    .changeToRegister {
+      &::before {
+        width: 2000px;
+        height: 2000px;
+      }
+      .info {
+        margin-top: 5vh;
+
+        & h2 {
+          font-size: 2.2rem;
+        }
+
+        & p {
+          font-size: 1.3rem;
+        }
+
+        & a {
+          font-size: 1.3rem;
+        }
+      }
+    }
+
+    .formLogin {
+      .container {
+        width: auto;
+        margin: 40px;
+        padding: 20px;
+        background-color: var(--background2);
+
+        & h1 {
+          font-size: 2.7rem;
+        }
+
+        & form {
+          & input {
+            font-size: 1.3rem;
+            width: 350px;
+          }
+
+          & button {
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: 1024px) {
+  .Login {
+    display: flex;
+
+    .changeToRegister {
+      width: 50%;
+      height: 100vh;
+
+      &::before {
+        width: 2000px;
+        height: 2000px;
+        top: 0;
+        right: 0;
+        left: auto;
+        transform: translate(0, -50%);
+        animation: scaleAndFadeIn3 1s ease-in-out 0.2s forwards;
+      }
+
+      .info {
+        & h2 {
+          font-size: 3rem;
+        }
+
+        & p {
+          font-size: 1.5rem;
+        }
+
+        & a {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .formLogin {
+      width: 50%;
+
+      .container {
+        margin: 60px;
+        padding: 20px;
+        background-color: var(--background2);
+
+        & h1 {
+          font-size: 3.5rem;
+        }
+
+        & form {
+          & input {
+            font-size: 1.4rem;
+          }
+
+          & button {
+            font-size: 1.4rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes scaleAndFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5); /* Escala inicial del 50% */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1); /* Escala final del 100% */
+  }
+}
+@keyframes scaleAndFadeIn2 {
+  0% {
+    opacity: 0;
+    bottom: 100%;
+  }
+  100% {
+    opacity: 1;
+    bottom: 0;
+  }
+}
+@keyframes scaleAndFadeIn3 {
+  0% {
+    opacity: 0;
+    right: 100%;
+  }
+  100% {
+    opacity: 1;
+  }
+}

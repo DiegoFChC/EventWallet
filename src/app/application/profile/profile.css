@@ -1,0 +1,247 @@
+.Profile {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--background1);
+  overflow: hidden;
+
+  .container {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+
+    .info {
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .inputs {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        background-color: var(--background2);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        & h1 {
+          font-size: 1.8rem;
+          color: rgb(var(--color4));
+          margin-bottom: 10px;
+          text-align: center;
+        }
+
+        & form {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          & .text {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+
+            & label {
+              color: rgb(var(--color3));
+            }
+
+            & input {
+              width: 100%;
+              height: 45px;
+              padding: 10px;
+              border-radius: 10px;
+              border: none;
+              outline: none;
+              font-size: 1.2rem;
+              color: rgb(var(--color4));
+              background-color: rgba(var(--background1-no-alpha), 0.5);
+              transition: border 0.2s ease;
+
+              &:focus {
+                border: 2px solid rgb(var(--color3));
+              }
+            }
+          }
+
+          & .changeData {
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+          }
+
+          & button {
+            width: 130px;
+            height: 35px;
+            font-weight: 500;
+            font-size: 1rem;
+            border-radius: 10px;
+            background-color: rgb(var(--color4));
+            color: rgb(var(--text-light));
+            border: none;
+            box-shadow: 1px 1px 2px rgb(var(--color1));
+            transition: 0.3s ease;
+
+            &:hover {
+              cursor: pointer;
+              background-color: rgb(var(--color4), 0.8);
+            }
+          }
+
+          & .cancel {
+            background-color: rgb(var(--error));
+
+            &:hover {
+              background-color: rgb(var(--error), 0.8);
+            }
+          }
+        }
+      }
+
+      .more_options {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        background-color: var(--background2);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & h3 {
+          width: 100%;
+          font-size: 1.3rem;
+          color: rgb(var(--color4));
+        }
+
+        & .buttons {
+          display: flex;
+          justify-content: space-around;
+          flex-wrap: wrap;
+          margin: 20px;
+          gap: 10px;
+
+          & button {
+            width: 150px;
+            height: 35px;
+            font-weight: 500;
+            font-size: 1rem;
+            border-radius: 10px;
+            background-color: rgb(var(--color4));
+            color: rgb(var(--text-light));
+            border: none;
+            box-shadow: 1px 1px 2px rgb(var(--color1));
+            transition: 0.3s ease;
+
+            &:hover {
+              cursor: pointer;
+              background-color: rgb(var(--color4), 0.8);
+            }
+          }
+
+          & .desactivate {
+            background-color: rgb(var(--error));
+
+            &:hover {
+              background-color: rgb(var(--error), 0.8);
+            }
+          }
+        }
+      }
+    }
+
+    .card {
+      width: 100%;
+      height: auto;
+      padding: 30px;
+      background-color: var(--background2);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      & h2 {
+        color: rgb(var(--color4));
+        text-align: center;
+      }
+
+      & h3 {
+        color: rgb(var(--color3));
+        text-align: center;
+      }
+
+      & .avatar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        & input {
+          display: none;
+        }
+
+        & h4 {
+          color: rgb(var(--error));
+          text-align: center;
+        }
+
+        & img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.342);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .Profile {
+    .container {
+      padding: 20px;
+      gap: 20px;
+
+      & .info {
+        gap: 20px;
+
+        & .inputs {
+          & form {
+            & .text {
+              flex-direction: row;
+
+              & label {
+                min-width: 90px;
+                font-size: 1.5rem;
+                margin-right: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: right;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: 1024px) {
+  .Profile {
+    .container {
+      flex-direction: row;
+    }
+  }
+}
