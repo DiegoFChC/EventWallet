@@ -1,10 +1,16 @@
-import "./modalCreateContact.css";
-import { newContacts } from "@/services/contacts.post";
+import "./modalCreate.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const ModalCreateContact = ({ onCloseModal }) => {
-
+export const ModalCreate = ({
+  onCloseModal,
+  axios,
+  title,
+  description,
+  placeholder,
+  buttonName,
+  typeButton
+}) => {
   const notifyError = (message) => {
     toast.error(message, {
       position: "top-center",
@@ -24,7 +30,7 @@ export const ModalCreateContact = ({ onCloseModal }) => {
       email: e.target.email.value,
     };
 
-    const response = await newContacts(data);
+    const response = await axios(data);
     console.log(response);
     if (!response.error) {
       onCloseModal(true);
@@ -33,17 +39,17 @@ export const ModalCreateContact = ({ onCloseModal }) => {
     }
   }
   return (
-    <div className="ModalCreateContact">
+    <div className="ModalCreate">
       <div className="container_modalC">
-        <h1>Añadir nuevo contacto</h1>
+        <h1>{title}</h1>
         <form onSubmit={handleSubmit}>
           <div className="inputs">
-            <label>Correo del nuevo contacto</label>
+            <label>{description}</label>
             <input
-              type="email"
+              type={typeButton}
               name="email"
               id="email"
-              placeholder="Correo electrónico"
+              placeholder={placeholder}
               required
             />
           </div>
@@ -56,7 +62,7 @@ export const ModalCreateContact = ({ onCloseModal }) => {
             >
               Cancelar
             </label>
-            <button type="submit">Añadir contacto</button>
+            <button type="submit">{buttonName}</button>
           </div>
         </form>
       </div>

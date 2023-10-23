@@ -1,13 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./contacts.css";
 import { Header } from "@/components/header/Header";
-import { ModalCreateContact } from "@/components/modalCreateContact/ModalCreateContact";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ContactCard } from "@/components/contactCard/ContactCard";
+import { getContacts } from "@/services/contacts";
+import { newContacts } from "@/services/contacts.post";
+import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 
 export default function Contacts() {
   const [createContact, setCreateContact] = useState(false);
+  const [contacts, setContacts] = useState(null);
+  const [reaload, setReload] = useState(false);
+
   const notifySuccess = (message) => {
     toast.success(message, {
       position: "top-center",
@@ -23,10 +29,20 @@ export default function Contacts() {
 
   const closeModal = (notify) => {
     setCreateContact(false);
+    setReload(!reaload);
     if (notify) {
       notifySuccess("Contacto añadido exitosamente");
     }
   };
+
+  useEffect(() => {
+    async function getData() {
+      const data = await getContacts();
+      setContacts(data.contacts);
+    }
+
+    getData();
+  }, [reaload]);
 
   return (
     <div className="Contacts">
@@ -35,7 +51,21 @@ export default function Contacts() {
         information={"Aquí puedes administrar tus contactos"}
       />
       <div className="container">
-        <div className="cards"></div>
+        <div className="cards">
+          {contacts != null
+            ? contacts.map((item) => {
+                return (
+                  <ContactCard
+                    key={item.usuario2.id}
+                    name={item.usuario2.nombre}
+                    lastname={item.usuario2.apellidos}
+                    nickname={item.usuario2.apodo}
+                    email={item.usuario2.email}
+                  />
+                );
+              })
+            : null}
+        </div>
         <div
           className="createContact"
           onClick={() => {
@@ -43,7 +73,17 @@ export default function Contacts() {
           }}
         ></div>
       </div>
-      {createContact ? <ModalCreateContact onCloseModal={closeModal} /> : null}
+      {createContact ? (
+        <ModalCreate
+          onCloseModal={closeModal}
+          axios={newContacts}
+          title={"Añadir nuevo contacto"}
+          description={"Correo del nuevo contacto"}
+          placeholder={"Correo electrónico"}
+          buttonName={"Añadir contacto"}
+          typeButton={"email"}
+        />
+      ) : null}
       <ToastContainer
         position="top-center"
         autoClose={3000}

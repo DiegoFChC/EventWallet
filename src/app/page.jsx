@@ -10,7 +10,7 @@ export default function LandingPage() {
         <Image src="/images/logo-white.png" alt="logo" width={140} height={80}/>
         </div>
         <h1>
-          Bienenido a <span>Event Wallet</span>
+          Bienvenido a <span>Event Wallet</span>
         </h1>
         <h3>El mejor sitio para gestionar tus eventos</h3>
         <div className="buttons">
