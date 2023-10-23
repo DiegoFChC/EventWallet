@@ -1,6 +1,7 @@
 .Contacts {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   background-color: var(--background1);
   position: relative;
 
@@ -11,18 +12,31 @@
     flex-wrap: wrap;
 
     .cards {
-      width: 100%;
-      height: 200px;
+      min-width: 100%;
+      min-height: 200px;
+      height: 100%;
       background-color: var(--background2);
       border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items:flex-start;
+      justify-content: center;
+      gap: 20px;
+
+      &::after {
+        content: "";
+        width: 100%;
+        height: 80px;
+      }
     }
 
     .createContact {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       background-color: rgb(var(--color2));
       border-radius: 50%;
-      position: absolute;
+      position: fixed;
       bottom: 120px;
       right: 10px;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.349);
@@ -31,7 +45,7 @@
       &::before {
         content: "+";
         color: white;
-        font-size: 7rem;
+        font-size: 6rem;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -45,9 +59,28 @@
   .Contacts {
     & .container {
       padding: 20px;
+
+      .cards {
+        justify-content: center;
+
+        &::after {
+          width: 0;
+          height: 0;
+        }
+      }
       .createContact {
         bottom: 20px;
         right: 20px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .Contacts {
+    & .container {
+      & .cards {
+        justify-content: left;
       }
     }
   }
