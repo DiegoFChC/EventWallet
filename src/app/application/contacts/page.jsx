@@ -9,6 +9,10 @@ import { getContacts } from "@/services/contacts";
 import { newContacts } from "@/services/contacts.post";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 
+const postData = [
+  { label: "Email", type: "email", name: "email", id: "email", placeholder: "Correo electrónico" },
+]
+
 export default function Contacts() {
   const [createContact, setCreateContact] = useState(false);
   const [contacts, setContacts] = useState(null);
@@ -42,7 +46,7 @@ export default function Contacts() {
     }
 
     getData();
-  }, [reaload]);
+  }, [reaload,]);
 
   return (
     <div className="Contacts">
@@ -77,11 +81,8 @@ export default function Contacts() {
         <ModalCreate
           onCloseModal={closeModal}
           axios={newContacts}
-          title={"Añadir nuevo contacto"}
-          description={"Correo del nuevo contacto"}
-          placeholder={"Correo electrónico"}
+          fields={postData}
           buttonName={"Añadir contacto"}
-          typeButton={"email"}
         />
       ) : null}
       <ToastContainer

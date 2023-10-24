@@ -106,4 +106,12 @@
       }
     }
   }
+  & .type {
+    border-radius: 10px;
+    background-color: rgb(var(--color3));
+    color: rgb(var(--text-light));
+    border: none;
+    box-shadow: 1px 1px 2px rgb(var(--color1));
+    transition: 0.3s ease;
+  }
 }

@@ -1,15 +1,14 @@
-import "./modalCreate.css";
+import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./modalCreate.css";
 
 export const ModalCreate = ({
   onCloseModal,
   axios,
   title,
-  description,
-  placeholder,
+  fields,
   buttonName,
-  typeButton
 }) => {
   const notifyError = (message) => {
     toast.error(message, {
@@ -23,36 +22,62 @@ export const ModalCreate = ({
       theme: "colored",
     });
   };
+
   async function handleSubmit(e) {
     e.preventDefault();
 
-    let data = {
-      email: e.target.email.value,
-    };
+    let data = {};
+    fields.forEach((field) => {
+      data[field.name] = e.target[field.name].value;
+    });
 
     const response = await axios(data);
     console.log(response);
+
     if (!response.error) {
       onCloseModal(true);
     } else {
       notifyError(response.informacion);
     }
   }
+
   return (
     <div className="ModalCreate">
       <div className="container_modalC">
         <h1>{title}</h1>
         <form onSubmit={handleSubmit}>
-          <div className="inputs">
-            <label>{description}</label>
-            <input
-              type={typeButton}
-              name="email"
-              id="email"
-              placeholder={placeholder}
-              required
-            />
-          </div>
+          {fields.map((field) => (
+            <div className="inputs" key={field.name}>
+              <label>{field.label}</label>
+              {field.type === "select" ? (
+                <select
+                  name={field.name}
+                  id={field.id}
+                  required
+                  className="type"
+                >
+                  <option value="" disabled hidden>{field.placeholder}</option>
+                  {field.options.map((option, index) => (
+                    <option 
+                      key={index} 
+                      value={option.value}
+                      className="type"
+                    >
+                    {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type}
+                  name={field.name}
+                  id={field.id}
+                  placeholder={field.placeholder}
+                  required
+                />
+              )}
+            </div>
+          ))}
           <div className="buttons">
             <label
               className="cancel"
