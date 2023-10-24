@@ -14,6 +14,10 @@ export default function Contacts() {
   const [contacts, setContacts] = useState(null);
   const [reaload, setReload] = useState(false);
 
+  const postData = [
+    { label: "Email", type: "email", name: "email", id: "email", placeholder: "Correo electrónico" },
+  ]
+
   const notifySuccess = (message) => {
     toast.success(message, {
       position: "top-center",
@@ -42,7 +46,7 @@ export default function Contacts() {
     }
 
     getData();
-  }, [reaload]);
+  }, [reaload,]);
 
   return (
     <div className="Contacts">
@@ -77,11 +81,8 @@ export default function Contacts() {
         <ModalCreate
           onCloseModal={closeModal}
           axios={newContacts}
-          title={"Añadir nuevo contacto"}
-          description={"Correo del nuevo contacto"}
-          placeholder={"Correo electrónico"}
+          fields={postData}
           buttonName={"Añadir contacto"}
-          typeButton={"email"}
         />
       ) : null}
       <ToastContainer
