@@ -49,13 +49,33 @@ export const ModalCreate = ({
           {fields.map((field) => (
             <div className="inputs" key={field.name}>
               <label>{field.label}</label>
-              <input
-                type={field.type}
-                name={field.name}
-                id={field.id}
-                placeholder={field.placeholder}
-                required
-              />
+              {field.type === "select" ? (
+                <select
+                  name={field.name}
+                  id={field.id}
+                  required
+                  className="type"
+                >
+                  <option value="" disabled hidden>{field.placeholder}</option>
+                  {field.options.map((option, index) => (
+                    <option 
+                      key={index} 
+                      value={option.value}
+                      className="type"
+                    >
+                    {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type}
+                  name={field.name}
+                  id={field.id}
+                  placeholder={field.placeholder}
+                  required
+                />
+              )}
             </div>
           ))}
           <div className="buttons">

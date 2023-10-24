@@ -9,14 +9,14 @@ import { getContacts } from "@/services/contacts";
 import { newContacts } from "@/services/contacts.post";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 
+const postData = [
+  { label: "Email", type: "email", name: "email", id: "email", placeholder: "Correo electrónico" },
+]
+
 export default function Contacts() {
   const [createContact, setCreateContact] = useState(false);
   const [contacts, setContacts] = useState(null);
   const [reaload, setReload] = useState(false);
-
-  const postData = [
-    { label: "Email", type: "email", name: "email", id: "email", placeholder: "Correo electrónico" },
-  ]
 
   const notifySuccess = (message) => {
     toast.success(message, {

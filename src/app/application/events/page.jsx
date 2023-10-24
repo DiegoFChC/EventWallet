@@ -7,17 +7,30 @@ import "react-toastify/dist/ReactToastify.css";
 import { newEvents } from "@/services/events.post";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 
+const postData = [
+  { label: "Nombre", type: "text", name: "nombre", id: "nombre", placeholder: "Nombre del evento" },
+  { label: "Descripcion", type: "text", name: "descripcion", id: "descripcion", placeholder: "Descripcion" },
+  {
+    label: "Tipo",
+    type: "select",
+    name: "tipo",
+    id: "tipo",
+    placeholder: "Tipo de evento",
+    options: [
+      { label: "Viaje", value: "V" },
+      { label: "Hogar", value: "H" },
+      { label: "Pareja", value: "P" },
+      { label: "Comida", value: "C" },
+      { label: "Otro", value: "O" },
+    ],
+  },
+  { label: "Foto", type: "text", name: "foto", id: "foto", placeholder: "Imagen" },
+];
+
 export default function Events() {
 	const [createEvent, setCreateEvent] = useState(false);
 	const [events, setEvents] = useState(null);
 	const [reaload, setReload] = useState(false);
-
-	const postData = [
-		{ label: "Nombre", type: "text", name: "nombre", id: "nombre", placeholder: "Nombre del evento" },
-		{ label: "Descripcion", type: "text", name: "descripcion", id: "descripcion", placeholder: "Descripcion"},
-		{ label: "Tipo", type: "text", name: "tipo", id: "tipo", placeholder: "Tipo de evento"},
-		{ label: "Foto", type: "text", name: "foto", id: "foto", placeholder: "Imagen"},
-	]
 
 	const notifySuccess = (message) => {
 		toast.success(message, {
@@ -40,9 +53,6 @@ export default function Events() {
 		}
 	};
 
-	
-	
-	
 	return (
 		<div className="Events">
 			<Header 
