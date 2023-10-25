@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100vh;
   height: 100%;
-  background-color: var(--background1);
+  background-color: rgb(var(--background));
   position: relative;
 
   .container {
@@ -15,7 +15,7 @@
       min-width: 100%;
       min-height: 200px;
       height: 100%;
-      background-color: var(--background2);
+      background-color: var(--background-alpha);
       border-radius: 10px;
       padding: 20px;
       display: flex;
@@ -34,7 +34,7 @@
     .createContact {
       width: 80px;
       height: 80px;
-      background-color: rgb(var(--color2));
+      background-color: rgb(var(--primary-color-dark));
       border-radius: 50%;
       position: fixed;
       bottom: 120px;
