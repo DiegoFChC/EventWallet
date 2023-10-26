@@ -60,7 +60,7 @@ export default function Contacts() {
     }
 
     getData();
-  }, [reaload]);
+  }, [reaload,]);
 
   return (
     <div className="Contacts">
