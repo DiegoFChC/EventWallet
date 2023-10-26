@@ -1,11 +1,19 @@
 import { useState } from "react";
 import "./modalconfirm.css";
 import { useRouter } from "next/navigation";
-import { deleteUserPut } from "@/services/deleteUser.put";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const ModalConfirm = ({ onCloseModal }) => {
+export const ModalConfirm = ({
+  title,
+  labelName,
+  idInput,
+  action,
+  defaulValue,
+  onCloseModal,
+  axios,
+}) => {
   const [deleteModal, setDeleteModal] = useState("ModalConfirm");
   const router = useRouter();
 
@@ -26,14 +34,20 @@ export const ModalConfirm = ({ onCloseModal }) => {
     e.preventDefault();
 
     let data = {
-      password: e.target.password.value,
+      // idInput: e.target.password.value,
     };
 
-    const response = await deleteUserPut(data);
+    data[idInput] = e.target[idInput].value;
+
+    const response = await axios(data);
 
     console.log(response);
     if (!response.error) {
-      router.push("/");
+      if(response.informacion === "El contacto ha sido eliminado") {
+        onCloseModal(true)
+      } else {
+        router.push("/");
+      }
     } else {
       notify(response.informacion);
     }
@@ -42,28 +56,32 @@ export const ModalConfirm = ({ onCloseModal }) => {
   return (
     <div className={`${deleteModal}`}>
       <div className="container_modalC">
-        <h1>¿Estas seguro de que quieres eliminar tu cuenta?</h1>
+        <h1>{title}</h1>
         <form onSubmit={handleSubmit} className="inputs">
           <div className="inp">
-            <label>Contraseña</label>
-            <input type="password" name="password" id="password" required />
+            <label>{labelName}</label>
+            <input
+              type={idInput}
+              name={idInput}
+              id={idInput}
+              defaultValue={defaulValue}
+              required
+            />
           </div>
           <div className="buttons">
             <label
               className="cancel"
               onClick={() => {
-                onCloseModal();
+                onCloseModal(false);
               }}
             >
               Cancelar
             </label>
             <button
               type="submit"
-              // onClick={() => {
-              //   setDeleteModal("delete");
               // }}
             >
-              Eliminar cuenta
+              {action}
             </button>
           </div>
         </form>

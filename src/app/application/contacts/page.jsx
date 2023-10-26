@@ -10,13 +10,26 @@ import { newContacts } from "@/services/contacts.post";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 
 const postData = [
-  { label: "Email", type: "email", name: "email", id: "email", placeholder: "Correo electrónico" },
-]
+  {
+    label: "Email",
+    type: "email",
+    name: "email",
+    id: "email",
+    placeholder: "Correo electrónico",
+  },
+];
 
 export default function Contacts() {
   const [createContact, setCreateContact] = useState(false);
   const [contacts, setContacts] = useState(null);
   const [reaload, setReload] = useState(false);
+
+  function closeModalDelete(notify) {
+    setReload(!reaload);
+    if (notify) {
+      notifySuccess("Contacto eliminado exitosamente");
+    }
+  }
 
   const notifySuccess = (message) => {
     toast.success(message, {
@@ -43,6 +56,7 @@ export default function Contacts() {
     async function getData() {
       const data = await getContacts();
       setContacts(data.contacts);
+      console.log(data);
     }
 
     getData();
@@ -58,15 +72,18 @@ export default function Contacts() {
         <div className="cards">
           {contacts != null
             ? contacts.map((item) => {
-                return (
-                  <ContactCard
-                    key={item.usuario2.id}
-                    name={item.usuario2.nombre}
-                    lastname={item.usuario2.apellidos}
-                    nickname={item.usuario2.apodo}
-                    email={item.usuario2.email}
-                  />
-                );
+                if (item.is_active) {
+                  return (
+                    <ContactCard
+                      key={item.usuario2.id}
+                      name={item.usuario2.nombre}
+                      lastname={item.usuario2.apellidos}
+                      nickname={item.usuario2.apodo}
+                      email={item.usuario2.email}
+                      changeContact={closeModalDelete}
+                    />
+                  );
+                }
               })
             : null}
         </div>
@@ -83,6 +100,7 @@ export default function Contacts() {
           axios={newContacts}
           fields={postData}
           buttonName={"Añadir contacto"}
+          title={"Añadir nuevo contacto"}
         />
       ) : null}
       <ToastContainer
