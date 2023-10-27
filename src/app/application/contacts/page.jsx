@@ -8,6 +8,7 @@ import { ContactCard } from "@/components/contactCard/ContactCard";
 import { getContacts } from "@/services/contacts";
 import { newContacts } from "@/services/contacts.post";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
+import { Topbar } from "@/components/topbar/Topbar";
 
 const postData = [
   {
@@ -56,7 +57,6 @@ export default function Contacts() {
     async function getData() {
       const data = await getContacts();
       setContacts(data.contacts);
-      console.log(data);
     }
 
     getData();
@@ -64,6 +64,7 @@ export default function Contacts() {
 
   return (
     <div className="Contacts">
+      <Topbar />
       <Header
         title={"CONTACTOS"}
         information={"Aquí puedes administrar tus contactos"}
