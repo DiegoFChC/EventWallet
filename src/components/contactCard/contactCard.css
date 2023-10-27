@@ -19,6 +19,7 @@
 
     .info {
       width: 60%;
+      
       & h1 {
         width: 100%;
         word-wrap: break-word;

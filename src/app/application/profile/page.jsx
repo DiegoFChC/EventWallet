@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Header } from "@/components/header/Header";
 import { deleteUserPut } from "@/services/deleteUser.put";
+import { Topbar } from "@/components/topbar/Topbar";
 
 export default function Profile() {
   const [changeData, setChangeData] = useState(false);
@@ -69,6 +70,7 @@ export default function Profile() {
   };
   return (
     <div className="Profile">
+      <Topbar />
       <Header title={"PERFIL"} information={"Información de mi cuenta"} />
       <div className="container">
         <div className="info">

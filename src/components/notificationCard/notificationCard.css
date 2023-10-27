@@ -1,0 +1,40 @@
+.NotifiactionCard {
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(var(--background), 0.3);
+
+  & a {
+    text-decoration: none;
+    color: rgb(var(--text-darkest));
+
+    & h1 {
+      width: 100%;
+      font-size: 1rem;
+      color: rgb(var(--text-darkest));
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    & h2 {
+      font-size: 0.9rem;
+      color: rgb(var(--text-darkest));
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      & span {
+        font-size: 0.8rem;
+        color: rgb(var(--text-dark));
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: rgb(var(--background), 0.7);
+  }
+}

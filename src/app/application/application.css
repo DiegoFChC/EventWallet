@@ -1,0 +1,8 @@
+.Application {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background-color: rgb(var(--background));
+  padding-top: 30px;
+  position: relative;
+}

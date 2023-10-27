@@ -1,4 +1,4 @@
-.Contacts {
+.Notifications {
   width: 100%;
   min-height: 100vh;
   height: 100%;
@@ -21,7 +21,7 @@
       padding: 20px;
       display: flex;
       flex-wrap: wrap;
-      align-items:flex-start;
+      align-items: flex-start;
       justify-content: center;
       gap: 20px;
 
@@ -31,37 +31,11 @@
         height: 80px;
       }
     }
-
-    .createContact {
-      width: 80px;
-      height: 80px;
-      background-color: rgb(var(--primary-color-dark));
-      border-radius: 50%;
-      position: fixed;
-      bottom: 120px;
-      right: 10px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.349);
-      z-index: 99;
-
-      &::before {
-        content: "+";
-        color: white;
-        font-size: 6rem;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -58%);
-      }
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
   }
 }
 
 @media (min-width: 768px) {
-  .Contacts {
+  .Notifications {
     & .container {
       padding: 20px;
 
@@ -73,16 +47,12 @@
           height: 0;
         }
       }
-      .createContact {
-        bottom: 20px;
-        right: 20px;
-      }
     }
   }
 }
 
 @media (min-width: 1024px) {
-  .Contacts {
+  .Notifications {
     & .container {
       & .cards {
         justify-content: left;

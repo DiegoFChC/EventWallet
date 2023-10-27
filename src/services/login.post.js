@@ -6,16 +6,6 @@ export async function loginResponse(data) {
       "Content-Type": "application/json",
     },
   });
-
-  // if (!res.ok) {
-  //   // return {
-  //   //   error: "true",
-  //   //   status: res.status,
-  //   //   statusText: res.statusText,
-  //   // };
-  // }
-
-  // Espera a que la promesa de la respuesta se resuelva
   const response = await res.json();
 
   return response;

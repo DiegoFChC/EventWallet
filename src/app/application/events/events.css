@@ -3,6 +3,7 @@
   min-height: 100vh;
   height: 100%;
   background-color: rgb(var(--background));
+  padding-top: 30px;
   position: relative;
 
   .container {
@@ -20,7 +21,7 @@
       padding: 20px;
       display: flex;
       flex-wrap: wrap;
-      align-items:flex-start;
+      align-items: flex-start;
       justify-content: center;
       gap: 20px;
 
@@ -51,6 +52,27 @@
         left: 50%;
         transform: translate(-50%, -58%);
       }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    & a {
+      width: 50px;
+      height: 50px;
+      color: rgb(var(--text-lightest));
+      background-color: rgb(var(--secondary-color-dark));
+      text-decoration: none;
+      font-size: 1.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      bottom: 220px;
+      right: 25px;
+      overflow: hidden;
     }
   }
 }
@@ -60,7 +82,7 @@
     & .container {
       padding: 20px;
 
-      .cards {
+      & .cards {
         justify-content: center;
 
         &::after {
@@ -68,9 +90,14 @@
           height: 0;
         }
       }
-      .createEvent {
+      & .createEvent {
         bottom: 20px;
         right: 20px;
+      }
+
+      & a {
+        bottom: 120px;
+        right: 35px;
       }
     }
   }
