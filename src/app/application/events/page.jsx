@@ -9,6 +9,8 @@ import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { Topbar } from "@/components/topbar/Topbar";
 import { BsBellFill } from "react-icons/bs";
 import Link from "next/link";
+import { getEvents } from "@/services/events";
+import { EventCard } from "@/components/eventCard/EventCard";
 
 const postData = [
   {
@@ -50,6 +52,7 @@ const postData = [
 
 export default function Events() {
   const [createEvent, setCreateEvent] = useState(false);
+  const [myEvents, setMyEvents] = useState(null);
   const [events, setEvents] = useState(null);
   const [reaload, setReload] = useState(false);
 
@@ -74,6 +77,16 @@ export default function Events() {
     }
   };
 
+  useEffect(() => {
+    async function getData() {
+      const data = await getEvents();
+      setMyEvents(data.eventos_creador);
+      setEvents(data.eventos_participante);
+    }
+
+    getData();
+  }, [reaload]);
+
   return (
     <div className="Events">
       <Topbar />
@@ -82,7 +95,48 @@ export default function Events() {
         information={"Aquí puedes administrar tus eventos"}
       />
       <div className="container">
-        <div className="cards"></div>
+        <div className="group">
+          {
+            <div>
+              <h2 className="title">Mis eventos</h2>
+              <div className="cards">
+                {myEvents != null
+                  ? myEvents.map((item) => {
+                      return (
+                        <EventCard
+                          key={item.id}
+                          name={item.nombre}
+                          description={item.descripcion}
+                          type={item.tipo}
+                        />
+                      );
+                    })
+                  : null}
+              </div>
+            </div>
+          }
+        </div>
+        <div className="group">
+          {
+            <div>
+              <h2 className="title">Otros Eventos</h2>
+              <div className="cards">
+                {events != null
+                  ? events.map((item) => {
+                      return (
+                        <EventCard
+                          key={item.id}
+                          name={item.nombre}
+                          description={item.descripcion}
+                          type={item.tipo}
+                        />
+                      );
+                    })
+                  : null}
+              </div>
+            </div>
+          }
+        </div>
         <div
           className="createEvent"
           onClick={() => {
