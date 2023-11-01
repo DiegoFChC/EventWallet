@@ -9,6 +9,7 @@ export const ModalCreate = ({
   title,
   fields,
   buttonName,
+  additionalFields,
 }) => {
   const notifyError = (message) => {
     toast.error(message, {
@@ -30,6 +31,11 @@ export const ModalCreate = ({
     fields.forEach((field) => {
       data[field.name] = e.target[field.name].value;
     });
+
+    if (additionalFields != null) {
+      data = Object.assign(data, additionalFields)
+    }
+    // console.log(data)
 
     const response = await axios(data);
     console.log(response);
@@ -56,14 +62,12 @@ export const ModalCreate = ({
                   required
                   className="type"
                 >
-                  <option value="" disabled hidden>{field.placeholder}</option>
+                  <option value="" disabled hidden>
+                    {field.placeholder}
+                  </option>
                   {field.options.map((option, index) => (
-                    <option 
-                      key={index} 
-                      value={option.value}
-                      className="type"
-                    >
-                    {option.label}
+                    <option key={index} value={option.value} className="type">
+                      {option.label}
                     </option>
                   ))}
                 </select>

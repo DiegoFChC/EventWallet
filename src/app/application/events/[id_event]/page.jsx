@@ -7,7 +7,19 @@ import { useEffect, useState } from "react";
 import { changeDataEvents } from "@/services/events";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getEvents, processData } from "@/services/events";
+import { getEvents, processData, inviteContact } from "@/services/events";
+import { AiOutlineUserAdd } from "react-icons/ai";
+import { ModalCreate } from "@/components/modalCreate/ModalCreate";
+
+const postData = [
+  {
+    label: "Email",
+    type: "email",
+    name: "email",
+    id: "email",
+    placeholder: "Correo electrónico",
+  },
+];
 
 export default function Manage({ params }) {
   const { appState, setAppState } = useAppContext();
@@ -17,6 +29,15 @@ export default function Manage({ params }) {
   const [changeData, setChangeData] = useState(false);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
+  const [addContact, setAddContact] = useState(false);
+
+  const closeModal = (notification) => {
+    setAddContact(false);
+    setReload(!reload);
+    if (notification) {
+      notify("El contacto ha sido invitado");
+    }
+  };
 
   useEffect(() => {
     async function myEvents() {
@@ -29,8 +50,8 @@ export default function Manage({ params }) {
     myEvents();
   }, [reload]);
 
-  const notify = () => {
-    toast.success("Datos actualizados con éxito", {
+  const notify = (message) => {
+    toast.success(message, {
       position: "top-center",
       autoClose: 3000,
       hideProgressBar: false,
@@ -53,7 +74,7 @@ export default function Manage({ params }) {
     };
     const dataPut = await changeDataEvents(newData);
     setChangeData(false);
-    notify();
+    notify("Datos actualizados con éxito");
     setReload(!reload);
   };
 
@@ -146,7 +167,25 @@ export default function Manage({ params }) {
           </div>
         )}
         <div className="cards_events"></div>
+        <div className="createActivity"></div>
+        <button className="button-add"
+          onClick={() => {
+            setAddContact(true);
+          }}
+        >
+          <AiOutlineUserAdd />
+        </button>
       </div>
+      {addContact ? (
+        <ModalCreate
+          onCloseModal={closeModal}
+          axios={inviteContact}
+          fields={postData}
+          buttonName={"Añadir contacto"}
+          title={"Añadir un contacto a este evento"}
+          additionalFields={{evento_id: params.id_event}}
+        />
+      ) : null}
       <ToastContainer
         position="top-center"
         autoClose={5000}
