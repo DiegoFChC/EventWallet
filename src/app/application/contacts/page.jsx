@@ -23,10 +23,10 @@ const postData = [
 export default function Contacts() {
   const [createContact, setCreateContact] = useState(false);
   const [contacts, setContacts] = useState(null);
-  const [reaload, setReload] = useState(false);
+  const [reload, setReload] = useState(false);
 
   function closeModalDelete(notify) {
-    setReload(!reaload);
+    setReload(!reload);
     if (notify) {
       notifySuccess("Contacto eliminado exitosamente");
     }
@@ -47,7 +47,7 @@ export default function Contacts() {
 
   const closeModal = (notify) => {
     setCreateContact(false);
-    setReload(!reaload);
+    setReload(!reload);
     if (notify) {
       notifySuccess("Contacto añadido exitosamente");
     }
@@ -60,7 +60,7 @@ export default function Contacts() {
     }
 
     getData();
-  }, [reaload,]);
+  }, [reload,]);
 
   return (
     <div className="Contacts">

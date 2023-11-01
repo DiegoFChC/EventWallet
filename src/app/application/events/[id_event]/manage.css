@@ -149,5 +149,72 @@
         }
       }
     }
+
+    .createActivity {
+      width: 80px;
+      height: 80px;
+      background-color: rgb(var(--primary-color-dark));
+      border-radius: 50%;
+      position: fixed;
+      bottom: 120px;
+      right: 10px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.349);
+      z-index: 99;
+
+      &::before {
+        content: "+";
+        color: white;
+        font-size: 6rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -58%);
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    & .button-add {
+      width: 50px;
+      height: 50px;
+      color: rgb(var(--text-lightest));
+      background-color: rgb(var(--secondary-color-dark));
+      text-decoration: none;
+      font-size: 1.5rem;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      bottom: 220px;
+      right: 25px;
+      overflow: hidden;
+    }
   }
 }
+
+@media (min-width: 768px) {
+  .Manage {
+    .container {
+      padding: 20px;
+
+      .info_event {
+        flex-direction: row;
+        max-width: 600px;
+
+        .data {
+          width: 70%;
+        }
+
+        .image {
+          width: 30%;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {}

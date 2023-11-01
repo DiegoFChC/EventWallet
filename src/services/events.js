@@ -35,6 +35,24 @@ export async function newEvents(data) {
   return response;
 }
 
+export async function inviteContact(data) {
+  const token = getCookie("Token");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/core/create/invitation`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const response = await res.json();
+
+  return response;
+}
+
 export async function changeDataEvents(data) {
   const token = getCookie("Token");
   const res = await fetch(
