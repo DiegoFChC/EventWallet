@@ -1,5 +1,5 @@
 export async function loginResponse(data) {
-  const res = await fetch("http://127.0.0.1:8000/core/login", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/core/login`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {

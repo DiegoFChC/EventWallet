@@ -4,13 +4,14 @@ import "./events.css";
 import { Header } from "@/components/header/Header";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { newEvents } from "@/services/events.post";
+import { newEvents } from "@/services/events";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { Topbar } from "@/components/topbar/Topbar";
 import { BsBellFill } from "react-icons/bs";
 import Link from "next/link";
 import { getEvents } from "@/services/events";
 import { EventCard } from "@/components/eventCard/EventCard";
+import { useAppContext } from "@/context/AppContext";
 
 const postData = [
   {
@@ -55,6 +56,9 @@ export default function Events() {
   const [myEvents, setMyEvents] = useState(null);
   const [events, setEvents] = useState(null);
   const [reaload, setReload] = useState(false);
+  const { appState, setAppState } = useAppContext();
+
+  // console.log("contexto", appState);
 
   const notifySuccess = (message) => {
     toast.success(message, {
@@ -81,11 +85,13 @@ export default function Events() {
     async function getData() {
       const data = await getEvents();
       setMyEvents(data.eventos_creador);
+      // console.log(data.eventos_creador);
       setEvents(data.eventos_participante);
+      // console.log(data.eventos_participante);
     }
 
     getData();
-  }, [reaload]);
+  }, [reaload,]);
 
   return (
     <div className="Events">
@@ -105,9 +111,12 @@ export default function Events() {
                       return (
                         <EventCard
                           key={item.id}
+                          id={item.id}
                           name={item.nombre}
                           description={item.descripcion}
                           type={item.tipo}
+                          photo={item.foto}
+                          isMyEvent={true}
                         />
                       );
                     })
@@ -125,10 +134,13 @@ export default function Events() {
                   ? events.map((item) => {
                       return (
                         <EventCard
-                          key={item.id}
-                          name={item.nombre}
-                          description={item.descripcion}
-                          type={item.tipo}
+                          key={item.evento.id}
+                          id={item.evento.id}
+                          name={item.evento.nombre}
+                          description={item.evento.descripcion}
+                          type={item.evento.tipo}
+                          photo={item.evento.foto}
+                          isMyEvent={false}
                         />
                       );
                     })

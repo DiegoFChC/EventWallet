@@ -2,7 +2,7 @@ import { getCookie } from "cookies-next";
 
 export async function deleteUserPut(data) {
   const token = getCookie("Token");
-  const res = await fetch("http://127.0.0.1:8000/core/deactivate", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/core/deactivate`, {
     method: "PUT",
     body: JSON.stringify(data),
     headers: {

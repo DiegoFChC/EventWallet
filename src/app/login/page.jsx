@@ -30,9 +30,9 @@ export default function Login() {
       username: e.target.email.value,
       password: e.target.password.value,
     };
-    console.log(data);
+    // console.log(data);
     const res = await loginResponse(data);
-    console.log(res);
+    // console.log(res);
     if (!res.error) {
       setCookie("Token", "Token " + res.token);
       router.push("/application");

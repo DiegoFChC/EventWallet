@@ -30,7 +30,7 @@ export default function Profile() {
     setModalPassword(false);
     setModalDeleteUser(false);
   };
-  console.log("mi modal", modalPassword);
+  // console.log("mi modal", modalPassword);
 
   const notify = () => {
     toast.success("Tus datos han sido actualizados con éxito", {
