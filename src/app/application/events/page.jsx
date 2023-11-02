@@ -104,7 +104,7 @@ export default function Events() {
         <div className="group">
           {
             <div>
-              <h2 className="title">Mis eventos</h2>
+              <h1 className="title">Mis eventos</h1>
               <div className="cards">
                 {myEvents != null
                   ? myEvents.map((item) => {
@@ -128,7 +128,7 @@ export default function Events() {
         <div className="group">
           {
             <div>
-              <h2 className="title">Otros Eventos</h2>
+              <h1 className="title">Otros Eventos</h1>
               <div className="cards">
                 {events != null
                   ? events.map((item) => {

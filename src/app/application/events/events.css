@@ -16,7 +16,7 @@
 
     & .group {
       background-color: var(--background-alpha);
-      width: 90%;
+      width: 100%;
       border-radius: 10px;
 
       & .title {
@@ -24,7 +24,6 @@
       }
 
       & .cards {
-
         min-width: 100%;
         min-height: 200px;
         height: 100%;
@@ -120,8 +119,10 @@
 @media (min-width: 1024px) {
   .Events {
     & .container {
-      & .cards {
-        justify-content: left;
+      & .group {
+        & .cards {
+          justify-content: left;
+        }
       }
     }
   }
