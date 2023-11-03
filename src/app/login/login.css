@@ -1,7 +1,7 @@
 .Login {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--background1);
+  background-color: rgb(var(--background));
 
   .changeToRegister {
     height: 30vh;
@@ -12,7 +12,7 @@
       content: "";
       width: 1500px;
       height: 1500px;
-      background-color: rgb(var(--color3));
+      background-color: rgb(var(--secondary-color-light));
       position: absolute;
       border-radius: 50%;
       bottom: 100%;
@@ -52,10 +52,11 @@
         padding: 10px;
         border: 2px solid rgb(var(--text-light));
         border-radius: 10px;
-        transition: background 0.3s ease;
+        transition: 0.3s ease;
 
         &:hover {
-          background: rgb(var(--color1));
+          background: rgb(var(--primary-color-light));
+          color: rgb(var(--text-dark));
         }
       }
     }
@@ -81,10 +82,9 @@
       align-items: center;
       justify-content: center;
       border-radius: 20px;
-      /* background-color: rgba(var(--background2), 0.3); */
 
       & h1 {
-        color: rgb(var(--color4));
+        color: rgb(var(--secondary-color-dark));
         font-weight: 700;
         font-size: 2.5rem;
       }
@@ -106,12 +106,12 @@
           border: none;
           outline: none;
           font-size: 1.2rem;
-          color: rgb(var(--color4));
-          background-color: rgba(var(--background1-no-alpha), 0.5);
+          color: rgb(var(--text-darkest));
+          background-color: var(--background-alpha);
           transition: border 0.2s ease;
 
           &:focus {
-            border: 2px solid rgb(var(--color3));
+            border: 2px solid rgb(var(--secondary-color-light));
           }
         }
 
@@ -122,15 +122,17 @@
           font-weight: 500;
           font-size: 1.2rem;
           border-radius: 10px;
-          background-color: rgb(var(--color4));
-          color: rgb(var(--text-light));
+          background-color: rgb(var(--secondary-color-dark));
+          color: rgb(var(--text-lightest));
           border: none;
-          box-shadow: 1px 1px 2px rgb(var(--color1));
+          box-shadow: 1px 1px 2px rgb(var(--primary-color-light));
           transition: 0.3s ease;
+          position: relative;
+          overflow: ;
 
           &:hover {
             cursor: pointer;
-            background-color: rgb(var(--color4), 0.8);
+            background-color: rgb(var(--secondary-color-dark), 0.8);
           }
         }
       }
@@ -167,7 +169,7 @@
         width: auto;
         margin: 40px;
         padding: 20px;
-        background-color: var(--background2);
+        background-color: var(--background-alpha);
 
         & h1 {
           font-size: 2.7rem;
@@ -177,6 +179,7 @@
           & input {
             font-size: 1.3rem;
             width: 350px;
+            background-color: rgb(var(--background), 0.5);
           }
 
           & button {
@@ -226,7 +229,7 @@
       .container {
         margin: 60px;
         padding: 20px;
-        background-color: var(--background2);
+        background-color: var(--background-alpha);
 
         & h1 {
           font-size: 3.5rem;

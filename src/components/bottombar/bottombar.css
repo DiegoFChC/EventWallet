@@ -10,20 +10,24 @@
   & .container_b {
     width: 100%;
     height: 100%;
-    background: rgb(var(--background2-no-alpha));
+    background: var(--background-alpha);
     box-shadow: 0 0 4px rgb(88, 88, 88);
     border-radius: 40px;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
 
     & .links {
       height: 60px;
       width: 60px;
+      border-radius: 50%;
+      overflow: hidden;
 
       & a {
         text-decoration: none;
-        color: rgb(var(--color4));
+        color: rgb(var(--text-darkest));
         font-size: 0.7rem;
         height: 60px;
         width: 60px;
@@ -33,27 +37,19 @@
         align-items: center;
         justify-content: center;
 
-        & svg {
-          color: rgb(var(--color4));
-        }
-
         &:hover {
-          background-color: rgba(var(--color2), 0.1);
-          color: rgb(var(--color4));
+          background-color: rgba(var(--secondary-color-light), 0.6);
+            color: rgb(var(--text-light));
         }
       }
-      
-      & .selected {
-        background-color: rgb(var(--color3));
-        color: var(--background1);
 
-        & svg {
-          color: var(--background1);
-        }
+      & .selected {
+        background-color: rgb(var(--secondary-color-light));
+          color: rgb(var(--text-light));
 
         &:hover {
-          background-color: rgb(var(--color3));
-          color: var(--background1);
+          background-color: rgb(var(--secondary-color-light));
+          color: rgb(var(--text-light));
         }
       }
     }

@@ -7,7 +7,7 @@
   .container {
     width: 100%;
     height: 100%;
-    background: var(--background2);
+    background: var(--background-alpha);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -32,7 +32,7 @@
         & span {
           font-size: 1.2rem;
           font-weight: 700;
-          color: rgb(var(--color4));
+          color: rgb(var(--text-darkest));
           padding-left: 10px;
         }
       }
@@ -40,7 +40,7 @@
       & hr {
         width: 90%;
         height: 2px;
-        border: 1px solid rgb(var(--color4));
+        border: 1px solid rgb(var(--text-darkest));
         margin-bottom: 20px;
       }
 
@@ -56,37 +56,37 @@
           height: 50px;
           width: 100%;
           text-decoration: none;
-          color: rgb(var(--color4));
+          color: rgb(var(--text-darkest));
           font-size: 1.2rem;
           padding-left: 10px;
           border-radius: 10px;
           display: flex;
           align-items: center;
           transition: background-color 0.5s ease;
-
-          &:hover {
-            background-color: rgba(var(--color2), 0.1);
-            color: rgb(var(--color4));
-          }
-
+          
           & svg {
             padding-right: 10px;
             height: 20px;
-            color: rgb(var(--color4));
           }
+          
+          &:hover {
+            background-color: rgba(var(--secondary-color-light), 0.6);
+            color: rgb(var(--text-light));
+          }
+
         }
 
         & .selected {
-          background-color: rgb(var(--color3));
-          color: var(--background1);
+          background-color: rgb(var(--secondary-color-light));
+          color: rgb(var(--text-light));
 
           &:hover {
-            background-color: rgb(var(--color3));
-            color: var(--background1);
+            background-color: rgb(var(--secondary-color-light));
+            color: rgb(var(--text-light));
           }
 
           & svg {
-            color: rgb(var(--background1));
+            color: rgb(var(--text-light));
           }
         }
       }

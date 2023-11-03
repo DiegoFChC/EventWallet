@@ -1,0 +1,62 @@
+.Notifications {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background-color: rgb(var(--background));
+  padding-top: 30px;
+  position: relative;
+
+  .container {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .cards {
+      min-width: 100%;
+      min-height: 200px;
+      height: 100%;
+      background-color: var(--background-alpha);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 20px;
+
+      &::after {
+        content: "";
+        width: 100%;
+        height: 80px;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .Notifications {
+    & .container {
+      padding: 20px;
+
+      .cards {
+        justify-content: center;
+
+        &::after {
+          width: 0;
+          height: 0;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .Notifications {
+    & .container {
+      & .cards {
+        justify-content: left;
+      }
+    }
+  }
+}

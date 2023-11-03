@@ -7,6 +7,8 @@ import { ModalConfirm } from "@/components/modalConfirm/Modalconfirm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Header } from "@/components/header/Header";
+import { deleteUserPut } from "@/services/deleteUser.put";
+import { Topbar } from "@/components/topbar/Topbar";
 
 export default function Profile() {
   const [changeData, setChangeData] = useState(false);
@@ -24,11 +26,11 @@ export default function Profile() {
     apodo: "",
   });
 
-  const closeModalPassword = () => {
+  const closeModalPassword = (notify) => {
     setModalPassword(false);
     setModalDeleteUser(false);
   };
-  console.log("mi modal", modalPassword);
+  // console.log("mi modal", modalPassword);
 
   const notify = () => {
     toast.success("Tus datos han sido actualizados con éxito", {
@@ -68,7 +70,8 @@ export default function Profile() {
   };
   return (
     <div className="Profile">
-      <Header title={"PERFIL"} information={"Información de mi cuenta"}/>
+      <Topbar />
+      <Header title={"PERFIL"} information={"Información de mi cuenta"} />
       <div className="container">
         <div className="info">
           <div className="inputs">
@@ -196,7 +199,14 @@ export default function Profile() {
         <ModalPassword onCloseModal={closeModalPassword} />
       ) : null}
       {modalDeleteUser ? (
-        <ModalConfirm onCloseModal={closeModalPassword} />
+        <ModalConfirm
+          title={"¿Estas seguro de que quieres eliminar tu cuenta?"}
+          labelName={"Contraseña"}
+          action={"Eliminar cuenta"}
+          idInput={"password"}
+          axios={deleteUserPut}
+          onCloseModal={closeModalPassword}
+        />
       ) : (
         <></>
       )}

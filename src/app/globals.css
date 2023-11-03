@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap");
 
 :root {
-  --background1: rgb(232, 232, 233);
+  /* --background1: rgb(232, 232, 233);
   --background2: rgba(255, 255, 255, 0.6);
   --background1-no-alpha: 211, 211, 211;
   --background2-no-alpha: 255, 255, 255;
@@ -11,14 +11,33 @@
   --color2: 0, 162, 224;
   --color3: 0, 125, 174;
   --color4: 0, 66, 94;
-  --color5: 47, 79, 94;
-  --color6: 19, 29, 33;
   --error: 158, 3, 3;
-  --correct: 19, 110, 1;
+  --correct: 19, 110, 1; */
+
+  /* Colores de fondo */
+  --background: 232, 232, 233;
+  --background-alpha: rgba(255, 255, 255, 0.6);
+
+
+  /* Colores de texto */
+  --text-lightest: 255, 255, 255;
+  --text-light: 235, 248, 252;
+  --text-dark: 2, 83, 102;
+  --text-darkest: 0, 66, 94;
+
+  /* Colores de estado */
+  --color-error: 158, 3, 3;
+  --color-correct: 19, 110, 1;
+
+  /* Colores de las paginas */
+  --primary-color-light: 123, 194, 230;
+  --primary-color-dark: 0, 162, 224;
+  --secondary-color-light: 0, 125, 174;
+  --secondary-color-dark: 0, 66, 94;
 }
 
 [data-theme="dark"] {
-  --background1: rgb(11, 14, 54);
+  /* --background1: rgb(11, 14, 54);
   --background2: rgba(0, 0, 0, 0.3);
   --background1-no-alpha: 11, 14, 54;
   --background2-no-alpha: 0, 0, 0;
@@ -28,10 +47,29 @@
   --color2: 4, 6, 42;
   --color3: 16, 23, 82;
   --color4: 84, 87, 119;
-  --color5: 47, 79, 94; /*No*/
-  --color6: 19, 29, 33; /*No*/
   --error: 158, 3, 3;
-  --correct: 19, 110, 1;
+  --correct: 19, 110, 1; */
+
+  /* Colores de fondo */
+  --background: 11, 14, 54;
+  --background-alpha: rgba(0, 0, 0, 0.3);
+
+
+  /* Colores de texto */
+  --text-lightest: 255, 255, 255;
+  --text-light: 187, 188, 188;
+  --text-dark: 187, 188, 188;
+  --text-darkest: 255, 255, 255;
+
+  /* Colores de estado */
+  --color-error: 158, 3, 3;
+  --color-correct: 19, 110, 1;
+
+  /* Colores de las paginas */
+  --primary-color-light: 46, 54, 115;
+  --primary-color-dark: 4, 6, 42;
+  --secondary-color-light: 16, 23, 82;
+  --secondary-color-dark: 84, 87, 119;
 }
 
 * {
