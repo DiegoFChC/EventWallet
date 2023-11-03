@@ -44,10 +44,9 @@ const postData = [
   },
   {
     label: "Foto",
-    type: "text",
+    type: "file",
     name: "foto",
     id: "foto",
-    placeholder: "Imagen",
   },
 ];
 

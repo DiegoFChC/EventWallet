@@ -33,7 +33,7 @@ export const ModalCreate = ({
     });
 
     if (additionalFields != null) {
-      data = Object.assign(data, additionalFields)
+      data = Object.assign(data, additionalFields);
     }
     // console.log(data)
 
