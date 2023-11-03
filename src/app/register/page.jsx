@@ -8,9 +8,11 @@ import { registerResponse } from "@/services/register.post";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+import Loader from "@/components/loader/Loader";
 
 export default function Register() {
   const [avatar, setAvatar] = useState("/images/avatar.jpg");
+  const [loadingRegister, setLoadingRegister] = useState(false);
   const router = useRouter();
   const notify = () => {
     toast.error("Ha ocurrido un error en tu solicitud", {
@@ -38,6 +40,7 @@ export default function Register() {
     };
     console.log(data);
 
+    setLoadingRegister(true)
     const res = await registerResponse(data);
 
     if (
@@ -52,6 +55,7 @@ export default function Register() {
       router.push("/login");
     } else {
       notify();
+      setLoadingRegister(false)
     }
   }
 
@@ -117,7 +121,10 @@ export default function Register() {
                 required
               />
             </div>
-            <button type="submit">REGISTRARME</button>
+            <button type="submit">
+              {loadingRegister ? <Loader /> : null}
+              REGISTRARME
+            </button>
           </form>
         </div>
       </div>

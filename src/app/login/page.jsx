@@ -7,11 +7,14 @@ import { loginResponse } from "@/services/login.post";
 import { setCookie } from "cookies-next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "@/components/loader/Loader";
+import { useState } from "react";
 
 export default function Login() {
+  const [loadingLogin, setLoadingLogin] = useState(false);
   const router = useRouter();
-  const notify = () => {
-    toast.error("Credenciales incorrectas", {
+  const notify = (message) => {
+    toast.error(message, {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -31,14 +34,16 @@ export default function Login() {
       password: e.target.password.value,
     };
     // console.log(data);
+    setLoadingLogin(true)
     const res = await loginResponse(data);
     // console.log(res);
     if (!res.error) {
       setCookie("Token", "Token " + res.token);
       router.push("/application");
     } else {
-      console.log("datos incorrectos");
-      notify();
+      // console.log("datos incorrectos");
+      notify("Credenciales incorrectas");
+      setLoadingLogin(false)
     }
   }
 
@@ -67,7 +72,10 @@ export default function Login() {
           <form onSubmit={handleSubmit}>
             <input name="email" type="email" placeholder="Correo electrónico" />
             <input name="password" type="password" placeholder="Contraseña" />
-            <button type="submit">INGRESAR</button>
+            <button type="submit">
+              {loadingLogin ? <Loader /> : null}
+              INGRESAR
+            </button>
           </form>
         </div>
       </div>

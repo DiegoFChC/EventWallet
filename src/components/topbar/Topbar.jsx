@@ -6,6 +6,7 @@ import { CgProfile } from "react-icons/cg";
 import { useEffect, useState } from "react";
 import { getNotifications } from "@/services/notifications";
 import NotificationCard from "../notificationCard/NotificationCard";
+import Link from "next/link";
 
 export function Topbar() {
   const [notifications, setNotifications] = useState(false);
@@ -18,10 +19,10 @@ export function Topbar() {
       setDataNotifications(data);
       console.log("Mis invitaciones", data);
       setCountNotifications(data.invitations.length);
-      console.log("Numero", countNotifications)
+      console.log("Numero", countNotifications);
     }
     getData();
-  }, [notifications,]);
+  }, [notifications]);
 
   return (
     <div className="Topbar">
@@ -37,9 +38,9 @@ export function Topbar() {
           <BsBellFill />
           {countNotifications != 0 ? <p>{countNotifications}</p> : null}
         </button>
-        <button>
+        <Link href={"/"}>
           <CgProfile />
-        </button>
+        </Link>
       </nav>
       {notifications ? (
         <div className={"showNotifications"}>
