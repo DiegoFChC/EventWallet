@@ -11,6 +11,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html>
+      <head>
+        <link rel="icon" href="/images/favicon.ico" />
+      </head>
       <body>
         <AppContextProvider>
           <Providers>{children}</Providers>

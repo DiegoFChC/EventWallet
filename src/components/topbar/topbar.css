@@ -18,7 +18,7 @@
     display: flex;
     gap: 5px;
 
-    & button {
+    & button, a {
       background-color: transparent;
       border: none;
       position: relative;
