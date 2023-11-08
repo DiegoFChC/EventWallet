@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getEvents, processData, inviteContact } from "@/services/events";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
+import { EventCard } from "@/components/eventCard/EventCard";
 
 const postData = [
   {
@@ -30,6 +31,7 @@ export default function Manage({ params }) {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
   const [addContact, setAddContact] = useState(false);
+  const [myEvents, setMyEvents] = useState(null);
 
   const closeModal = (notification) => {
     setAddContact(false);
@@ -42,6 +44,8 @@ export default function Manage({ params }) {
   useEffect(() => {
     async function myEvents() {
       const response = await getEvents();
+      setMyEvents(response.eventos_creador);
+      //console.log(response.eventos_creador);
       const event = processData(response, params.id_event);
       setOriginalData(event);
       setData(event);
@@ -89,86 +93,113 @@ export default function Manage({ params }) {
         {loading ? (
           <></>
         ) : (
-          <div className="info_event">
-            <form className="data" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                id="title"
-                value={`${changeData ? data.nombre : originalData.nombre}`}
-                disabled={!changeData}
-                onChange={(e) => {
-                  setData({ ...data, nombre: e.target.value });
-                }}
-                className={`${changeData ? "changeData" : ""}`}
-              />
-              <textarea
-                name="description"
-                id="description"
-                value={`${
-                  changeData ? data.descripcion : originalData.descripcion
-                }`}
-                disabled={!changeData}
-                onChange={(e) => {
-                  setData({ ...data, descripcion: e.target.value });
-                }}
-                className={`${changeData ? "changeData" : ""}`}
-              ></textarea>
-              <p>{originalData.tipo}</p>
-              {changeData ? (
-                <div className="changeData_buttons">
+          <>
+            <div className="info_event">
+              <form className="data" onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  id="title"
+                  value={`${changeData ? data.nombre : originalData.nombre}`}
+                  disabled={!changeData}
+                  onChange={(e) => {
+                    setData({ ...data, nombre: e.target.value });
+                  }}
+                  className={`${changeData ? "changeData" : ""}`}
+                />
+                <textarea
+                  name="description"
+                  id="description"
+                  value={`${
+                    changeData ? data.descripcion : originalData.descripcion
+                  }`}
+                  disabled={!changeData}
+                  onChange={(e) => {
+                    setData({ ...data, descripcion: e.target.value });
+                  }}
+                  className={`${changeData ? "changeData" : ""}`}
+                ></textarea>
+                <p>{originalData.tipo}</p>
+                {changeData ? (
+                  <div className="changeData_buttons">
+                    <button
+                      className="cancel"
+                      onClick={() => {
+                        setChangeData(false);
+                        setData(originalData);
+                      }}
+                    >
+                      Cancelar
+                    </button>
+                    <button type="submit">Guardar cambios</button>
+                  </div>
+                ) : originalData.creator == "me" ? (
                   <button
-                    className="cancel"
                     onClick={() => {
-                      setChangeData(false);
-                      setData(originalData);
+                      setChangeData(true);
                     }}
                   >
-                    Cancelar
+                    Editar datos
                   </button>
-                  <button type="submit">Guardar cambios</button>
-                </div>
-              ) : originalData.creator == "me" ? (
-                <button
-                  onClick={() => {
-                    setChangeData(true);
+                ) : null}
+              </form>
+              <div className="image">
+                <label htmlFor="file-input">
+                  <img
+                    // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
+                    src={imageEvent}
+                    alt="avatar"
+                  />
+                </label>
+                {changeData ? <h4>Cambiar avatar</h4> : null}
+                <input
+                  id="file-input"
+                  name="avatar"
+                  type="file"
+                  placeholder="Avatar"
+                  accept="/image/*"
+                  disabled={!changeData}
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file.type.substring(0, 5) === "image") {
+                      setImageEvent(URL.createObjectURL(file));
+                    } else {
+                      setImageEvent(null);
+                    }
                   }}
-                >
-                  Editar datos
-                </button>
-              ) : null}
-            </form>
-            <div className="image">
-              <label htmlFor="file-input">
-                <img
-                  // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
-                  src={imageEvent}
-                  alt="avatar"
+                  required
                 />
-              </label>
-              {changeData ? <h4>Cambiar avatar</h4> : null}
-              <input
-                id="file-input"
-                name="avatar"
-                type="file"
-                placeholder="Avatar"
-                accept="/image/*"
-                disabled={!changeData}
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file.type.substring(0, 5) === "image") {
-                    setImageEvent(URL.createObjectURL(file));
-                  } else {
-                    setImageEvent(null);
-                  }
-                }}
-                required
-              />
+              </div>
             </div>
-          </div>
+            <div className="group">
+              {
+                <div>
+                  <h1 className="title">Actividades</h1>
+                  <div className="cards">
+                    {myEvents != null
+                      ? myEvents.map((item) => {
+                          return (
+                            <EventCard
+                              key={item.id}
+                              id={item.id}
+                              name={item.nombre}
+                              description={item.descripcion}
+                              type={item.tipo}
+                              photo={item.foto}
+                              isMyEvent={true}
+                            />
+                          );
+                        })
+                      : null}
+                  </div>
+                </div>
+              }
+            </div>
+          </>
         )}
         <div className="cards_events"></div>
         <div className="createActivity"></div>
-        <button className="button-add"
+        <button
+          className="button-add"
           onClick={() => {
             setAddContact(true);
           }}
@@ -183,7 +214,7 @@ export default function Manage({ params }) {
           fields={postData}
           buttonName={"Añadir contacto"}
           title={"Añadir un contacto a este evento"}
-          additionalFields={{evento_id: params.id_event}}
+          additionalFields={{ evento_id: params.id_event }}
         />
       ) : null}
       <ToastContainer
