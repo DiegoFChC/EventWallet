@@ -94,23 +94,24 @@
   .Events {
     & .container {
       padding: 20px;
+      & .group {
+        & .cards {
+          justify-content: center;
 
-      & .cards {
-        justify-content: center;
-
-        &::after {
-          width: 0;
-          height: 0;
+          &::after {
+            width: 0;
+            height: 0;
+          }
         }
-      }
-      & .createEvent {
-        bottom: 20px;
-        right: 20px;
-      }
+        & .createEvent {
+          bottom: 20px;
+          right: 20px;
+        }
 
-      & a {
-        bottom: 120px;
-        right: 35px;
+        & a {
+          bottom: 120px;
+          right: 35px;
+        }
       }
     }
   }

@@ -120,7 +120,6 @@
             background-color: rgb(var(--color-error), 0.8);
           }
         }
-
       }
 
       .image {
@@ -147,6 +146,29 @@
           border-radius: 50%;
           box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.342);
         }
+      }
+    }
+
+    & .group {
+      background-color: var(--background-alpha);
+      width: 100%;
+      border-radius: 10px;
+
+      & .title {
+        text-align: center;
+      }
+
+      & .cards {
+        min-width: 100%;
+        min-height: 200px;
+        height: 100%;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 20px;
       }
     }
 
@@ -213,8 +235,28 @@
           width: 30%;
         }
       }
+      & .group {
+        & .cards {
+          justify-content: center;
+
+          &::after {
+            width: 0;
+            height: 0;
+          }
+        }
+      }
     }
   }
 }
 
-@media (min-width: 1024px) {}
+@media (min-width: 1024px) {
+  .Manage {
+    & .container {
+      & .group {
+        & .cards {
+          justify-content: left;
+        }
+      }
+    }
+  }
+}
