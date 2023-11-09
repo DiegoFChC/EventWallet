@@ -8,6 +8,7 @@ import { changeDataEvents } from "@/services/events";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getEvents, processData, inviteContact } from "@/services/events";
+import { createActivity } from "@/services/activities";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { EventCard } from "@/components/eventCard/EventCard";
@@ -22,6 +23,30 @@ const postData = [
   },
 ];
 
+const postDataCreateActivity = [
+  {
+    label: "Nombre",
+    type: "text",
+    name: "nombre",
+    id: "nombre",
+    placeholder: "Nombre del evento",
+  },
+  {
+    label: "Descripcion",
+    type: "text",
+    name: "descripcion",
+    id: "descripcion",
+    placeholder: "Descripcion",
+  },
+  {
+    label: "Valor de la actividad",
+    type: "number",
+    name: "valor",
+    id: "valor",
+    placeholder: "Valor de la actividad",
+  },
+]
+
 export default function Manage({ params }) {
   const { appState, setAppState } = useAppContext();
   const [imageEvent, setImageEvent] = useState("/images/avatar.jpg");
@@ -31,13 +56,15 @@ export default function Manage({ params }) {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
   const [addContact, setAddContact] = useState(false);
+  const [addActivity, setAddActivity] = useState(false);
   const [myEvents, setMyEvents] = useState(null);
 
   const closeModal = (notification) => {
     setAddContact(false);
+    setAddActivity(false)
     setReload(!reload);
     if (notification) {
-      notify("El contacto ha sido invitado");
+      notify("Tu petición ha terminado exitosamente");
     }
   };
 
@@ -197,7 +224,9 @@ export default function Manage({ params }) {
           </>
         )}
         <div className="cards_events"></div>
-        <div className="createActivity"></div>
+        <div className="createActivity" onClick={() => {
+          setAddActivity(true)
+        }}></div>
         <button
           className="button-add"
           onClick={() => {
@@ -215,6 +244,16 @@ export default function Manage({ params }) {
           buttonName={"Añadir contacto"}
           title={"Añadir un contacto a este evento"}
           additionalFields={{ evento_id: params.id_event }}
+        />
+      ) : null}
+      {addActivity ? (
+        <ModalCreate
+          onCloseModal={closeModal}
+          axios={createActivity}
+          fields={postDataCreateActivity}
+          buttonName={"Crear actividad"}
+          title={"Crear una nueva actividad en este evento"}
+          additionalFields={{ evento: params.id_event }}
         />
       ) : null}
       <ToastContainer
