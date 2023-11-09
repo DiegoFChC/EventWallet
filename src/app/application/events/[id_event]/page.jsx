@@ -8,10 +8,12 @@ import { changeDataEvents } from "@/services/events";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getEvents, processData, inviteContact } from "@/services/events";
-import { createActivity } from "@/services/activities";
+import { createActivity, getActivity } from "@/services/activities";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
-import { EventCard } from "@/components/eventCard/EventCard";
+import { ActivityCard } from "@/components/activityCard/ActivityCard";
+
+//import { EventCard } from "@/components/eventCard/EventCard";
 
 const postData = [
   {
@@ -57,7 +59,7 @@ export default function Manage({ params }) {
   const [reload, setReload] = useState(false);
   const [addContact, setAddContact] = useState(false);
   const [addActivity, setAddActivity] = useState(false);
-  const [myEvents, setMyEvents] = useState(null);
+  const [myActivity, setMyActivity] = useState(null);
 
   const closeModal = (notification) => {
     setAddContact(false);
@@ -71,11 +73,13 @@ export default function Manage({ params }) {
   useEffect(() => {
     async function myEvents() {
       const response = await getEvents();
-      setMyEvents(response.eventos_creador);
-      //console.log(response.eventos_creador);
+      setMyActivity(response.eventos_creador);
       const event = processData(response, params.id_event);
       setOriginalData(event);
       setData(event);
+      const activity = await getActivity(params.id_event);
+      setMyActivity(activity.data);
+      console.log(activity.data)
       setLoading(false);
     }
     myEvents();
@@ -202,17 +206,15 @@ export default function Manage({ params }) {
                 <div>
                   <h1 className="title">Actividades</h1>
                   <div className="cards">
-                    {myEvents != null
-                      ? myEvents.map((item) => {
+                    {myActivity != null
+                      ? myActivity.map((item) => {
                           return (
-                            <EventCard
+                            <ActivityCard
                               key={item.id}
                               id={item.id}
                               name={item.nombre}
                               description={item.descripcion}
-                              type={item.tipo}
-                              photo={item.foto}
-                              isMyEvent={true}
+                              value={item.valor}
                             />
                           );
                         })
