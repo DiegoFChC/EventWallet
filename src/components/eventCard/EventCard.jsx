@@ -35,24 +35,10 @@ export const EventCard = ({
 
   return (
     <div className="EventCard">
-      <div className="type">
-        <button>{nameType}</button>
-      </div>
+      <span className="type">{nameType}</span>
       <div className="container_info">
-        <div className="info">
-          <div className="content">
-            <div className="text">
-              <h2>
-                <span>{name}</span>
-              </h2>
-            </div>
-            <div className="text">
-              <h1>
-                <span>{description}</span>
-              </h1>
-            </div>
-          </div>
-        </div>
+        <h1>{name}</h1>
+        <h2>{description}</h2>
       </div>
       <div className="container_button">
         <button
