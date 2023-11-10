@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./modalCreate.css";
 
+
 export const ModalCreate = ({
   onCloseModal,
   axios,
@@ -28,14 +29,16 @@ export const ModalCreate = ({
     e.preventDefault();
 
     let data = {};
-    fields.forEach((field) => {
-      data[field.name] = e.target[field.name].value;
-    });
+    if (fields != null) {
+      fields.forEach((field) => {
+        data[field.name] = e.target[field.name].value;
+      });
+    }
 
     if (additionalFields != null) {
       data = Object.assign(data, additionalFields);
     }
-    console.log(data)
+    console.log(data);
 
     const response = await axios(data);
     console.log(response);
@@ -52,7 +55,7 @@ export const ModalCreate = ({
       <div className="container_modalC">
         <h1>{title}</h1>
         <form onSubmit={handleSubmit}>
-          {fields.map((field) => (
+          { fields != null ? fields.map((field) => (
             <div className="inputs" key={field.name}>
               <label>{field.label}</label>
               {field.type === "select" ? (
@@ -81,7 +84,7 @@ export const ModalCreate = ({
                 />
               )}
             </div>
-          ))}
+          )):null}
           <div className="buttons">
             <label
               className="cancel"
