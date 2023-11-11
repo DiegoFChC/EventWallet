@@ -31,7 +31,7 @@ const postDataCreateActivity = [
     type: "text",
     name: "nombre",
     id: "nombre",
-    placeholder: "Nombre del evento",
+    placeholder: "Nombre de la actividad",
   },
   {
     label: "Descripcion",
@@ -215,6 +215,7 @@ export default function Manage({ params }) {
                               name={item.nombre}
                               description={item.descripcion}
                               value={item.valor}
+                              funcion={closeModal}
                             />
                           );
                         })

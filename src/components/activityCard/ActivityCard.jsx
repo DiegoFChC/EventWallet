@@ -17,16 +17,14 @@ const postData = [
   },
 ];
 
-export const ActivityCard = ({ id, name, value }) => {
+export const ActivityCard = ({ id, name, value, funcion }) => {
   const { appState, setAppState } = useAppContext();
   const router = useRouter();
   const [constDeleteActivity, setDeleteActivity] = useState(false);
 
-  const closeModal = (notification) => {
+  const closeModal = () => {
     setDeleteActivity(false);
-    if (notification) {
-      notify("Tu petición ha terminado exitosamente");
-    }
+    funcion(true);
   };
 
   const notify = (message) => {
