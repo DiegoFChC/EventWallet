@@ -17,7 +17,7 @@ const postData = [
   },
 ];
 
-export const ActivityCard = ({ id, name, value, funcion }) => {
+export const ActivityCard = ({ idEvent, id, name, value, funcion }) => {
   const { appState, setAppState } = useAppContext();
   const router = useRouter();
   const [constDeleteActivity, setDeleteActivity] = useState(false);
@@ -50,7 +50,13 @@ export const ActivityCard = ({ id, name, value, funcion }) => {
         </h2>
       </div>
       <div className="container_button">
-        <button>Ver Más</button>
+        <button
+          onClick={() => {
+            router.push(`/application/events/${idEvent}/${id}`);
+          }}
+        >
+          Ver Más
+        </button>
       </div>
       <button
         className="delete"
