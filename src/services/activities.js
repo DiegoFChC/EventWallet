@@ -52,3 +52,21 @@ export async function deleteActivity(data) {
 
   return response;
 }
+
+export async function modifyActivity(data) {
+  const token = getCookie("Token");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/core/modify/activity`,
+    {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const response = await res.json();
+
+  return response;
+}

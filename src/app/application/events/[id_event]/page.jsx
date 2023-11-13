@@ -79,7 +79,7 @@ export default function Manage({ params }) {
       setData(event);
       const activity = await getActivity(params.id_event);
       setMyActivity(activity.data);
-      console.log(activity.data)
+      // console.log(activity.data)
       setLoading(false);
     }
     myEvents();
@@ -211,6 +211,7 @@ export default function Manage({ params }) {
                           return (
                             <ActivityCard
                               key={item.id}
+                              idEvent={params.id_event}
                               id={item.id}
                               name={item.nombre}
                               description={item.descripcion}

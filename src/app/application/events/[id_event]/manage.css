@@ -156,6 +156,7 @@
 
       & .title {
         text-align: center;
+        color: rgb(var(--text-darkest));
       }
 
       & .cards {
