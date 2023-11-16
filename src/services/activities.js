@@ -70,3 +70,38 @@ export async function modifyActivity(data) {
 
   return response;
 }
+
+export async function getActivityParticipants(id) {
+  const token = getCookie("Token");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/core/activity/participants/list/${id}/`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const response = await res.json();
+
+  return response;
+}
+
+export async function addParticipant(data) {
+  const token = getCookie("Token");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/core/invitation/activity`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const response = await res.json();
+
+  return response;
+}
