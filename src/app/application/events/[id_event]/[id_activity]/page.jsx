@@ -5,7 +5,9 @@ import { Header } from "@/components/header/Header";
 import { useEffect, useState } from "react";
 import { getActivity, modifyActivity } from "@/services/activities";
 import { ToastContainer, toast } from "react-toastify";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import "react-toastify/dist/ReactToastify.css";
+import AddContactActivity from "@/components/addContactActivity/AddContactActivity";
 
 export default function Activity({ params }) {
   const [activity, setActivity] = useState(null);
@@ -15,6 +17,15 @@ export default function Activity({ params }) {
   const [originalData, setOriginalData] = useState(null);
   const [changeData, setChangeData] = useState(false);
   const [reload, setReload] = useState(false);
+  const [addContact, setAddContact] = useState(false);
+
+  const closeModal = (notification) => {
+    setAddContact(false)
+    setReload(!reload);
+    if (notification) {
+      notify("Tu petición ha terminado exitosamente");
+    }
+  };
 
   // console.log(params);
   useEffect(() => {
@@ -130,8 +141,23 @@ export default function Activity({ params }) {
               </button>
             )}
           </form>
+          <button
+            className="button-add"
+            onClick={() => {
+              setAddContact(true);
+            }}
+          >
+            <AiOutlineUserAdd />
+          </button>
         </div>
       )}
+      {addContact ? (
+        <AddContactActivity
+          idEvent={params.id_event}
+          idActivity={params.id_activity}
+          changePage={closeModal}
+        />
+      ) : null}
       <ToastContainer
         position="top-center"
         autoClose={5000}

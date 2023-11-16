@@ -13,6 +13,7 @@ export default function NotificationCardPage({
   onClose
 }) {
   async function respond(res) {
+    console.log(id)
     const data = { invitacion_id: id, respuesta: res };
     const response = await postNotifications(data);
     console.log(response)
