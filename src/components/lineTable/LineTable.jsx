@@ -2,11 +2,20 @@
 import "./lineTable.css";
 import { useState } from "react";
 import { BsTrash } from "react-icons/bs";
+import { FaRegUser } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import { ModalCreate } from "../modalCreate/ModalCreate";
 import { eliminateParticipantEvent } from "@/services/events";
 
-export default function LineTable({ id_event, name, saldo, id_user, funcion }) {
+export default function LineTable({
+  id_event,
+  id_user,
+  name,
+  lastname,
+  nickname,
+  saldo,
+  funcion,
+}) {
   const [constDeleteParticipant, setDeleteParticipant] = useState(false);
 
   const closeModal = () => {
@@ -16,14 +25,17 @@ export default function LineTable({ id_event, name, saldo, id_user, funcion }) {
 
   return (
     <div className="LineTable">
-      <p>{name}</p>
+      <p>{name + " " + lastname}</p>
       <p>{"$ " + saldo}</p>
-
-
-
-        <BsTrash onClick={() => {
-          setDeleteParticipant(true);
-        }}></BsTrash>
+      {saldo == "-" ? (
+        <BsTrash className="trash"
+          onClick={() => {
+            setDeleteParticipant(true);
+          }}
+        ></BsTrash>
+      ) : (
+        <FaRegUser />
+      )}
 
       {constDeleteParticipant ? (
         <ModalCreate
@@ -31,7 +43,7 @@ export default function LineTable({ id_event, name, saldo, id_user, funcion }) {
           axios={eliminateParticipantEvent}
           buttonName={"Eliminar Participante"}
           title={"¿Estas seguro de que deseas eliminar este participante?"}
-          additionalFields={{evento: id_event, contacto: id_user }}
+          additionalFields={{ evento: id_event, contacto: id_user }}
         />
       ) : null}
       <ToastContainer

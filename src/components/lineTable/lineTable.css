@@ -6,7 +6,7 @@
   color: rgb(var(--text-darkest));
   border-bottom: 1px solid rgb(var(--text-dark), 0.3);
   margin-bottom: 5px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
     background-color: rgb(var(--background), 0.5);
@@ -45,7 +45,10 @@
   & svg {
     color: rgb(var(--text-darkest));
     font-size: 1.2rem;
-    transition: all .3s ease;
+  }
+
+  & .trash {
+    transition: all 0.3s ease;
 
     &:hover {
       color: rgb(var(--color-error));

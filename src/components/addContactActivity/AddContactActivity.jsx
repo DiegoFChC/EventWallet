@@ -12,9 +12,11 @@ export default function AddContactActivity({
   changePage,
 }) {
   const [participants, setParticipants] = useState(null);
+  const [participantsActivity, setParticipantsActivity] = useState(null);
   const [personasSeleccionadas, setPersonasSeleccionadas] = useState([]);
+  const [step, setStep] = useState(1);
 
-  const sendData = async () => {
+  const sendDataStepOne = async () => {
     const data = {
       actividad: idActivity,
       participantes: personasSeleccionadas,
@@ -23,6 +25,7 @@ export default function AddContactActivity({
     const response = await addParticipant(data);
     console.log(response);
     changePage(true);
+    // setStep(2)
   };
 
   useEffect(() => {
@@ -32,68 +35,80 @@ export default function AddContactActivity({
       setParticipants(response);
     }
     getParticipants();
-  }, []);
+    async function getParticipantsActivity() {
+      const response = await getActivityParticipants(idActivity);
+      console.log(response);
+      setParticipantsActivity(response)
+    }
+    getParticipantsActivity()
+  }, [step]);
 
   return (
     <div className="AddContactActivity">
-      <div className="container_modalAdd">
-        <h1>Agrega contactos a esta actividad</h1>
-        <div className="contacts">
-          <ul>
-            {participants != null ? (
-              participants.participantes.length != 0 ? (
-                participants.participantes.map((item) => (
-                  <li key={item.participante.id}>
-                    <input
-                      type="checkbox"
-                      checked={personasSeleccionadas.includes(
-                        item.participante.id
-                      )}
-                      onChange={() =>
-                        setPersonasSeleccionadas(
-                          personasSeleccionadas.includes(item.participante.id)
-                            ? personasSeleccionadas.filter(
-                                (p) => p !== item.participante.id
-                              )
-                            : [...personasSeleccionadas, item.participante.id]
-                        )
-                      }
-                    />
-                    <p>
-                      {item.participante.nombre} {item.participante.apellidos}
-                    </p>
-                  </li>
-                ))
-              ) : (
-                <p>
-                  Este evento no tiene participantes, por defecto se te asignará
-                  a tí la actividad
-                </p>
-              )
-            ) : null}
-          </ul>
+      {step == 1 ? (
+        <div className="container_modalAddA">
+          <h1>Agrega contactos a esta actividad</h1>
+          <div className="contacts">
+            <ul>
+              {participants != null ? (
+                participants.participantes.length != 0 ? (
+                  participants.participantes.map((item) => (
+                    <li key={item.participante.id}>
+                      <input
+                        type="checkbox"
+                        checked={personasSeleccionadas.includes(
+                          item.participante.id
+                        )}
+                        onChange={() =>
+                          setPersonasSeleccionadas(
+                            personasSeleccionadas.includes(item.participante.id)
+                              ? personasSeleccionadas.filter(
+                                  (p) => p !== item.participante.id
+                                )
+                              : [...personasSeleccionadas, item.participante.id]
+                          )
+                        }
+                      />
+                      <p>
+                        {item.participante.nombre} {item.participante.apellidos}
+                      </p>
+                    </li>
+                  ))
+                ) : (
+                  <p>
+                    Este evento no tiene participantes, por defecto se te
+                    asignará a tí la actividad
+                  </p>
+                )
+              ) : null}
+            </ul>
+          </div>
+          {participants != null ? (
+            participants.participantes.length != 0 ? (
+              <div className="buttons_send">
+                <button onClick={() => changePage(false)}>Cancelar</button>
+                <button onClick={sendDataStepOne}>Siguiente</button>
+              </div>
+            ) : (
+              <div className="buttons_send">
+                <button onClick={() => changePage(false)}>Cancelar</button>
+                <button
+                  onClick={() => {
+                    personasSeleccionadas.includes(participants.creador);
+                    sendDataStepOne();
+                  }}
+                >
+                  Siguiente
+                </button>
+              </div>
+            )
+          ) : null}
         </div>
-        {participants != null ? (
-          participants.participantes.length != 0 ? (
-            <div className="buttons_send">
-              <button onClick={() => changePage(false)}>Cancelar</button>
-              <button onClick={sendData}>Enviar datos</button>
-            </div>
-          ) : (
-            <div className="buttons_send">
-              <button onClick={() => changePage(false)}>Cancelar</button>
-              <button
-                onClick={() => {
-                  personasSeleccionadas.includes(participants.creador);
-                  sendData();
-                }}
-              >
-                Enviar datos
-              </button>
-            </div>
-          )
-        ) : null}
-      </div>
+      ) : (
+        <div className="container_modalAddA">
+          <h1>Asigna los valores de participacion a los integrantes de la actividad</h1>
+        </div>
+      )}
     </div>
   );
 }
