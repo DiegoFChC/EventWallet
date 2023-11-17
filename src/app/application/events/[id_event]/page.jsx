@@ -217,6 +217,7 @@ export default function Manage({ params }) {
                   ? balances.map((item) => {
                       return (
                         <LineTable
+                          key={item[1][1]}
                           id_event={params.id_event}
                           name={item[0]}
                           saldo={item[1][0]}
