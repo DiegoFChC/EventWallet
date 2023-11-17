@@ -17,9 +17,9 @@ export function Topbar() {
     async function getData() {
       const data = await getNotifications();
       setDataNotifications(data);
-      console.log("Mis invitaciones", data);
+      // console.log("Mis invitaciones", data);
       setCountNotifications(data.invitations.length);
-      console.log("Numero", countNotifications);
+      // console.log("Numero", countNotifications);
     }
     getData();
   }, [notifications]);

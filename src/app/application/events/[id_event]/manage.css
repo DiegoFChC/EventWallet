@@ -1,6 +1,6 @@
 .Manage {
   width: 100%;
-  height: calc(100vh + 100px);
+  min-height: 100vh;
   background-color: rgb(var(--background));
   padding-top: 30px;
   overflow: hidden;
@@ -41,6 +41,19 @@
           white-space: nowrap;
           overflow: scroll;
 
+          &::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: transparent;
+          }
+
+          &::-webkit-scrollbar-track {
+            background-color: transparent;
+          }
+
           &:focus {
             outline: none;
             border-bottom: 2px solid rgb(var(--text-darkest));
@@ -63,6 +76,7 @@
           font-size: 1.2rem;
           font-weight: 500;
           color: rgb(var(--text-dark));
+          resize: none;
 
           &:focus {
             outline: none;
@@ -120,7 +134,6 @@
             background-color: rgb(var(--color-error), 0.8);
           }
         }
-
       }
 
       .image {
@@ -146,6 +159,72 @@
           height: 100px;
           border-radius: 50%;
           box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.342);
+        }
+      }
+    }
+
+    & .participants {
+      width: 100%;
+      height: auto;
+      max-height: 350px;
+      padding: 10px;
+      background-color: var(--background-alpha);
+      color: rgb(var(--text-darkest));
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+
+      & h1 {
+        margin-bottom: 10px;
+      }
+
+      & .balances {
+        width: 100%;
+        overflow: scroll;
+
+        &::-webkit-scrollbar {
+          width: 0;
+          height: 0;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+      }
+    }
+
+    & .group {
+      background-color: var(--background-alpha);
+      width: 100%;
+      border-radius: 10px;
+
+      & .title {
+        text-align: center;
+        color: rgb(var(--text-darkest));
+      }
+
+      & .cards {
+        min-width: 100%;
+        min-height: 200px;
+        height: 100%;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 20px;
+
+        &::after {
+          content: "";
+          width: 100%;
+          height: 80px;
         }
       }
     }
@@ -200,6 +279,7 @@
   .Manage {
     .container {
       padding: 20px;
+      gap: 20px;
 
       .info_event {
         flex-direction: row;
@@ -213,8 +293,39 @@
           width: 30%;
         }
       }
+      & .group {
+        & .cards {
+          justify-content: center;
+
+          &::after {
+            width: 0;
+            height: 0;
+          }
+        }
+      }
     }
   }
 }
 
-@media (min-width: 1024px) {}
+@media (min-width: 1024px) {
+  .Manage {
+    & .container {
+      flex-wrap: wrap;
+
+      & .participants {
+        max-width: 600px;
+      }
+
+      & .group {
+        & .cards {
+          justify-content: left;
+
+          &::after {
+            width: 0;
+            height: 0;
+          }
+        }
+      }
+    }
+  }
+}

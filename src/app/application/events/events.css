@@ -1,7 +1,6 @@
 .Events {
   width: 100%;
   min-height: 100vh;
-  height: 100%;
   background-color: rgb(var(--background));
   padding-top: 30px;
   position: relative;
@@ -21,6 +20,7 @@
 
       & .title {
         text-align: center;
+        color: rgb(var(--text-darkest));
       }
 
       & .cards {
@@ -41,6 +41,12 @@
             width: 100%;
             height: 80px;
           }
+        }
+
+        &::after {
+          content: "";
+          width: 100%;
+          height: 80px;
         }
       }
     }
@@ -94,23 +100,26 @@
   .Events {
     & .container {
       padding: 20px;
+      gap: 20px;
+      
+      & .group {
+        & .cards {
+          justify-content: center;
 
-      & .cards {
-        justify-content: center;
-
-        &::after {
-          width: 0;
-          height: 0;
+          &::after {
+            width: 0;
+            height: 0;
+          }
         }
-      }
-      & .createEvent {
-        bottom: 20px;
-        right: 20px;
-      }
+        & .createEvent {
+          bottom: 20px;
+          right: 20px;
+        }
 
-      & a {
-        bottom: 120px;
-        right: 35px;
+        & a {
+          bottom: 120px;
+          right: 35px;
+        }
       }
     }
   }
@@ -122,6 +131,11 @@
       & .group {
         & .cards {
           justify-content: left;
+
+          &::after {
+            width: 0;
+            height: 0;
+          }
         }
       }
     }

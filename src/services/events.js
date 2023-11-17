@@ -71,6 +71,58 @@ export async function changeDataEvents(data) {
   return response;
 }
 
+export async function getEventParticipants(id) {
+  const token = getCookie("Token");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/core/event/participants/list/${id}/`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const response = await res.json();
+
+  return response;
+}
+
+export async function eliminateParticipantEvent(data) {
+  const token = getCookie("Token");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/core/event/contact/delete`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const response = await res.json();
+
+  return response;
+}
+
+export async function getParticipantsBalances(id) {
+  const token = getCookie("Token");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/core/event/balances/${id}/`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const response = await res.json();
+
+  return response;
+}
+
 export function processData(data, id) {
   let array = [];
   data.eventos_creador.map((item) => {
@@ -83,4 +135,21 @@ export function processData(data, id) {
   });
   let event = array.filter((item) => item.id == id);
   return event[0];
+}
+
+export function fusionarParticipantes(participantes, saldos) {
+  for (const participante of participantes) {
+    const participanteObj = participante.participante;
+    const id = participanteObj.id;
+
+    const saldo = saldos.find((saldo) => saldo[1][1] === id);
+
+    if (saldo !== undefined) {
+      participanteObj.saldo = saldo[1][0];
+    } else {
+      participanteObj.saldo = "-";
+    }
+  }
+
+  return participantes;
 }

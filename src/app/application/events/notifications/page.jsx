@@ -38,7 +38,7 @@ export default function Notifications() {
                 return (
                   <NotificationCardPage
                     key={item.evento.id}
-                    id={item.evento.id}
+                    id={item.id}
                     name={item.evento.nombre}
                     description={item.evento.descripcion}
                     type={item.evento.tipo}
