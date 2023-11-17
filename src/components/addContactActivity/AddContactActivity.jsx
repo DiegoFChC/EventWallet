@@ -28,7 +28,7 @@ export default function AddContactActivity({
   useEffect(() => {
     async function getParticipants() {
       const response = await getEventParticipants(idEvent);
-      console.log(response);
+      // console.log(response);
       setParticipants(response);
     }
     getParticipants();
@@ -43,25 +43,24 @@ export default function AddContactActivity({
             {participants != null ? (
               participants.participantes.length != 0 ? (
                 participants.participantes.map((item) => (
-                  <li key={item.participante}>
+                  <li key={item.participante.id}>
                     <input
                       type="checkbox"
                       checked={personasSeleccionadas.includes(
-                        item.participante
+                        item.participante.id
                       )}
                       onChange={() =>
                         setPersonasSeleccionadas(
-                          personasSeleccionadas.includes(item.participante)
+                          personasSeleccionadas.includes(item.participante.id)
                             ? personasSeleccionadas.filter(
-                                (p) => p !== item.participante
+                                (p) => p !== item.participante.id
                               )
-                            : [...personasSeleccionadas, item.participante]
+                            : [...personasSeleccionadas, item.participante.id]
                         )
                       }
                     />
                     <p>
-                      {"Diego Fernando"} {"Chaverra Castillo"}{" "}
-                      {item.participante}
+                      {item.participante.nombre} {item.participante.apellidos}
                     </p>
                   </li>
                 ))
