@@ -88,6 +88,23 @@ export async function getEventParticipants(id) {
   return response;
 }
 
+export async function getParticipantsBalances(id) {
+  const token = getCookie("Token");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/core/event/balances/${id}/`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const response = await res.json();
+
+  return response;
+}
+
 export function processData(data, id) {
   let array = [];
   data.eventos_creador.map((item) => {

@@ -7,11 +7,17 @@ import { useEffect, useState } from "react";
 import { changeDataEvents } from "@/services/events";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getEvents, processData, inviteContact } from "@/services/events";
+import {
+  getEvents,
+  processData,
+  inviteContact,
+  getParticipantsBalances,
+} from "@/services/events";
 import { createActivity, getActivity } from "@/services/activities";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { ActivityCard } from "@/components/activityCard/ActivityCard";
+import LineTable from "@/components/lineTable/LineTable";
 
 //import { EventCard } from "@/components/eventCard/EventCard";
 
@@ -47,7 +53,7 @@ const postDataCreateActivity = [
     id: "valor",
     placeholder: "Valor de la actividad",
   },
-]
+];
 
 export default function Manage({ params }) {
   const { appState, setAppState } = useAppContext();
@@ -60,10 +66,11 @@ export default function Manage({ params }) {
   const [addContact, setAddContact] = useState(false);
   const [addActivity, setAddActivity] = useState(false);
   const [myActivity, setMyActivity] = useState(null);
+  const [balances, setBalances] = useState(null);
 
   const closeModal = (notification) => {
     setAddContact(false);
-    setAddActivity(false)
+    setAddActivity(false);
     setReload(!reload);
     if (notification) {
       notify("Tu petición ha terminado exitosamente");
@@ -79,7 +86,9 @@ export default function Manage({ params }) {
       setData(event);
       const activity = await getActivity(params.id_event);
       setMyActivity(activity.data);
-      // console.log(activity.data)
+      const getBalances = await getParticipantsBalances(params.id_event);
+      const balacesArray = Object.entries(getBalances.data.saldos);
+      setBalances(balacesArray);
       setLoading(false);
     }
     myEvents();
@@ -201,36 +210,54 @@ export default function Manage({ params }) {
                 />
               </div>
             </div>
+            <div className="participants">
+              <h1>Participantes del evento</h1>
+              <div className="balances">
+                {balances != null
+                  ? balances.map((item) => {
+                      return (
+                        <LineTable
+                          id_event={params.id_event}
+                          name={item[0]}
+                          saldo={item[1][0]}
+                          id_user={item[1][1]}
+                        />
+                      );
+                    })
+                  : null}
+              </div>
+            </div>
             <div className="group">
-              {
-                <div>
-                  <h1 className="title">Actividades</h1>
-                  <div className="cards">
-                    {myActivity != null
-                      ? myActivity.map((item) => {
-                          return (
-                            <ActivityCard
-                              key={item.id}
-                              idEvent={params.id_event}
-                              id={item.id}
-                              name={item.nombre}
-                              description={item.descripcion}
-                              value={item.valor}
-                              funcion={closeModal}
-                            />
-                          );
-                        })
-                      : null}
-                  </div>
+              <div>
+                <h1 className="title">Actividades</h1>
+                <div className="cards">
+                  {myActivity != null
+                    ? myActivity.map((item) => {
+                        return (
+                          <ActivityCard
+                            key={item.id}
+                            idEvent={params.id_event}
+                            id={item.id}
+                            name={item.nombre}
+                            description={item.descripcion}
+                            value={item.valor}
+                            funcion={closeModal}
+                          />
+                        );
+                      })
+                    : null}
                 </div>
-              }
+              </div>
             </div>
           </>
         )}
         <div className="cards_events"></div>
-        <div className="createActivity" onClick={() => {
-          setAddActivity(true)
-        }}></div>
+        <div
+          className="createActivity"
+          onClick={() => {
+            setAddActivity(true);
+          }}
+        ></div>
         <button
           className="button-add"
           onClick={() => {

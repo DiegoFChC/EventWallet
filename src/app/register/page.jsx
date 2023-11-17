@@ -36,12 +36,13 @@ export default function Register() {
       apodo: e.target.nickname.value,
       password: e.target.password.value,
       email: e.target.email.value,
-      foto: avatar,
+      foto: "avatar",
     };
     console.log(data);
 
     setLoadingRegister(true)
     const res = await registerResponse(data);
+    console.log(res)
 
     if (
       res.nombre[0] != "This field may not be blank." &&

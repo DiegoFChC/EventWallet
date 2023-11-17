@@ -1,6 +1,6 @@
 .Manage {
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   background-color: rgb(var(--background));
   padding-top: 30px;
   overflow: hidden;
@@ -40,6 +40,19 @@
           outline: none;
           white-space: nowrap;
           overflow: scroll;
+
+          &::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: transparent;
+          }
+
+          &::-webkit-scrollbar-track {
+            background-color: transparent;
+          }
 
           &:focus {
             outline: none;
@@ -149,6 +162,42 @@
       }
     }
 
+    & .participants {
+      width: 100%;
+      height: auto;
+      max-height: 350px;
+      padding: 10px;
+      background-color: var(--background-alpha);
+      color: rgb(var(--text-darkest));
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+
+      & h1 {
+        margin-bottom: 10px;
+      }
+
+      & .balances {
+        width: 100%;
+        overflow: scroll;
+
+        &::-webkit-scrollbar {
+          width: 0;
+          height: 0;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+      }
+    }
+
     & .group {
       background-color: var(--background-alpha);
       width: 100%;
@@ -229,6 +278,7 @@
   .Manage {
     .container {
       padding: 20px;
+      gap: 20px;
 
       .info_event {
         flex-direction: row;
@@ -259,6 +309,12 @@
 @media (min-width: 1024px) {
   .Manage {
     & .container {
+      flex-wrap: wrap;
+
+      & .participants {
+        max-width: 600px;
+      }
+
       & .group {
         & .cards {
           justify-content: left;
