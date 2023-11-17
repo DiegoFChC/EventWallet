@@ -4,7 +4,11 @@ import { useAppContext } from "@/context/AppContext";
 import { Topbar } from "@/components/topbar/Topbar";
 import { Header } from "@/components/header/Header";
 import { useEffect, useState } from "react";
-import { changeDataEvents } from "@/services/events";
+import {
+  changeDataEvents,
+  fusionarParticipantes,
+  getEventParticipants,
+} from "@/services/events";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -88,7 +92,15 @@ export default function Manage({ params }) {
       setMyActivity(activity.data);
       const getBalances = await getParticipantsBalances(params.id_event);
       const balacesArray = Object.entries(getBalances.data.saldos);
-      setBalances(balacesArray);
+      const getParticipants = await getEventParticipants(params.id_event);
+      // console.log("saldos", balacesArray);
+      // console.log("participantes", getParticipants.participantes);
+      const eventParticipants = fusionarParticipantes(
+        getParticipants.participantes,
+        balacesArray
+      );
+      // console.log(eventParticipants);
+      setBalances(eventParticipants);
       setLoading(false);
     }
     myEvents();
@@ -217,11 +229,13 @@ export default function Manage({ params }) {
                   ? balances.map((item) => {
                       return (
                         <LineTable
-                          key={item[1][1]}
+                          key={item.participante.id}
                           id_event={params.id_event}
-                          name={item[0]}
-                          saldo={item[1][0]}
-                          id_user={item[1][1]}
+                          id_user={item.participante.id}
+                          name={item.participante.nombre}
+                          lastname={item.participante.apellidos}
+                          nickname={item.participante.apodo}
+                          saldo={item.participante.saldo}
                           funcion={closeModal}
                         />
                       );

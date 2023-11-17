@@ -136,3 +136,20 @@ export function processData(data, id) {
   let event = array.filter((item) => item.id == id);
   return event[0];
 }
+
+export function fusionarParticipantes(participantes, saldos) {
+  for (const participante of participantes) {
+    const participanteObj = participante.participante;
+    const id = participanteObj.id;
+
+    const saldo = saldos.find((saldo) => saldo[1][1] === id);
+
+    if (saldo !== undefined) {
+      participanteObj.saldo = saldo[1][0];
+    } else {
+      participanteObj.saldo = "-";
+    }
+  }
+
+  return participantes;
+}

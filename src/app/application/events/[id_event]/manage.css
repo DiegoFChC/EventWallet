@@ -76,6 +76,7 @@
           font-size: 1.2rem;
           font-weight: 500;
           color: rgb(var(--text-dark));
+          resize: none;
 
           &:focus {
             outline: none;

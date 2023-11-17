@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
 
-  & .container_modalAdd {
+  & .container_modalAddA {
     width: auto;
     height: auto;
     background-color: var(--background-alpha);
