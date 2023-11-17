@@ -222,6 +222,7 @@ export default function Manage({ params }) {
                           name={item[0]}
                           saldo={item[1][0]}
                           id_user={item[1][1]}
+                          funcion={closeModal}
                         />
                       );
                     })
