@@ -10,29 +10,17 @@ export default function NotificationCardPage({
   description,
   type,
   image,
-  onClose
+  onClose,
 }) {
   async function respond(res) {
-    console.log(id)
+    console.log(id);
     const data = { invitacion_id: id, respuesta: res };
     const response = await postNotifications(data);
-    console.log(response)
-    notifySuccess(response.informacion);
-    onClose()
+    console.log(response);
+    onClose();
   }
 
-  const notifySuccess = (message) => {
-    toast.success(message, {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-  };
+  
 
   return (
     <div className="NotificationCardPage">
@@ -48,20 +36,20 @@ export default function NotificationCardPage({
         <span>Pendiente</span>
       </div>
       <div className="buttons">
-      <button
-        onClick={() => {
-          respond(true);
-        }}
-      >
-        Aceptar
-      </button>
-      <button
-        onClick={() => {
-          respond(false);
-        }}
-      >
-        Rechazar
-      </button>
+        <button
+          onClick={() => {
+            respond(true);
+          }}
+        >
+          Aceptar
+        </button>
+        <button
+          onClick={() => {
+            respond(false);
+          }}
+        >
+          Rechazar
+        </button>
       </div>
       <ToastContainer
         position="top-center"
