@@ -63,9 +63,9 @@ export default function Activity({ params }) {
       nombre: data.nombre,
       descripcion: data.descripcion,
     };
-    console.log(newData);
+    // console.log(newData);
     const response = await modifyActivity(newData);
-    console.log(response);
+    // console.log(response);
     setChangeData(false);
     notify("Datos actualizados con éxito");
     setReload(!reload);
@@ -155,6 +155,7 @@ export default function Activity({ params }) {
         <AddContactActivity
           idEvent={params.id_event}
           idActivity={params.id_activity}
+          valueActivity={originalData.valor}
           changePage={closeModal}
         />
       ) : null}

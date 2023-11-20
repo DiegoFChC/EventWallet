@@ -90,17 +90,19 @@ export default function Manage({ params }) {
       setData(event);
       const activity = await getActivity(params.id_event);
       setMyActivity(activity.data);
+      // console.log(activity.data)
       const getBalances = await getParticipantsBalances(params.id_event);
-      const balacesArray = Object.entries(getBalances.data.saldos);
-      const getParticipants = await getEventParticipants(params.id_event);
+      // console.log(getBalances)
+      // const balacesArray = Object.entries(getBalances.data.saldos);
+      // const getParticipants = await getEventParticipants(params.id_event);
       // console.log("saldos", balacesArray);
       // console.log("participantes", getParticipants.participantes);
-      const eventParticipants = fusionarParticipantes(
-        getParticipants.participantes,
-        balacesArray
-      );
+      // const eventParticipants = fusionarParticipantes(
+      //   getParticipants.participantes,
+      //   balacesArray
+      // );
       // console.log(eventParticipants);
-      setBalances(eventParticipants);
+      setBalances(getBalances.data);
       setLoading(false);
     }
     myEvents();
@@ -226,16 +228,15 @@ export default function Manage({ params }) {
               <h1>Participantes del evento</h1>
               <div className="balances">
                 {balances != null
-                  ? balances.map((item) => {
+                  ? balances.saldos.map((item) => {
                       return (
                         <LineTable
-                          key={item.participante.id}
-                          id_event={params.id_event}
-                          id_user={item.participante.id}
-                          name={item.participante.nombre}
-                          lastname={item.participante.apellidos}
-                          nickname={item.participante.apodo}
-                          saldo={item.participante.saldo}
+                          key={item.usuario_id}
+                          id_event={balances.event_id}
+                          id_user={item.usuario_id}
+                          name={item.nombre}
+                          saldo={item.balance}
+                          participa={item.participa}
                           funcion={closeModal}
                         />
                       );
