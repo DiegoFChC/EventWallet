@@ -227,7 +227,7 @@ export default function Manage({ params }) {
             <div className="participants">
               <h1>Participantes del evento</h1>
               <div className="balances">
-                {balances != null
+                {balances && balances.length > 0
                   ? balances.saldos.map((item) => {
                       return (
                         <LineTable
@@ -241,14 +241,14 @@ export default function Manage({ params }) {
                         />
                       );
                     })
-                  : null}
+                  : <h3>No Hay Participantes</h3>}
               </div>
             </div>
             <div className="group">
               <div>
                 <h1 className="title">Actividades</h1>
                 <div className="cards">
-                  {myActivity != null
+                  {myActivity && myActivity.length > 0
                     ? myActivity.map((item) => {
                         return (
                           <ActivityCard
@@ -262,7 +262,7 @@ export default function Manage({ params }) {
                           />
                         );
                       })
-                    : null}
+                    : <h3>No Hay Actividades</h3>}
                 </div>
               </div>
             </div>
