@@ -105,7 +105,7 @@ export default function Events() {
             <div>
               <h1 className="title">Mis eventos</h1>
               <div className="cards">
-                {myEvents != null
+                {myEvents && myEvents.length > 0
                   ? myEvents.map((item) => {
                       return (
                         <EventCard
@@ -119,7 +119,7 @@ export default function Events() {
                         />
                       );
                     })
-                  : null}
+                  :  <h3>No Tienes Eventos</h3>}
               </div>
             </div>
           }
@@ -129,7 +129,7 @@ export default function Events() {
             <div>
               <h1 className="title">Otros Eventos</h1>
               <div className="cards">
-                {events != null
+                {events && events.length > 0
                   ? events.map((item) => {
                       return (
                         <EventCard
@@ -143,7 +143,7 @@ export default function Events() {
                         />
                       );
                     })
-                  : null}
+                  : <h3>No Tienes Eventos</h3>}
               </div>
             </div>
           }

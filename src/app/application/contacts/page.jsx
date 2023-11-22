@@ -71,7 +71,7 @@ export default function Contacts() {
       />
       <div className="container">
         <div className="cards">
-          {contacts != null
+          {contacts && contacts.length > 0
             ? contacts.map((item) => {
                 if (item.is_active) {
                   return (
@@ -86,7 +86,7 @@ export default function Contacts() {
                   );
                 }
               })
-            : null}
+            : <h3>No Tienes Contactos</h3>}
         </div>
         <div
           className="createContact"
