@@ -7,20 +7,20 @@ const AvatarModal = ({ onSelectAvatar, onClose, type }) => {
 
   if (type === "avatars") {
     imageList = [
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
+      '/images/man1.jpg',
+      '/images/women1.jpg',
+      '/images/man2.jpg',
+      '/images/women2.jpg',
+      '/images/man3.jpg',
+      '/images/women3.jpg',
     ];
   } else if (type === "events") {
     imageList = [
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
-      '/images/avatar.jpg',
+      '/images/comida.jpg',
+      '/images/hogar.jpg',
+      '/images/pareja.jpg',
+      '/images/viaje.jpg',
+      '/images/otros.jpg',
     ];
   }
 

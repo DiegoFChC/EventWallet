@@ -42,12 +42,6 @@ const postData = [
       { label: "Otro", value: "O" },
     ],
   },
-  {
-    label: "Foto",
-    type: "file",
-    name: "foto",
-    id: "foto",
-  },
 ];
 
 export default function Events() {
