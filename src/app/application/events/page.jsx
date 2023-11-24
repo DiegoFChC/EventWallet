@@ -12,6 +12,8 @@ import Link from "next/link";
 import { getEvents } from "@/services/events";
 import { EventCard } from "@/components/eventCard/EventCard";
 import { useAppContext } from "@/context/AppContext";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 const postData = [
   {
@@ -27,6 +29,7 @@ const postData = [
     name: "descripcion",
     id: "descripcion",
     placeholder: "Descripcion",
+    maxlength: 249
   },
   {
     label: "Tipo",
@@ -50,6 +53,7 @@ export default function Events() {
   const [events, setEvents] = useState(null);
   const [reaload, setReload] = useState(false);
   const { appState, setAppState } = useAppContext();
+  const router = useRouter();
 
   // console.log("contexto", appState);
 
@@ -75,6 +79,9 @@ export default function Events() {
   };
 
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function getData() {
       const data = await getEvents();
       setMyEvents(data.eventos_creador);

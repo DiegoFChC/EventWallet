@@ -97,6 +97,7 @@ export default function AddContactActivity({
     async function getParticipants() {
       const response = await getEventParticipants(idEvent);
       setParticipants(response);
+      console.log(response);
     }
     getParticipants();
     async function getParticipantsActivity() {
@@ -118,28 +119,62 @@ export default function AddContactActivity({
             <ul>
               {participants != null ? (
                 participants.participantes.length != 0 ? (
-                  participants.participantes.map((item) => (
-                    <li key={item.participante.id}>
+                  <>
+                    <li key={participants.creador.id}>
                       <input
                         type="checkbox"
                         checked={personasSeleccionadas.includes(
-                          item.participante.id
+                          participants.creador.id
                         )}
                         onChange={() =>
                           setPersonasSeleccionadas(
-                            personasSeleccionadas.includes(item.participante.id)
+                            personasSeleccionadas.includes(
+                              participants.creador.id
+                            )
                               ? personasSeleccionadas.filter(
-                                  (p) => p !== item.participante.id
+                                  (p) => p !== participants.creador.id
                                 )
-                              : [...personasSeleccionadas, item.participante.id]
+                              : [
+                                  ...personasSeleccionadas,
+                                  participants.creador.id,
+                                ]
                           )
                         }
                       />
                       <p>
-                        {item.participante.nombre} {item.participante.apellidos}
+                        {participants.creador.nombre}{" "}
+                        {participants.creador.apellidos}
                       </p>
                     </li>
-                  ))
+                    {participants.participantes.map((item) => (
+                      <li key={item.participante.id}>
+                        <input
+                          type="checkbox"
+                          checked={personasSeleccionadas.includes(
+                            item.participante.id
+                          )}
+                          onChange={() =>
+                            setPersonasSeleccionadas(
+                              personasSeleccionadas.includes(
+                                item.participante.id
+                              )
+                                ? personasSeleccionadas.filter(
+                                    (p) => p !== item.participante.id
+                                  )
+                                : [
+                                    ...personasSeleccionadas,
+                                    item.participante.id,
+                                  ]
+                            )
+                          }
+                        />
+                        <p>
+                          {item.participante.nombre}{" "}
+                          {item.participante.apellidos}
+                        </p>
+                      </li>
+                    ))}
+                  </>
                 ) : (
                   <p>
                     Este evento no tiene participantes, por defecto se te

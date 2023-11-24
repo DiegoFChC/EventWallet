@@ -2,16 +2,30 @@
   width: 100%;
   height: 80px;
   padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 
-  & h1 {
-    font-size: 2.3rem;
-    font-weight: 800;
-    color: rgb(var(--text-darkest));
+  & .back {
+
+    & a {
+      font-size: 1.8rem;
+      color: rgb(var(--text-darkest));
+    }
   }
 
-  & h4 {
-    color: rgb(var(--primary-color-light));
+  & .text {
+    & h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: rgb(var(--text-darkest));
+    }
+  
+    & h4 {
+      color: rgb(var(--primary-color-light));
+    }
   }
+
 }
 
 @media (min-width: 768px) {

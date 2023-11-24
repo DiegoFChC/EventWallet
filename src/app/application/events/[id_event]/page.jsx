@@ -23,8 +23,23 @@ import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { ActivityCard } from "@/components/activityCard/ActivityCard";
 import LineTable from "@/components/lineTable/LineTable";
 import AvatarModal from "@/components/avatarModal/AvatarModal";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 //import { EventCard } from "@/components/eventCard/EventCard";
+function getTypeEvent(type) {
+  if (type == "H") {
+    return "Hogar";
+  } else if (type == "V") {
+    return "Viaje";
+  } else if (type == "P") {
+    return "Pareja";
+  } else if (type == "C") {
+    return "Comida";
+  } else if (type == "O") {
+    return "Otros";
+  }
+}
 
 const postData = [
   {
@@ -73,6 +88,7 @@ export default function Manage({ params }) {
   const [myActivity, setMyActivity] = useState(null);
   const [balances, setBalances] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   const handleSelectAvatar = (selectedAvatar) => {
     setImageEvent(selectedAvatar);
@@ -97,6 +113,9 @@ export default function Manage({ params }) {
   };
 
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function myEvents() {
       const response = await getEvents();
       setMyActivity(response.eventos_creador);
@@ -157,6 +176,7 @@ export default function Manage({ params }) {
       <Header
         title={"EVENTOS"}
         information={"Gestiona la información de tus eventos"}
+        back={"/application/events"}
       />
       <div className="container">
         {loading ? (
@@ -187,7 +207,7 @@ export default function Manage({ params }) {
                   }}
                   className={`${changeData ? "changeData" : ""}`}
                 ></textarea>
-                <p>{originalData.tipo}</p>
+                <p>{getTypeEvent(originalData.tipo)}</p>
                 {changeData ? (
                   <div className="changeData_buttons">
                     <button
@@ -212,15 +232,16 @@ export default function Manage({ params }) {
                 ) : null}
               </form>
               <div className="image">
-                {changeData ? (<>
-                  <label htmlFor="file-input" onClick={handleOpenModal}>
-                    <img
-                      // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
-                      src={imageEvent}
-                      alt="avatar"
-                    />
-                  </label>
-                  <h4>Cambiar Imagen</h4>
+                {changeData ? (
+                  <>
+                    <label htmlFor="file-input" onClick={handleOpenModal}>
+                      <img
+                        // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
+                        src={imageEvent}
+                        alt="avatar"
+                      />
+                    </label>
+                    <h4>Cambiar Imagen</h4>
                   </>
                 ) : (
                   <label htmlFor="file-input">
@@ -260,7 +281,7 @@ export default function Manage({ params }) {
             <div className="participants">
               <h1>Participantes del evento</h1>
               <div className="balances">
-                {balances && balances.length > 0 ? (
+                {balances && balances.saldos.length > 0 ? (
                   balances.saldos.map((item) => {
                     return (
                       <LineTable

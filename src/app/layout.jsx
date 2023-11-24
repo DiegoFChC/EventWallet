@@ -1,5 +1,5 @@
 import "./globals.css";
-import Providers from "@/theme/Providers";
+import ProviderTheme from "@/theme/ProviderTheme";
 import { AppContextProvider } from "@/context/AppContext";
 
 export const metadata = {
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <AppContextProvider>
-          <Providers>{children}</Providers>
+          <ProviderTheme>{children}</ProviderTheme>
         </AppContextProvider>
       </body>
     </html>

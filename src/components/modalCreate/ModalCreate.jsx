@@ -3,7 +3,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./modalCreate.css";
 
-
 export const ModalCreate = ({
   onCloseModal,
   axios,
@@ -80,6 +79,7 @@ export const ModalCreate = ({
                   name={field.name}
                   id={field.id}
                   placeholder={field.placeholder}
+                  maxLength={field.maxlength}
                   required
                 />
               )}
