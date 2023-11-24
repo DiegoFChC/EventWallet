@@ -22,6 +22,7 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { ActivityCard } from "@/components/activityCard/ActivityCard";
 import LineTable from "@/components/lineTable/LineTable";
+import AvatarModal from "@/components/avatarModal/AvatarModal";
 
 //import { EventCard } from "@/components/eventCard/EventCard";
 
@@ -71,6 +72,20 @@ export default function Manage({ params }) {
   const [addActivity, setAddActivity] = useState(false);
   const [myActivity, setMyActivity] = useState(null);
   const [balances, setBalances] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSelectAvatar = (selectedAvatar) => {
+    setImageEvent(selectedAvatar);
+    setIsModalOpen(false);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const closeModal = (notification) => {
     setAddContact(false);
@@ -197,15 +212,33 @@ export default function Manage({ params }) {
                 ) : null}
               </form>
               <div className="image">
-                <label htmlFor="file-input">
-                  <img
-                    // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
-                    src={imageEvent}
-                    alt="avatar"
+                {changeData ? (<>
+                  <label htmlFor="file-input" onClick={handleOpenModal}>
+                    <img
+                      // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
+                      src={imageEvent}
+                      alt="avatar"
+                    />
+                  </label>
+                  <h4>Cambiar Imagen</h4>
+                  </>
+                ) : (
+                  <label htmlFor="file-input">
+                    <img
+                      // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
+                      src={imageEvent}
+                      alt="avatar"
+                    />
+                  </label>
+                )}
+                {isModalOpen && (
+                  <AvatarModal
+                    onSelectAvatar={handleSelectAvatar}
+                    onClose={handleCloseModal}
+                    type={"events"}
                   />
-                </label>
-                {changeData ? <h4>Cambiar avatar</h4> : null}
-                <input
+                )}
+                {/* <input
                   id="file-input"
                   name="avatar"
                   type="file"
@@ -221,48 +254,52 @@ export default function Manage({ params }) {
                     }
                   }}
                   required
-                />
+                /> */}
               </div>
             </div>
             <div className="participants">
               <h1>Participantes del evento</h1>
               <div className="balances">
-                {balances && balances.length > 0
-                  ? balances.saldos.map((item) => {
-                      return (
-                        <LineTable
-                          key={item.usuario_id}
-                          id_event={balances.event_id}
-                          id_user={item.usuario_id}
-                          name={item.nombre}
-                          saldo={item.balance}
-                          participa={item.participa}
-                          funcion={closeModal}
-                        />
-                      );
-                    })
-                  : <h3>No Hay Participantes</h3>}
+                {balances && balances.length > 0 ? (
+                  balances.saldos.map((item) => {
+                    return (
+                      <LineTable
+                        key={item.usuario_id}
+                        id_event={balances.event_id}
+                        id_user={item.usuario_id}
+                        name={item.nombre}
+                        saldo={item.balance}
+                        participa={item.participa}
+                        funcion={closeModal}
+                      />
+                    );
+                  })
+                ) : (
+                  <h3>No Hay Participantes</h3>
+                )}
               </div>
             </div>
             <div className="group">
               <div>
                 <h1 className="title">Actividades</h1>
                 <div className="cards">
-                  {myActivity && myActivity.length > 0
-                    ? myActivity.map((item) => {
-                        return (
-                          <ActivityCard
-                            key={item.id}
-                            idEvent={params.id_event}
-                            id={item.id}
-                            name={item.nombre}
-                            description={item.descripcion}
-                            value={item.valor}
-                            funcion={closeModal}
-                          />
-                        );
-                      })
-                    : <h3>No Hay Actividades</h3>}
+                  {myActivity && myActivity.length > 0 ? (
+                    myActivity.map((item) => {
+                      return (
+                        <ActivityCard
+                          key={item.id}
+                          idEvent={params.id_event}
+                          id={item.id}
+                          name={item.nombre}
+                          description={item.descripcion}
+                          value={item.valor}
+                          funcion={closeModal}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h3>No Hay Actividades</h3>
+                  )}
                 </div>
               </div>
             </div>
