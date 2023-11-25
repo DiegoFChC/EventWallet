@@ -166,6 +166,7 @@ export default function Events() {
           title={"Crear nuevo evento"}
           fields={postData}
           buttonName={"Crear evento"}
+          additionalFields={{ foto: '/images/otros.jpg'}}
         />
       ) : null}
       <ToastContainer

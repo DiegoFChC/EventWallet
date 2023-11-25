@@ -52,7 +52,7 @@ export default function Register() {
       apodo: e.target.nickname.value,
       password: e.target.password.value,
       email: e.target.email.value,
-      foto: "avatar",
+      foto: avatar,
     };
     console.log(data);
 
