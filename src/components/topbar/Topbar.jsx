@@ -93,7 +93,7 @@ export function Topbar() {
       {user ? (
         dataUser != null ? (
           <div className="showDataUser">
-            <img src="/images/avatar.jpg" alt="avatar" />
+            <img src={dataUser.foto} alt="avatar" />
             <h1>{dataUser.nombre + " " + dataUser.apellidos}</h1>
             <h2>{dataUser.apodo}</h2>
             <div className="theme">

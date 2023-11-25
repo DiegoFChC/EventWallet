@@ -23,10 +23,7 @@ import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { ActivityCard } from "@/components/activityCard/ActivityCard";
 import LineTable from "@/components/lineTable/LineTable";
 import AvatarModal from "@/components/avatarModal/AvatarModal";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
 
-//import { EventCard } from "@/components/eventCard/EventCard";
 function getTypeEvent(type) {
   if (type == "H") {
     return "Hogar";
@@ -40,6 +37,8 @@ function getTypeEvent(type) {
     return "Otros";
   }
 }
+
+//import { EventCard } from "@/components/eventCard/EventCard";
 
 const postData = [
   {
@@ -77,7 +76,6 @@ const postDataCreateActivity = [
 
 export default function Manage({ params }) {
   const { appState, setAppState } = useAppContext();
-  const [imageEvent, setImageEvent] = useState("/images/avatar.jpg");
   const [originalData, setOriginalData] = useState(null);
   const [data, setData] = useState(null);
   const [changeData, setChangeData] = useState(false);
@@ -88,11 +86,10 @@ export default function Manage({ params }) {
   const [myActivity, setMyActivity] = useState(null);
   const [balances, setBalances] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const router = useRouter();
 
   const handleSelectAvatar = (selectedAvatar) => {
-    setImageEvent(selectedAvatar);
     setIsModalOpen(false);
+    setData({ ...data, foto: selectedAvatar  });
   };
 
   const handleOpenModal = () => {
@@ -113,9 +110,6 @@ export default function Manage({ params }) {
   };
 
   useEffect(() => {
-    if (getCookie("Token") == undefined) {
-      router.push("/login");
-    }
     async function myEvents() {
       const response = await getEvents();
       setMyActivity(response.eventos_creador);
@@ -162,7 +156,7 @@ export default function Manage({ params }) {
       nombre: data.nombre,
       descripcion: data.descripcion,
       tipo: data.tipo,
-      foto: imageEvent,
+      foto: data.foto,
     };
     const dataPut = await changeDataEvents(newData);
     setChangeData(false);
@@ -176,7 +170,6 @@ export default function Manage({ params }) {
       <Header
         title={"EVENTOS"}
         information={"Gestiona la información de tus eventos"}
-        back={"/application/events"}
       />
       <div className="container">
         {loading ? (
@@ -232,26 +225,13 @@ export default function Manage({ params }) {
                 ) : null}
               </form>
               <div className="image">
-                {changeData ? (
-                  <>
-                    <label htmlFor="file-input" onClick={handleOpenModal}>
-                      <img
-                        // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
-                        src={imageEvent}
-                        alt="avatar"
-                      />
-                    </label>
-                    <h4>Cambiar Imagen</h4>
-                  </>
-                ) : (
-                  <label htmlFor="file-input">
-                    <img
-                      // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
-                      src={imageEvent}
-                      alt="avatar"
-                    />
-                  </label>
-                )}
+              <label htmlFor="file-input" onClick={handleOpenModal}>
+              <img
+                // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
+                src={`${changeData ? data.foto : originalData.foto}`}
+                alt="avatar"
+              />
+            </label>
                 {isModalOpen && (
                   <AvatarModal
                     onSelectAvatar={handleSelectAvatar}
@@ -281,7 +261,7 @@ export default function Manage({ params }) {
             <div className="participants">
               <h1>Participantes del evento</h1>
               <div className="balances">
-                {balances && balances.saldos.length > 0 ? (
+                {balances && balances.length > 0 ? (
                   balances.saldos.map((item) => {
                     return (
                       <LineTable
