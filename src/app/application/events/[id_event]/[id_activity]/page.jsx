@@ -8,6 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import "react-toastify/dist/ReactToastify.css";
 import AddContactActivity from "@/components/addContactActivity/AddContactActivity";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 export default function Activity({ params }) {
   const [activity, setActivity] = useState(null);
@@ -18,6 +20,7 @@ export default function Activity({ params }) {
   const [changeData, setChangeData] = useState(false);
   const [reload, setReload] = useState(false);
   const [addContact, setAddContact] = useState(false);
+  const router = useRouter();
 
   const closeModal = (notification) => {
     setAddContact(false)
@@ -29,6 +32,9 @@ export default function Activity({ params }) {
 
   // console.log(params);
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function thisActivity() {
       const data = await getActivity(params.id_event);
       const myActivity = data.data.filter(
@@ -77,6 +83,7 @@ export default function Activity({ params }) {
       <Header
         title={"Actividad"}
         information={"Gestiona la información de tus actividades"}
+        back={`/application/events/${params.id_event}`}
       />
       {loading ? (
         <>loading</>

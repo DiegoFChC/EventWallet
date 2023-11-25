@@ -2,7 +2,7 @@
 import { ThemeProvider } from "next-themes";
 import { useState, useEffect } from "react";
 
-export default function Providers({ children }) {
+export default function ProviderTheme({ children }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

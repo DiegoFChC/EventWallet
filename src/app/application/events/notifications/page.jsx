@@ -7,17 +7,37 @@ import { getNotifications } from "@/services/notifications";
 import NotificationCardPage from "@/components/notificationCardPage/NotificationCardPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+
+function getTypeEvent(type) {
+  if (type == "H") {
+    return "Hogar";
+  } else if (type == "V") {
+    return "Viaje";
+  } else if (type == "P") {
+    return "Pareja";
+  } else if (type == "C") {
+    return "Comida";
+  } else if (type == "O") {
+    return "Otros";
+  }
+}
 
 export default function Notifications() {
   const [dataNotifications, setDataNotifications] = useState(null);
   const [reload, setReload] = useState(false);
+  const router = useRouter();
 
   function onCloseModal() {
-    notifySuccess("Respuesta enviada satisfactoriamente")
+    notifySuccess("Respuesta enviada satisfactoriamente");
     setReload(!reload);
   }
 
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function getData() {
       const data = await getNotifications();
       setDataNotifications(data);
@@ -44,6 +64,7 @@ export default function Notifications() {
       <Header
         title={"Notificaciones"}
         information={"Eventos a los que he sido invitado"}
+        back={"/application/events"}
       />
       <div className="container">
         <div className="cards">
@@ -57,7 +78,7 @@ export default function Notifications() {
                       id={item.id}
                       name={item.evento.nombre}
                       description={item.evento.descripcion}
-                      type={item.evento.tipo}
+                      type={getTypeEvent(item.evento.tipo)}
                       image={item.evento.foto}
                       onClose={onCloseModal}
                     />

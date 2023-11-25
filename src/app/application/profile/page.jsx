@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { Header } from "@/components/header/Header";
 import { deleteUserPut } from "@/services/deleteUser.put";
 import { Topbar } from "@/components/topbar/Topbar";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 export default function Profile() {
   const [changeData, setChangeData] = useState(false);
@@ -25,6 +27,7 @@ export default function Profile() {
     apellidos: "",
     apodo: "",
   });
+  const router = useRouter();
 
   const closeModalPassword = (notify) => {
     setModalPassword(false);
@@ -46,6 +49,9 @@ export default function Profile() {
   };
 
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function dataProfile() {
       const response = await profileGet();
       setData(response);
