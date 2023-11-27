@@ -3,9 +3,11 @@ import "./lineTable.css";
 import { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
+import { RxOpenInNewWindow } from "react-icons/rx";
 import { ToastContainer, toast } from "react-toastify";
 import { ModalCreate } from "../modalCreate/ModalCreate";
 import { eliminateParticipantEvent } from "@/services/events";
+import Link from "next/link";
 
 export default function LineTable({
   id_event,
@@ -27,13 +29,21 @@ export default function LineTable({
       <p>{name}</p>
       <p>{"$ " + saldo}</p>
       {!participa ? (
-        <BsTrash className="trash"
+        <BsTrash
+          className="trash"
           onClick={() => {
             setDeleteParticipant(true);
           }}
         ></BsTrash>
       ) : (
-        <FaRegUser />
+        <Link
+          href={{
+            pathname: `/application/events/${id_event}/balancesEvent`,
+            query: { user: id_user },
+          }}
+        >
+          <RxOpenInNewWindow />
+        </Link>
       )}
 
       {constDeleteParticipant ? (

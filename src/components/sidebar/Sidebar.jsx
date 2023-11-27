@@ -82,7 +82,7 @@ export const Sidebar = () => {
               Contactos
             </Link>
             <Link
-              href="/application/deudas"
+              href="/application/balances"
               className={`${linkSelected.deudas}`}
               onClick={() => {
                 setLinkSelected({

@@ -155,9 +155,9 @@ export default function Events() {
             setCreateEvent(true);
           }}
         ></div>
-        <Link href="/application/events/notifications">
+        {/* <Link href="/application/events/notifications">
           <BsBellFill />
-        </Link>
+        </Link> */}
       </div>
       {createEvent ? (
         <ModalCreate

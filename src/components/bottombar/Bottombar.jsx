@@ -75,7 +75,7 @@ export default function Bottombar() {
         </div>
         <div className={`links`}>
           <Link
-            href="/application/deudas"
+            href="/application/balances"
             className={`${linkSelected.deudas}`}
             onClick={() => {
               setLinkSelected({

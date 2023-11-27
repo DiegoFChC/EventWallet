@@ -32,7 +32,7 @@ export function Topbar() {
       setDataUser(profile);
     }
     getData();
-  }, [notifications]);
+  }, [notifications, user]);
 
   function signOff() {
     deleteCookie("Token");
