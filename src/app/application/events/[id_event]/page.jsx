@@ -89,7 +89,7 @@ export default function Manage({ params }) {
 
   const handleSelectAvatar = (selectedAvatar) => {
     setIsModalOpen(false);
-    setData({ ...data, foto: selectedAvatar  });
+    setData({ ...data, foto: selectedAvatar });
   };
 
   const handleOpenModal = () => {
@@ -170,76 +170,78 @@ export default function Manage({ params }) {
       <Header
         title={"EVENTOS"}
         information={"Gestiona la información de tus eventos"}
+        back={"/application/events"}
       />
       <div className="container">
         {loading ? (
           <></>
         ) : (
           <>
-            <div className="info_event">
-              <form className="data" onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  id="title"
-                  value={`${changeData ? data.nombre : originalData.nombre}`}
-                  disabled={!changeData}
-                  onChange={(e) => {
-                    setData({ ...data, nombre: e.target.value });
-                  }}
-                  className={`${changeData ? "changeData" : ""}`}
-                />
-                <textarea
-                  name="description"
-                  id="description"
-                  value={`${
-                    changeData ? data.descripcion : originalData.descripcion
-                  }`}
-                  disabled={!changeData}
-                  onChange={(e) => {
-                    setData({ ...data, descripcion: e.target.value });
-                  }}
-                  className={`${changeData ? "changeData" : ""}`}
-                ></textarea>
-                <p>{getTypeEvent(originalData.tipo)}</p>
-                {changeData ? (
-                  <div className="changeData_buttons">
+            <div className="encabezado">
+              <div className="info_event">
+                <form className="data" onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    id="title"
+                    value={`${changeData ? data.nombre : originalData.nombre}`}
+                    disabled={!changeData}
+                    onChange={(e) => {
+                      setData({ ...data, nombre: e.target.value });
+                    }}
+                    className={`${changeData ? "changeData" : ""}`}
+                  />
+                  <textarea
+                    name="description"
+                    id="description"
+                    value={`${
+                      changeData ? data.descripcion : originalData.descripcion
+                    }`}
+                    disabled={!changeData}
+                    onChange={(e) => {
+                      setData({ ...data, descripcion: e.target.value });
+                    }}
+                    className={`${changeData ? "changeData" : ""}`}
+                  ></textarea>
+                  <p>{getTypeEvent(originalData.tipo)}</p>
+                  {changeData ? (
+                    <div className="changeData_buttons">
+                      <button
+                        className="cancel"
+                        onClick={() => {
+                          setChangeData(false);
+                          setData(originalData);
+                        }}
+                      >
+                        Cancelar
+                      </button>
+                      <button type="submit">Guardar cambios</button>
+                    </div>
+                  ) : originalData.creator == "me" ? (
                     <button
-                      className="cancel"
                       onClick={() => {
-                        setChangeData(false);
-                        setData(originalData);
+                        setChangeData(true);
                       }}
                     >
-                      Cancelar
+                      Editar datos
                     </button>
-                    <button type="submit">Guardar cambios</button>
-                  </div>
-                ) : originalData.creator == "me" ? (
-                  <button
-                    onClick={() => {
-                      setChangeData(true);
-                    }}
-                  >
-                    Editar datos
-                  </button>
-                ) : null}
-              </form>
-              <div className="image">
-              <label htmlFor="file-input" onClick={handleOpenModal}>
-              <img
-                // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
-                src={`${changeData ? data.foto : originalData.foto}`}
-                alt="avatar"
-              />
-            </label>
-                {isModalOpen && (
-                  <AvatarModal
-                    onSelectAvatar={handleSelectAvatar}
-                    onClose={handleCloseModal}
-                    type={"events"}
-                  />
-                )}
-                {/* <input
+                  ) : null}
+                </form>
+                <div className="image">
+                  <label htmlFor="file-input" onClick={handleOpenModal}>
+                    <img
+                      // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
+                      src={`${changeData ? data.foto : originalData.foto}`}
+                      alt="avatar"
+                    />
+                  </label>
+                  {isModalOpen && (
+                    <AvatarModal
+                      onSelectAvatar={handleSelectAvatar}
+                      onClose={handleCloseModal}
+                      type={"events"}
+                    />
+                  )}
+                  {/* <input
                   id="file-input"
                   name="avatar"
                   type="file"
@@ -256,28 +258,29 @@ export default function Manage({ params }) {
                   }}
                   required
                 /> */}
+                </div>
               </div>
-            </div>
-            <div className="participants">
-              <h1>Participantes del evento</h1>
-              <div className="balances">
-                {balances && balances.length > 0 ? (
-                  balances.saldos.map((item) => {
-                    return (
-                      <LineTable
-                        key={item.usuario_id}
-                        id_event={balances.event_id}
-                        id_user={item.usuario_id}
-                        name={item.nombre}
-                        saldo={item.balance}
-                        participa={item.participa}
-                        funcion={closeModal}
-                      />
-                    );
-                  })
-                ) : (
-                  <h3>No Hay Participantes</h3>
-                )}
+              <div className="participants">
+                <h1>Participantes del evento</h1>
+                <div className="balances">
+                  {balances && balances.saldos.length > 0 ? (
+                    balances.saldos.map((item) => {
+                      return (
+                        <LineTable
+                          key={item.usuario_id}
+                          id_event={params.id_event}
+                          id_user={item.usuario_id}
+                          name={item.nombre}
+                          saldo={item.balance}
+                          participa={item.participa}
+                          funcion={closeModal}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h3>No Hay Participantes</h3>
+                  )}
+                </div>
               </div>
             </div>
             <div className="group">

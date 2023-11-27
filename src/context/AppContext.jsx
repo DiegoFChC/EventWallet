@@ -14,6 +14,13 @@ export function useAppContext() {
 
 export function AppContextProvider({ children }) {
   let data = {
+    user: {
+      id: 1,
+      name: "",
+      lastname: "",
+      nickname: "",
+      foto: "",
+    },
     navigationBar: {
       dashboard: "selected",
       events: "",
