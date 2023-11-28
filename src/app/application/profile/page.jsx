@@ -38,7 +38,9 @@ export default function Profile() {
   };
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    if(changeData){
+      setIsModalOpen(true);
+    }
   };
 
   const handleCloseModal = () => {

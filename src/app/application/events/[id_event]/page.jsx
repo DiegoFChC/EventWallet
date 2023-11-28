@@ -93,7 +93,9 @@ export default function Manage({ params }) {
   };
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    if(changeData){
+      setIsModalOpen(true);
+    }
   };
 
   const handleCloseModal = () => {
@@ -112,13 +114,12 @@ export default function Manage({ params }) {
   useEffect(() => {
     async function myEvents() {
       const response = await getEvents();
-      setMyActivity(response.eventos_creador);
       const event = processData(response, params.id_event);
       setOriginalData(event);
       setData(event);
       const activity = await getActivity(params.id_event);
       setMyActivity(activity.data);
-      // console.log(activity.data)
+      console.log("activity data:",activity.data)
       const getBalances = await getParticipantsBalances(params.id_event);
       // console.log(getBalances)
       // const balacesArray = Object.entries(getBalances.data.saldos);
@@ -297,6 +298,7 @@ export default function Manage({ params }) {
                           name={item.nombre}
                           description={item.descripcion}
                           value={item.valor}
+                          creador={item.creador}
                           funcion={closeModal}
                         />
                       );
