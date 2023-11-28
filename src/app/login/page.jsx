@@ -8,10 +8,12 @@ import { setCookie } from "cookies-next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "@/components/loader/Loader";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "@/context/AppContext";
 
 export default function Login() {
   const [loadingLogin, setLoadingLogin] = useState(false);
+  const context = useContext(AppContext);
   const router = useRouter();
   const notify = (message) => {
     toast.error(message, {
@@ -34,16 +36,22 @@ export default function Login() {
       password: e.target.password.value,
     };
     // console.log(data);
-    setLoadingLogin(true)
+    setLoadingLogin(true);
     const res = await loginResponse(data);
     // console.log(res);
     if (!res.error) {
       setCookie("Token", "Token " + res.token);
+      context.setAppState({
+        ...context.appState,
+        user: {
+          id: res.id_user
+        },
+      });
       router.push("/application");
     } else {
       // console.log("datos incorrectos");
       notify("Credenciales incorrectas");
-      setLoadingLogin(false)
+      setLoadingLogin(false);
     }
   }
 

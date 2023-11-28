@@ -7,6 +7,7 @@ export default function BalancesCard({
   saldo,
   debe,
   leDeben,
+  isPersonal
 }) {
   // console.log(nombre, prestamo, deuda, saldo, debe, leDeben);
   function colorCard(valorSaldo) {
@@ -26,10 +27,10 @@ export default function BalancesCard({
           <div className="data">
             <h1>{nombre}</h1>
             <h3>
-              Le ha prestado: $ <span>{prestamo}</span>
+              {isPersonal ? "Le he prestado" : "Le ha prestado"}: $ <span>{prestamo}</span>
             </h3>
             <h3>
-              Le debe: $ <span>{deuda}</span>
+              {isPersonal ? "Le debo" : "Le debe"}: $ <span>{deuda}</span>
             </h3>
           </div>
           <div className="saldo">
