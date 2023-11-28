@@ -55,6 +55,7 @@ export default function BalancesUser({ params, searchParams }) {
                       saldo={item.saldo}
                       debe={item.debe}
                       leDeben={item["le deben"]}
+                      isPersonal={false}
                     />
                   );
                 })
