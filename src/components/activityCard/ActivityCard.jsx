@@ -7,6 +7,7 @@ import { deleteActivity } from "@/services/activities";
 import { ToastContainer, toast } from "react-toastify";
 import { ModalCreate } from "../modalCreate/ModalCreate";
 import { formatNumber } from "@/services/generalServices";
+import { getActivity } from "@/services/activities";
 
 const postData = [
   {
@@ -25,8 +26,8 @@ export const ActivityCard = ({
   value,
   funcion,
   creador,
+  idLog,
 }) => {
-  const context = useContext(AppContext);
   const router = useRouter();
   const [constDeleteActivity, setDeleteActivity] = useState(false);
 
@@ -66,7 +67,7 @@ export const ActivityCard = ({
           Ver Más
         </button>
       </div>
-      {creador == context.appState.user.id ? (
+      {creador == idLog ? (
         <button
           className="deleteActivity"
           onClick={() => {

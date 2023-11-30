@@ -31,7 +31,7 @@ export default function NotificationCardPage({
           <h5>Tipo: {type}</h5>
         </div>
         <div className="img">
-          <Image src="/images/avatar.jpg" alt="logo" width={80} height={80} />
+          <Image src={image} alt="logo" width={80} height={80} />
         </div>
         <span>Pendiente</span>
       </div>

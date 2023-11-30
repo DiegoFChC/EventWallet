@@ -55,8 +55,6 @@ export default function Events() {
   const { appState, setAppState } = useAppContext();
   const router = useRouter();
 
-  // console.log("contexto", appState);
-
   const notifySuccess = (message) => {
     toast.success(message, {
       position: "top-center",
@@ -85,9 +83,7 @@ export default function Events() {
     async function getData() {
       const data = await getEvents();
       setMyEvents(data.eventos_creador);
-      // console.log(data.eventos_creador);
       setEvents(data.eventos_participante);
-      // console.log(data.eventos_participante);
     }
 
     getData();
@@ -155,9 +151,6 @@ export default function Events() {
             setCreateEvent(true);
           }}
         ></div>
-        {/* <Link href="/application/events/notifications">
-          <BsBellFill />
-        </Link> */}
       </div>
       {createEvent ? (
         <ModalCreate

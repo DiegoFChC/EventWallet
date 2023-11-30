@@ -38,8 +38,6 @@ function getTypeEvent(type) {
   }
 }
 
-//import { EventCard } from "@/components/eventCard/EventCard";
-
 const postData = [
   {
     label: "Email",
@@ -86,6 +84,8 @@ export default function Manage({ params }) {
   const [myActivity, setMyActivity] = useState(null);
   const [balances, setBalances] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [idLog, setIdLog] = useState(null);
+  const [idCreador, setIdCreador] = useState(null);
 
   const handleSelectAvatar = (selectedAvatar) => {
     setIsModalOpen(false);
@@ -93,7 +93,7 @@ export default function Manage({ params }) {
   };
 
   const handleOpenModal = () => {
-    if(changeData){
+    if (changeData) {
       setIsModalOpen(true);
     }
   };
@@ -114,14 +114,13 @@ export default function Manage({ params }) {
   useEffect(() => {
     async function myEvents() {
       const responseEvents = await getEvents();
-      // setMyActivity(response.eventos_creador);
-      // console.log("1", response.eventos_creador);
       const event = processData(responseEvents, params.id_event);
       setOriginalData(event);
       setData(event);
+      setIdCreador(event.creador);
       const activity = await getActivity(params.id_event);
       setMyActivity(activity.data);
-      // console.log("2", activity.data)
+      setIdLog(activity.user);
       const getBalances = await getParticipantsBalances(params.id_event);
       setBalances(getBalances.data);
       setLoading(false);
@@ -222,7 +221,6 @@ export default function Manage({ params }) {
                 <div className="image">
                   <label htmlFor="file-input" onClick={handleOpenModal}>
                     <img
-                      // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
                       src={`${changeData ? data.foto : originalData.foto}`}
                       alt="avatar"
                     />
@@ -234,23 +232,6 @@ export default function Manage({ params }) {
                       type={"events"}
                     />
                   )}
-                  {/* <input
-                  id="file-input"
-                  name="avatar"
-                  type="file"
-                  placeholder="Avatar"
-                  accept="/image/*"
-                  disabled={!changeData}
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file.type.substring(0, 5) === "image") {
-                      setImageEvent(URL.createObjectURL(file));
-                    } else {
-                      setImageEvent(null);
-                    }
-                  }}
-                  required
-                /> */}
                 </div>
               </div>
               <div className="participants">
@@ -266,6 +247,8 @@ export default function Manage({ params }) {
                           name={item.nombre}
                           saldo={item.balance}
                           participa={item.participa}
+                          idCreador={idCreador}
+                          idLog={idLog}
                           funcion={closeModal}
                         />
                       );
@@ -291,6 +274,7 @@ export default function Manage({ params }) {
                           description={item.descripcion}
                           value={item.valor}
                           creador={item.creador}
+                          idLog={idLog}
                           funcion={closeModal}
                         />
                       );
@@ -310,14 +294,16 @@ export default function Manage({ params }) {
             setAddActivity(true);
           }}
         ></div>
-        <button
-          className="button-add"
-          onClick={() => {
-            setAddContact(true);
-          }}
-        >
-          <AiOutlineUserAdd />
-        </button>
+        {idCreador==null? (
+          <button
+            className="button-add"
+            onClick={() => {
+              setAddContact(true);
+            }}
+          >
+            <AiOutlineUserAdd />
+          </button>
+        ) : null}
       </div>
       {addContact ? (
         <ModalCreate

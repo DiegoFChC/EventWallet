@@ -87,6 +87,7 @@ export default function Contacts() {
                       lastname={item.usuario2.apellidos}
                       nickname={item.usuario2.apodo}
                       email={item.usuario2.email}
+                      foto={item.usuario2.foto}
                       changeContact={closeModalDelete}
                     />
                   );

@@ -15,6 +15,8 @@ export default function LineTable({
   name,
   saldo,
   participa,
+  idCreador,
+  idLog,
   funcion,
 }) {
   const [constDeleteParticipant, setDeleteParticipant] = useState(false);
@@ -28,7 +30,7 @@ export default function LineTable({
     <div className="LineTable">
       <p>{name}</p>
       <p>{"$ " + saldo}</p>
-      {!participa ? (
+      {!participa && idCreador==null && id_user!=idLog ? (
         <BsTrash
           className="trash"
           onClick={() => {

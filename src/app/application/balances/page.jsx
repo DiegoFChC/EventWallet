@@ -154,7 +154,6 @@ export default function Balances() {
                         const participant = dataEventToPay.saldos.filter(
                           (item) => item.nombre == e.target.value
                         );
-                        // console.log(participant);
                         setParticipantSelected(participant[0]);
                       }}
                     >
@@ -188,7 +187,7 @@ export default function Balances() {
               </form>
             </div>
           </>
-        ) : <h3>No estas asociado a ningún evento</h3>}
+        ) : <h3 className="mensajeEvento">No estas asociado a ningún evento</h3>}
         {pay && valueToPay != 0 ? (
           <div className="generatePay">
             <h1>Pago</h1>
@@ -218,7 +217,7 @@ export default function Balances() {
                   );
                 })
               ) : (
-                <>No hay datos</>
+                <h3 className="mensajeDinero">Todavia no hay movimientos de dinero</h3>
               )}
             </div>
           </div>
