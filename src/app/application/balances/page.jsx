@@ -188,7 +188,7 @@ export default function Balances() {
               </form>
             </div>
           </>
-        ) : null}
+        ) : <h3>No estas asociado a ningún evento</h3>}
         {pay && valueToPay != 0 ? (
           <div className="generatePay">
             <h1>Pago</h1>

@@ -59,7 +59,7 @@
     }
   }
 
-  & .delete {
+  & .deleteActivity {
     background-color: rgb(var(--color-error));
     color: rgb(var(--text-lightest));
     border-radius: 4px;

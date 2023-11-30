@@ -93,7 +93,9 @@ export default function Manage({ params }) {
   };
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    if(changeData){
+      setIsModalOpen(true);
+    }
   };
 
   const handleCloseModal = () => {
@@ -288,6 +290,7 @@ export default function Manage({ params }) {
                           name={item.nombre}
                           description={item.descripcion}
                           value={item.valor}
+                          creador={item.creador}
                           funcion={closeModal}
                         />
                       );

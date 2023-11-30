@@ -1,5 +1,5 @@
 import "./activityCard.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
 import { BsTrash } from "react-icons/bs";
@@ -18,8 +18,15 @@ const postData = [
   },
 ];
 
-export const ActivityCard = ({ idEvent, id, name, value, funcion }) => {
-  const { appState, setAppState } = useAppContext();
+export const ActivityCard = ({
+  idEvent,
+  id,
+  name,
+  value,
+  funcion,
+  creador,
+}) => {
+  const context = useContext(AppContext);
   const router = useRouter();
   const [constDeleteActivity, setDeleteActivity] = useState(false);
 
@@ -59,14 +66,17 @@ export const ActivityCard = ({ idEvent, id, name, value, funcion }) => {
           Ver Más
         </button>
       </div>
-      <button
-        className="delete"
-        onClick={() => {
-          setDeleteActivity(true);
-        }}
-      >
-        <BsTrash></BsTrash>
-      </button>
+      {creador == context.appState.user.id ? (
+        <button
+          className="deleteActivity"
+          onClick={() => {
+            setDeleteActivity(true);
+          }}
+        >
+          <BsTrash></BsTrash>
+        </button>
+      ) : null}
+
       {constDeleteActivity ? (
         <ModalCreate
           onCloseModal={closeModal}
