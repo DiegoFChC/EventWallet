@@ -10,6 +10,7 @@ export const ContactCard = ({
   nickname,
   email,
   changeContact,
+  foto,
 }) => {
   const [deleteContact, setDeleteContact] = useState(false);
 
@@ -30,7 +31,7 @@ export const ContactCard = ({
           <p>{email}</p>
         </div>
         <div className="img">
-          <Image src="/images/avatar.jpg" alt="logo" width={80} height={80} />
+          <Image src={foto} alt="logo" width={80} height={80} />
         </div>
       </div>
       <button
