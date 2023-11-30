@@ -111,25 +111,16 @@ export default function Manage({ params }) {
 
   useEffect(() => {
     async function myEvents() {
-      const response = await getEvents();
-      setMyActivity(response.eventos_creador);
-      const event = processData(response, params.id_event);
+      const responseEvents = await getEvents();
+      // setMyActivity(response.eventos_creador);
+      // console.log("1", response.eventos_creador);
+      const event = processData(responseEvents, params.id_event);
       setOriginalData(event);
       setData(event);
       const activity = await getActivity(params.id_event);
       setMyActivity(activity.data);
-      // console.log(activity.data)
+      // console.log("2", activity.data)
       const getBalances = await getParticipantsBalances(params.id_event);
-      // console.log(getBalances)
-      // const balacesArray = Object.entries(getBalances.data.saldos);
-      // const getParticipants = await getEventParticipants(params.id_event);
-      // console.log("saldos", balacesArray);
-      // console.log("participantes", getParticipants.participantes);
-      // const eventParticipants = fusionarParticipantes(
-      //   getParticipants.participantes,
-      //   balacesArray
-      // );
-      // console.log(eventParticipants);
       setBalances(getBalances.data);
       setLoading(false);
     }

@@ -17,10 +17,10 @@ export async function getUserBalances(id_event, id_user) {
   return response;
 }
 
-export async function getUserGeneralBalances(id_user) {
+export async function getUserGeneralBalances() {
   const token = getCookie("Token");
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/core/user/balance/${id_user}/`,
+    `${process.env.NEXT_PUBLIC_API_URL}/core/user/balance/`,
     {
       method: "GET",
       headers: {
@@ -52,10 +52,16 @@ export async function payAmount(data) {
   return response;
 }
 
-export function filterData(data, filtro, atribute) {
+export function filterData(data, filtro, atribute, id_user) {
   let event = null;
-  event = data.filter((item) => item[filtro] == atribute)
-  return event[0];
+  event = data.filter((item) => item[filtro] == atribute);
+  // let eventNotUser = event.filter((item) => item.usuario_id != id_user)
+  // console.log("mi id ", id_user);
+  let newData = {
+    ...event[0],
+    saldos: event[0].saldos.filter((item) => item.usuario_id != id_user),
+  };
+  return newData;
 }
 
 function toArrayOfObjects(object) {

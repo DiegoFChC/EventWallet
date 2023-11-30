@@ -6,6 +6,7 @@ import { BsTrash } from "react-icons/bs";
 import { deleteActivity } from "@/services/activities";
 import { ToastContainer, toast } from "react-toastify";
 import { ModalCreate } from "../modalCreate/ModalCreate";
+import { formatNumber } from "@/services/generalServices";
 
 const postData = [
   {
@@ -46,7 +47,7 @@ export const ActivityCard = ({ idEvent, id, name, value, funcion }) => {
         <h1>{name}</h1>
         <p>Valor</p>
         <h2>
-          $ <span>{value}</span>
+          $ <span>{formatNumber(value)}</span>
         </h2>
       </div>
       <div className="container_button">
