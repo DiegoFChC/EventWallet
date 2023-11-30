@@ -3,7 +3,7 @@ import "./balancesUser.css";
 import { useEffect, useState } from "react";
 import { Topbar } from "@/components/topbar/Topbar";
 import { Header } from "@/components/header/Header";
-import { getUserBalances } from "@/services/balances";
+import { getUserBalances, clearData } from "@/services/balances";
 import BalancesCard from "@/components/balancesCard.jsx/BalancesCard";
 
 export default function BalancesUser({ params, searchParams }) {
@@ -16,8 +16,8 @@ export default function BalancesUser({ params, searchParams }) {
         params.id_event,
         searchParams.user
       );
-      // console.log(response);
-      setBalances(response);
+      const data = clearData(response, searchParams.user);
+      setBalances(data);
       setLoading(false);
     }
     balancesUser();

@@ -23,6 +23,7 @@ import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { ActivityCard } from "@/components/activityCard/ActivityCard";
 import LineTable from "@/components/lineTable/LineTable";
 import AvatarModal from "@/components/avatarModal/AvatarModal";
+import Loader from "@/components/loader/Loader";
 
 function getTypeEvent(type) {
   if (type == "H") {
@@ -86,6 +87,7 @@ export default function Manage({ params }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [idLog, setIdLog] = useState(null);
   const [idCreador, setIdCreador] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(true);
 
   const handleSelectAvatar = (selectedAvatar) => {
     setIsModalOpen(false);
@@ -124,6 +126,7 @@ export default function Manage({ params }) {
       const getBalances = await getParticipantsBalances(params.id_event);
       setBalances(getBalances.data);
       setLoading(false);
+      setLoadingPage(false);
     }
     myEvents();
   }, [reload]);
@@ -158,6 +161,7 @@ export default function Manage({ params }) {
 
   return (
     <div className="Manage">
+      {loadingPage ? <Loader /> : null}
       <Topbar />
       <Header
         title={"EVENTOS"}

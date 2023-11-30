@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { ModalCreate } from "../modalCreate/ModalCreate";
 import { formatNumber } from "@/services/generalServices";
 import { getActivity } from "@/services/activities";
+import Loader from "../loader/Loader";
 
 const postData = [
   {
@@ -30,6 +31,7 @@ export const ActivityCard = ({
 }) => {
   const router = useRouter();
   const [constDeleteActivity, setDeleteActivity] = useState(false);
+  const [changePage, setChangePage] = useState(false);
 
   const closeModal = () => {
     setDeleteActivity(false);
@@ -62,8 +64,11 @@ export const ActivityCard = ({
         <button
           onClick={() => {
             router.push(`/application/events/${idEvent}/${id}`);
+            setChangePage(true);
           }}
+          disabled={changePage ? true : false}
         >
+          {changePage ? <Loader /> : null}
           Ver Más
         </button>
       </div>

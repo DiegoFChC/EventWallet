@@ -15,6 +15,7 @@ export default function Register() {
   const [avatar, setAvatar] = useState("/images/avatar.jpg");
   const [loadingRegister, setLoadingRegister] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [changePage, setChangePage] = useState(false);
 
   const handleSelectAvatar = (selectedAvatar) => {
     setAvatar(selectedAvatar);
@@ -78,6 +79,7 @@ export default function Register() {
 
   return (
     <main className="Register">
+      {changePage ? <Loader /> : null}
       <div className="formRegister">
         <div className="container">
           <Image
@@ -145,7 +147,7 @@ export default function Register() {
                 required
               />
             </div>
-            <button type="submit">
+            <button type="submit" disabled={loadingRegister ? true : false}>
               {loadingRegister ? <Loader /> : null}
               REGISTRARME
             </button>
@@ -159,7 +161,14 @@ export default function Register() {
             Bienvenido a nuestra comunidad, ahora eres un pilar importante en
             nuestra app.
           </p>
-          <Link href="/login">INICIAR SESIÓN</Link>
+          <Link
+            href="/login"
+            onClick={() => {
+              setChangePage(true);
+            }}
+          >
+            INICIAR SESIÓN
+          </Link>
         </div>
       </div>
       <ToastContainer

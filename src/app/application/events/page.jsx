@@ -14,6 +14,7 @@ import { EventCard } from "@/components/eventCard/EventCard";
 import { useAppContext } from "@/context/AppContext";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/loader/Loader";
 
 const postData = [
   {
@@ -53,6 +54,7 @@ export default function Events() {
   const [events, setEvents] = useState(null);
   const [reaload, setReload] = useState(false);
   const { appState, setAppState } = useAppContext();
+  const [loadingPage, setLoadingPage] = useState(true);
   const router = useRouter();
 
   const notifySuccess = (message) => {
@@ -84,6 +86,7 @@ export default function Events() {
       const data = await getEvents();
       setMyEvents(data.eventos_creador);
       setEvents(data.eventos_participante);
+      setLoadingPage(false);
     }
 
     getData();
@@ -91,6 +94,7 @@ export default function Events() {
 
   return (
     <div className="Events">
+      {loadingPage ? <Loader /> : null}
       <Topbar />
       <Header
         title={"Eventos"}

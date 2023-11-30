@@ -11,7 +11,7 @@ import { CgProfile } from "react-icons/cg";
 
 export const Sidebar = () => {
   const [linkSelected, setLinkSelected] = useState({
-    dashboard: "selected",
+    dashboard: "",
     events: "",
     contacts: "",
     deudas: "",
