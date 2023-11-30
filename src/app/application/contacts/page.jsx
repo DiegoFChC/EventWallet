@@ -9,6 +9,8 @@ import { getContacts } from "@/services/contacts";
 import { newContacts } from "@/services/contacts.post";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { Topbar } from "@/components/topbar/Topbar";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 const postData = [
   {
@@ -24,6 +26,7 @@ export default function Contacts() {
   const [createContact, setCreateContact] = useState(false);
   const [contacts, setContacts] = useState(null);
   const [reload, setReload] = useState(false);
+  const router = useRouter();
 
   function closeModalDelete(notify) {
     setReload(!reload);
@@ -54,6 +57,9 @@ export default function Contacts() {
   };
 
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function getData() {
       const data = await getContacts();
       setContacts(data.contacts);
@@ -71,7 +77,7 @@ export default function Contacts() {
       />
       <div className="container">
         <div className="cards">
-          {contacts != null
+          {contacts && contacts.length > 0
             ? contacts.map((item) => {
                 if (item.is_active) {
                   return (
@@ -81,12 +87,13 @@ export default function Contacts() {
                       lastname={item.usuario2.apellidos}
                       nickname={item.usuario2.apodo}
                       email={item.usuario2.email}
+                      foto={item.usuario2.foto}
                       changeContact={closeModalDelete}
                     />
                   );
                 }
               })
-            : null}
+            : <h3>No Tienes Contactos</h3>}
         </div>
         <div
           className="createContact"

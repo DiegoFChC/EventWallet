@@ -12,6 +12,9 @@ import Link from "next/link";
 import { getEvents } from "@/services/events";
 import { EventCard } from "@/components/eventCard/EventCard";
 import { useAppContext } from "@/context/AppContext";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/loader/Loader";
 
 const postData = [
   {
@@ -27,6 +30,7 @@ const postData = [
     name: "descripcion",
     id: "descripcion",
     placeholder: "Descripcion",
+    maxlength: 249
   },
   {
     label: "Tipo",
@@ -42,12 +46,6 @@ const postData = [
       { label: "Otro", value: "O" },
     ],
   },
-  {
-    label: "Foto",
-    type: "file",
-    name: "foto",
-    id: "foto",
-  },
 ];
 
 export default function Events() {
@@ -56,8 +54,8 @@ export default function Events() {
   const [events, setEvents] = useState(null);
   const [reaload, setReload] = useState(false);
   const { appState, setAppState } = useAppContext();
-
-  // console.log("contexto", appState);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const router = useRouter();
 
   const notifySuccess = (message) => {
     toast.success(message, {
@@ -81,12 +79,14 @@ export default function Events() {
   };
 
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function getData() {
       const data = await getEvents();
       setMyEvents(data.eventos_creador);
-      // console.log(data.eventos_creador);
       setEvents(data.eventos_participante);
-      // console.log(data.eventos_participante);
+      setLoadingPage(false);
     }
 
     getData();
@@ -94,6 +94,7 @@ export default function Events() {
 
   return (
     <div className="Events">
+      {loadingPage ? <Loader /> : null}
       <Topbar />
       <Header
         title={"Eventos"}
@@ -105,7 +106,7 @@ export default function Events() {
             <div>
               <h1 className="title">Mis eventos</h1>
               <div className="cards">
-                {myEvents != null
+                {myEvents && myEvents.length > 0
                   ? myEvents.map((item) => {
                       return (
                         <EventCard
@@ -119,7 +120,7 @@ export default function Events() {
                         />
                       );
                     })
-                  : null}
+                  :  <h3>No Tienes Eventos</h3>}
               </div>
             </div>
           }
@@ -129,7 +130,7 @@ export default function Events() {
             <div>
               <h1 className="title">Otros Eventos</h1>
               <div className="cards">
-                {events != null
+                {events && events.length > 0
                   ? events.map((item) => {
                       return (
                         <EventCard
@@ -143,7 +144,7 @@ export default function Events() {
                         />
                       );
                     })
-                  : null}
+                  : <h3>No Tienes Eventos</h3>}
               </div>
             </div>
           }
@@ -154,9 +155,6 @@ export default function Events() {
             setCreateEvent(true);
           }}
         ></div>
-        <Link href="/application/events/notifications">
-          <BsBellFill />
-        </Link>
       </div>
       {createEvent ? (
         <ModalCreate
@@ -165,6 +163,7 @@ export default function Events() {
           title={"Crear nuevo evento"}
           fields={postData}
           buttonName={"Crear evento"}
+          additionalFields={{ foto: '/images/otros.jpg'}}
         />
       ) : null}
       <ToastContainer

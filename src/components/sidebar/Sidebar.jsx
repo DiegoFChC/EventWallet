@@ -11,7 +11,7 @@ import { CgProfile } from "react-icons/cg";
 
 export const Sidebar = () => {
   const [linkSelected, setLinkSelected] = useState({
-    dashboard: "selected",
+    dashboard: "",
     events: "",
     contacts: "",
     deudas: "",
@@ -82,7 +82,7 @@ export const Sidebar = () => {
               Contactos
             </Link>
             <Link
-              href="/application/deudas"
+              href="/application/balances"
               className={`${linkSelected.deudas}`}
               onClick={() => {
                 setLinkSelected({

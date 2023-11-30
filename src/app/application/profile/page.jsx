@@ -9,22 +9,43 @@ import "react-toastify/dist/ReactToastify.css";
 import { Header } from "@/components/header/Header";
 import { deleteUserPut } from "@/services/deleteUser.put";
 import { Topbar } from "@/components/topbar/Topbar";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import AvatarModal from "@/components/avatarModal/AvatarModal";
 
 export default function Profile() {
   const [changeData, setChangeData] = useState(false);
   const [modalPassword, setModalPassword] = useState(false);
   const [modalDeleteUser, setModalDeleteUser] = useState(false);
-  const [avatar, setAvatar] = useState("/images/avatar.jpg");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [originalData, setOriginalData] = useState({
     nombre: "",
     apellidos: "",
     apodo: "",
+    foto: "",
   });
   const [data, setData] = useState({
     nombre: "",
     apellidos: "",
     apodo: "",
+    foto: "",
   });
+  const router = useRouter();
+
+  const handleSelectAvatar = (selectedAvatar) => {
+    setIsModalOpen(false);
+    setData({ ...data, foto: selectedAvatar  });
+  };
+
+  const handleOpenModal = () => {
+    if(changeData){
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const closeModalPassword = (notify) => {
     setModalPassword(false);
@@ -46,10 +67,14 @@ export default function Profile() {
   };
 
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function dataProfile() {
       const response = await profileGet();
       setData(response);
       setOriginalData(response);
+      console.log("response", response)
     }
     dataProfile();
   }, []);
@@ -60,7 +85,7 @@ export default function Profile() {
       nombre: data.nombre,
       apellidos: data.apellidos,
       apodo: data.apodo,
-      foto: avatar,
+      foto: data.foto,
     };
     const put = await profilePut(newData);
     console.log(put);
@@ -165,15 +190,15 @@ export default function Profile() {
         </div>
         <div className="card">
           <div className="avatar">
-            <label htmlFor="file-input">
+            <label htmlFor="file-input" onClick={handleOpenModal}>
               <img
                 // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
-                src={avatar}
+                src={`${changeData ? data.foto : originalData.foto}`}
                 alt="avatar"
               />
             </label>
             {changeData ? <h4>Cambiar avatar</h4> : null}
-            <input
+            {/* <input
               id="file-input"
               name="avatar"
               type="file"
@@ -189,8 +214,15 @@ export default function Profile() {
                 }
               }}
               required
-            />
+            /> */}
           </div>
+          {isModalOpen && (
+              <AvatarModal
+                onSelectAvatar={handleSelectAvatar}
+                onClose={handleCloseModal}
+                type={"avatars"}
+              />
+            )}
           <h2>{originalData.nombre + " " + originalData.apellidos}</h2>
           <h3>{originalData.apodo}</h3>
         </div>

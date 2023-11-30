@@ -22,8 +22,22 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { ActivityCard } from "@/components/activityCard/ActivityCard";
 import LineTable from "@/components/lineTable/LineTable";
+import AvatarModal from "@/components/avatarModal/AvatarModal";
+import Loader from "@/components/loader/Loader";
 
-//import { EventCard } from "@/components/eventCard/EventCard";
+function getTypeEvent(type) {
+  if (type == "H") {
+    return "Hogar";
+  } else if (type == "V") {
+    return "Viaje";
+  } else if (type == "P") {
+    return "Pareja";
+  } else if (type == "C") {
+    return "Comida";
+  } else if (type == "O") {
+    return "Otros";
+  }
+}
 
 const postData = [
   {
@@ -61,7 +75,6 @@ const postDataCreateActivity = [
 
 export default function Manage({ params }) {
   const { appState, setAppState } = useAppContext();
-  const [imageEvent, setImageEvent] = useState("/images/avatar.jpg");
   const [originalData, setOriginalData] = useState(null);
   const [data, setData] = useState(null);
   const [changeData, setChangeData] = useState(false);
@@ -71,6 +84,25 @@ export default function Manage({ params }) {
   const [addActivity, setAddActivity] = useState(false);
   const [myActivity, setMyActivity] = useState(null);
   const [balances, setBalances] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [idLog, setIdLog] = useState(null);
+  const [idCreador, setIdCreador] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(true);
+
+  const handleSelectAvatar = (selectedAvatar) => {
+    setIsModalOpen(false);
+    setData({ ...data, foto: selectedAvatar });
+  };
+
+  const handleOpenModal = () => {
+    if (changeData) {
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const closeModal = (notification) => {
     setAddContact(false);
@@ -83,25 +115,18 @@ export default function Manage({ params }) {
 
   useEffect(() => {
     async function myEvents() {
-      const response = await getEvents();
-      setMyActivity(response.eventos_creador);
-      const event = processData(response, params.id_event);
+      const responseEvents = await getEvents();
+      const event = processData(responseEvents, params.id_event);
       setOriginalData(event);
       setData(event);
+      setIdCreador(event.creador);
       const activity = await getActivity(params.id_event);
       setMyActivity(activity.data);
+      setIdLog(activity.user);
       const getBalances = await getParticipantsBalances(params.id_event);
-      const balacesArray = Object.entries(getBalances.data.saldos);
-      const getParticipants = await getEventParticipants(params.id_event);
-      // console.log("saldos", balacesArray);
-      // console.log("participantes", getParticipants.participantes);
-      const eventParticipants = fusionarParticipantes(
-        getParticipants.participantes,
-        balacesArray
-      );
-      // console.log(eventParticipants);
-      setBalances(eventParticipants);
+      setBalances(getBalances.data);
       setLoading(false);
+      setLoadingPage(false);
     }
     myEvents();
   }, [reload]);
@@ -126,7 +151,7 @@ export default function Manage({ params }) {
       nombre: data.nombre,
       descripcion: data.descripcion,
       tipo: data.tipo,
-      foto: imageEvent,
+      foto: data.foto,
     };
     const dataPut = await changeDataEvents(newData);
     setChangeData(false);
@@ -136,132 +161,131 @@ export default function Manage({ params }) {
 
   return (
     <div className="Manage">
+      {loadingPage ? <Loader /> : null}
       <Topbar />
       <Header
         title={"EVENTOS"}
         information={"Gestiona la información de tus eventos"}
+        back={"/application/events"}
       />
       <div className="container">
         {loading ? (
           <></>
         ) : (
           <>
-            <div className="info_event">
-              <form className="data" onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  id="title"
-                  value={`${changeData ? data.nombre : originalData.nombre}`}
-                  disabled={!changeData}
-                  onChange={(e) => {
-                    setData({ ...data, nombre: e.target.value });
-                  }}
-                  className={`${changeData ? "changeData" : ""}`}
-                />
-                <textarea
-                  name="description"
-                  id="description"
-                  value={`${
-                    changeData ? data.descripcion : originalData.descripcion
-                  }`}
-                  disabled={!changeData}
-                  onChange={(e) => {
-                    setData({ ...data, descripcion: e.target.value });
-                  }}
-                  className={`${changeData ? "changeData" : ""}`}
-                ></textarea>
-                <p>{originalData.tipo}</p>
-                {changeData ? (
-                  <div className="changeData_buttons">
+            <div className="encabezado">
+              <div className="info_event">
+                <form className="data" onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    id="title"
+                    value={`${changeData ? data.nombre : originalData.nombre}`}
+                    disabled={!changeData}
+                    onChange={(e) => {
+                      setData({ ...data, nombre: e.target.value });
+                    }}
+                    className={`${changeData ? "changeData" : ""}`}
+                  />
+                  <textarea
+                    name="description"
+                    id="description"
+                    value={`${
+                      changeData ? data.descripcion : originalData.descripcion
+                    }`}
+                    disabled={!changeData}
+                    onChange={(e) => {
+                      setData({ ...data, descripcion: e.target.value });
+                    }}
+                    className={`${changeData ? "changeData" : ""}`}
+                  ></textarea>
+                  <p>{getTypeEvent(originalData.tipo)}</p>
+                  {changeData ? (
+                    <div className="changeData_buttons">
+                      <button
+                        className="cancel"
+                        onClick={() => {
+                          setChangeData(false);
+                          setData(originalData);
+                        }}
+                      >
+                        Cancelar
+                      </button>
+                      <button type="submit">Guardar cambios</button>
+                    </div>
+                  ) : originalData.creator == "me" ? (
                     <button
-                      className="cancel"
                       onClick={() => {
-                        setChangeData(false);
-                        setData(originalData);
+                        setChangeData(true);
                       }}
                     >
-                      Cancelar
+                      Editar datos
                     </button>
-                    <button type="submit">Guardar cambios</button>
-                  </div>
-                ) : originalData.creator == "me" ? (
-                  <button
-                    onClick={() => {
-                      setChangeData(true);
-                    }}
-                  >
-                    Editar datos
-                  </button>
-                ) : null}
-              </form>
-              <div className="image">
-                <label htmlFor="file-input">
-                  <img
-                    // src={`${avatar != null ? avatar : "/images/avatar.jpg"}`}
-                    src={imageEvent}
-                    alt="avatar"
-                  />
-                </label>
-                {changeData ? <h4>Cambiar avatar</h4> : null}
-                <input
-                  id="file-input"
-                  name="avatar"
-                  type="file"
-                  placeholder="Avatar"
-                  accept="/image/*"
-                  disabled={!changeData}
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file.type.substring(0, 5) === "image") {
-                      setImageEvent(URL.createObjectURL(file));
-                    } else {
-                      setImageEvent(null);
-                    }
-                  }}
-                  required
-                />
+                  ) : null}
+                </form>
+                <div className="image">
+                  <label htmlFor="file-input" onClick={handleOpenModal}>
+                    <img
+                      src={`${changeData ? data.foto : originalData.foto}`}
+                      alt="avatar"
+                    />
+                  </label>
+                  {isModalOpen && (
+                    <AvatarModal
+                      onSelectAvatar={handleSelectAvatar}
+                      onClose={handleCloseModal}
+                      type={"events"}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="participants">
-              <h1>Participantes del evento</h1>
-              <div className="balances">
-                {balances != null
-                  ? balances.map((item) => {
+              <div className="participants">
+                <h1>Participantes del evento</h1>
+                <div className="balances">
+                  {balances && balances.saldos.length > 0 ? (
+                    balances.saldos.map((item) => {
                       return (
                         <LineTable
-                          key={item.participante.id}
+                          key={item.usuario_id}
                           id_event={params.id_event}
-                          id_user={item.participante.id}
-                          name={item.participante.nombre}
-                          lastname={item.participante.apellidos}
-                          nickname={item.participante.apodo}
-                          saldo={item.participante.saldo}
+                          id_user={item.usuario_id}
+                          name={item.nombre}
+                          saldo={item.balance}
+                          participa={item.participa}
+                          idCreador={idCreador}
+                          idLog={idLog}
                           funcion={closeModal}
                         />
                       );
                     })
-                  : null}
+                  ) : (
+                    <h3>No Hay Participantes</h3>
+                  )}
+                </div>
               </div>
             </div>
             <div className="group">
               <div>
                 <h1 className="title">Actividades</h1>
                 <div className="cards">
-                  {myActivity != null
-                    ? myActivity.map((item) => {
-                        return (
-                          <ActivityCard
-                            key={item.id}
-                            idEvent={params.id_event}
-                            id={item.id}
-                            name={item.nombre}
-                            description={item.descripcion}
-                            value={item.valor}
-                            funcion={closeModal}
-                          />
-                        );
-                      })
-                    : null}
+                  {myActivity && myActivity.length > 0 ? (
+                    myActivity.map((item) => {
+                      return (
+                        <ActivityCard
+                          key={item.id}
+                          idEvent={params.id_event}
+                          id={item.id}
+                          name={item.nombre}
+                          description={item.descripcion}
+                          value={item.valor}
+                          creador={item.creador}
+                          idLog={idLog}
+                          funcion={closeModal}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h3>No Hay Actividades</h3>
+                  )}
                 </div>
               </div>
             </div>
@@ -274,14 +298,16 @@ export default function Manage({ params }) {
             setAddActivity(true);
           }}
         ></div>
-        <button
-          className="button-add"
-          onClick={() => {
-            setAddContact(true);
-          }}
-        >
-          <AiOutlineUserAdd />
-        </button>
+        {idCreador==null? (
+          <button
+            className="button-add"
+            onClick={() => {
+              setAddContact(true);
+            }}
+          >
+            <AiOutlineUserAdd />
+          </button>
+        ) : null}
       </div>
       {addContact ? (
         <ModalCreate

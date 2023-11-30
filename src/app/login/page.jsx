@@ -8,10 +8,13 @@ import { setCookie } from "cookies-next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "@/components/loader/Loader";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "@/context/AppContext";
 
 export default function Login() {
   const [loadingLogin, setLoadingLogin] = useState(false);
+  const [changePage, setChangePage] = useState(false);
+  const context = useContext(AppContext);
   const router = useRouter();
   const notify = (message) => {
     toast.error(message, {
@@ -34,21 +37,28 @@ export default function Login() {
       password: e.target.password.value,
     };
     // console.log(data);
-    setLoadingLogin(true)
+    setLoadingLogin(true);
     const res = await loginResponse(data);
     // console.log(res);
     if (!res.error) {
       setCookie("Token", "Token " + res.token);
+      context.setAppState({
+        ...context.appState,
+        user: {
+          id: res.id_user
+        },
+      });
       router.push("/application");
     } else {
       // console.log("datos incorrectos");
       notify("Credenciales incorrectas");
-      setLoadingLogin(false)
+      setLoadingLogin(false);
     }
   }
 
   return (
     <main className="Login">
+      {changePage ? <Loader /> : null}
       <div className="changeToRegister">
         <div className="figure" />
         <div className="info">
@@ -57,7 +67,14 @@ export default function Login() {
             Te invitamos a ser parte y vivir una gran experiencia con toda
             nuestra gran comunidad.
           </p>
-          <Link href="/register">CREAR CUENTA</Link>
+          <Link
+            href="/register"
+            onClick={() => {
+              setChangePage(true);
+            }}
+          >
+            CREAR CUENTA
+          </Link>
         </div>
       </div>
       <div className="formLogin">
@@ -72,7 +89,7 @@ export default function Login() {
           <form onSubmit={handleSubmit}>
             <input name="email" type="email" placeholder="Correo electrónico" />
             <input name="password" type="password" placeholder="Contraseña" />
-            <button type="submit">
+            <button type="submit" disabled={loadingLogin ? true : false}>
               {loadingLogin ? <Loader /> : null}
               INGRESAR
             </button>

@@ -1,0 +1,123 @@
+.BalancesCard {
+  width: 100%;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px;
+
+    .info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .data {
+        width: 100%;
+
+        & h1 {
+          color: rgb(var(--text-darkest));
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        & h3 {
+          color: rgb(var(--text-dark));
+          font-weight: 400;
+
+          & span {
+            font-weight: 700;
+          }
+        }
+      }
+
+      .saldo {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+  
+        & p {
+          color: rgb(var(--text-darkest));
+          font-weight: 500;
+        }
+  
+        & h1 {
+          color: rgb(var(--text-darkest));
+          font-weight: 600;
+          font-size: 2.2rem;
+        }
+      }
+    }
+
+  }
+
+  & p {
+    text-align: center;
+    font-weight: 800;
+  }
+
+  .red {
+    background-color: rgba(250, 90, 90, 0.1);
+  }
+
+  .green {
+    background-color: rgba(23, 236, 23, 0.1);
+  }
+
+  .blue {
+    background-color: rgba(66, 169, 253, 0.1);
+  }
+
+  .redP {
+    color: rgb(185, 0, 0);
+  }
+
+  .greenP {
+    color: green;
+  }
+
+  .blueP {
+    color: rgb(61, 61, 241);
+  }
+}
+
+@media (min-width: 768px) {
+  .BalancesCard {
+
+    .container {
+
+      .info {
+        flex-direction: row;
+
+        .data {
+          width: 50%;
+        }
+
+        .saldo {
+          width: 50%;
+          background-color: var(--background-alpha);
+          border-radius: 10px;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+}
+
+@media (min-width: 1250px) {
+  .BalancesCard {
+    width: 48%;
+
+    .container {
+
+      .info {
+
+      }
+    }
+  }
+}

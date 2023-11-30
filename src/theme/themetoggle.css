@@ -1,0 +1,11 @@
+.switch {
+  color: rgb(var(--text-darkest));
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -8,6 +8,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import "react-toastify/dist/ReactToastify.css";
 import AddContactActivity from "@/components/addContactActivity/AddContactActivity";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import { formatNumber } from "@/services/generalServices";
 
 export default function Activity({ params }) {
   const [activity, setActivity] = useState(null);
@@ -18,6 +21,7 @@ export default function Activity({ params }) {
   const [changeData, setChangeData] = useState(false);
   const [reload, setReload] = useState(false);
   const [addContact, setAddContact] = useState(false);
+  const router = useRouter();
 
   const closeModal = (notification) => {
     setAddContact(false)
@@ -29,6 +33,9 @@ export default function Activity({ params }) {
 
   // console.log(params);
   useEffect(() => {
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    }
     async function thisActivity() {
       const data = await getActivity(params.id_event);
       const myActivity = data.data.filter(
@@ -63,9 +70,9 @@ export default function Activity({ params }) {
       nombre: data.nombre,
       descripcion: data.descripcion,
     };
-    console.log(newData);
+    // console.log(newData);
     const response = await modifyActivity(newData);
-    console.log(response);
+    // console.log(response);
     setChangeData(false);
     notify("Datos actualizados con éxito");
     setReload(!reload);
@@ -77,6 +84,7 @@ export default function Activity({ params }) {
       <Header
         title={"Actividad"}
         information={"Gestiona la información de tus actividades"}
+        back={`/application/events/${params.id_event}`}
       />
       {loading ? (
         <>loading</>
@@ -108,14 +116,10 @@ export default function Activity({ params }) {
             <div className="value_activity">
               <h1>$ </h1>
               <input
-                type="number"
+                type="text"
                 id="valor"
-                value={`${changeData ? data.valor : originalData.valor}`}
+                value={formatNumber(originalData.valor)}
                 disabled
-                onChange={(e) => {
-                  setData({ ...data, valor: e.target.value });
-                }}
-                className={`${changeData ? "changeData" : ""}`}
               />
             </div>
             {changeData ? (
@@ -155,6 +159,7 @@ export default function Activity({ params }) {
         <AddContactActivity
           idEvent={params.id_event}
           idActivity={params.id_activity}
+          valueActivity={originalData.valor}
           changePage={closeModal}
         />
       ) : null}

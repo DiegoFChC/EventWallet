@@ -1,9 +1,23 @@
 .Events {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   background-color: rgb(var(--background));
-  padding-top: 30px;
+  padding-top: 35px;
   position: relative;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 
   .container {
     width: 100%;
@@ -14,8 +28,8 @@
     gap: 10px;
 
     & .group {
-      background-color: var(--background-alpha);
       width: 100%;
+      background-color: var(--background-alpha);
       border-radius: 10px;
 
       & .title {
@@ -47,6 +61,10 @@
           content: "";
           width: 100%;
           height: 80px;
+        }
+
+        & h3 {
+          color: rgb(var(--primary-color-light));
         }
       }
     }

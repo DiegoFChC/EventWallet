@@ -51,10 +51,16 @@
       font-weight: 700;
       font-size: 1rem;
       transition: background-color 0.3s ease;
+      position: relative;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgb(var(--primary-color-dark), 0.6);
+      }
     }
   }
 
-  & .delete {
+  & .deleteActivity {
     background-color: rgb(var(--color-error));
     color: rgb(var(--text-lightest));
     border-radius: 4px;

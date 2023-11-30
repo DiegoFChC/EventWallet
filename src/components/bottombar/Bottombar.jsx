@@ -10,7 +10,7 @@ import { CgProfile } from "react-icons/cg";
 
 export default function Bottombar() {
   const [linkSelected, setLinkSelected] = useState({
-    dashboard: "selected",
+    dashboard: "",
     events: "",
     contacts: "",
     deudas: "",
@@ -75,7 +75,7 @@ export default function Bottombar() {
         </div>
         <div className={`links`}>
           <Link
-            href="/application/deudas"
+            href="/application/balances"
             className={`${linkSelected.deudas}`}
             onClick={() => {
               setLinkSelected({
