@@ -10,6 +10,7 @@ import BalancesCard from "@/components/balancesCard.jsx/BalancesCard";
 import PaymentForm from "@/components/creditCard/CreditCard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { formatNumber } from "@/services/generalServices";
 
 export default function Balances() {
   const [inButton, setInButton] = useState({
@@ -27,7 +28,7 @@ export default function Balances() {
 
   useEffect(() => {
     async function getGeneralBalances() {
-      const response = await getUserGeneralBalances(context.appState.user.id);
+      const response = await getUserGeneralBalances();
       console.log(response);
       setDataBalances(response.data);
     }
@@ -40,7 +41,8 @@ export default function Balances() {
     const myEvent = filterData(
       dataBalances.saldo_eventos,
       "nombre_evento",
-      event
+      event,
+      dataBalances.usuario_id
     );
     console.log(myEvent);
     if (pay) {
@@ -169,11 +171,11 @@ export default function Balances() {
                       })}
                     </select>
                     <p>
-                      {participantSelected.saldo < 0
-                        ? `Saldo: $ ${participantSelected.saldo}`
-                        : `No le debes a este usuario`}
+                      {participantSelected.saldo <= 0
+                        ? `No le debes a este usuario`
+                        : `Saldo: $ ${formatNumber(participantSelected.saldo)}`}
                     </p>
-                    {participantSelected.saldo < 0 ? (
+                    {participantSelected.saldo > 0 ? (
                       <input
                         type="number"
                         min={0}

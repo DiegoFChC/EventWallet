@@ -15,7 +15,7 @@ export function useAppContext() {
 export function AppContextProvider({ children }) {
   let data = {
     user: {
-      id: 1
+      id: null
     },
   };
 

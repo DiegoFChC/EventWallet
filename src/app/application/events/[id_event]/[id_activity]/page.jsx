@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AddContactActivity from "@/components/addContactActivity/AddContactActivity";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { formatNumber } from "@/services/generalServices";
 
 export default function Activity({ params }) {
   const [activity, setActivity] = useState(null);
@@ -115,14 +116,10 @@ export default function Activity({ params }) {
             <div className="value_activity">
               <h1>$ </h1>
               <input
-                type="number"
+                type="text"
                 id="valor"
-                value={`${changeData ? data.valor : originalData.valor}`}
+                value={formatNumber(originalData.valor)}
                 disabled
-                onChange={(e) => {
-                  setData({ ...data, valor: e.target.value });
-                }}
-                className={`${changeData ? "changeData" : ""}`}
               />
             </div>
             {changeData ? (

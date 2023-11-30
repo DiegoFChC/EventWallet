@@ -15,37 +15,41 @@
 
   /* Colores de estado */
   --color-error: 158, 3, 3;
-  --color-correct: 19, 110, 1;
+  --color-correct: 22 181 0;
 
   /* Colores de las paginas */
   --primary-color-light: 123, 194, 230;
   --primary-color-dark: 0, 162, 224;
   --secondary-color-light: 0, 125, 174;
   --secondary-color-dark: 0, 66, 94;
+
+  --color-atipico: 0, 125, 174;
 }
 
 [data-theme="dark"] {
 
   /* Colores de fondo */
   --background: 11, 14, 54;
-  --background-alpha: rgba(0, 0, 0, 0.3);
+  --background-alpha: rgb(0, 2, 32);
 
 
   /* Colores de texto */
   --text-lightest: 255, 255, 255;
-  --text-light: 187, 188, 188;
-  --text-dark: 187, 188, 188;
+  --text-light: 255, 255, 255;
+  --text-dark: 255, 255, 255;
   --text-darkest: 255, 255, 255;
 
   /* Colores de estado */
   --color-error: 158, 3, 3;
-  --color-correct: 19, 110, 1;
+  --color-correct: 4 66 0;
 
   /* Colores de las paginas */
-  --primary-color-light: 46, 54, 115;
-  --primary-color-dark: 4, 6, 42;
-  --secondary-color-light: 16, 23, 82;
-  --secondary-color-dark: 84, 87, 119;
+  --primary-color-light: 25 102 255;
+  --primary-color-dark: 3 49 172;
+  --secondary-color-light: 0 67 223;
+  --secondary-color-dark: 0 73 255;
+
+  --color-atipico: 16, 23, 82;
 }
 
 * {
