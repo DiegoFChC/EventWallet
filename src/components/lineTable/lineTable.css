@@ -12,6 +12,14 @@
     background-color: rgb(var(--background), 0.5);
   }
 
+  & .green {
+    color: rgb(var(--color-correct));
+  }
+
+  & .red {
+    color: rgb(var(--color-error));
+  }
+
   & p {
     font-size: 1.2rem;
     outline: none;

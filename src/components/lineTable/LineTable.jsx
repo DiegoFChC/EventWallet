@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { ModalCreate } from "../modalCreate/ModalCreate";
 import { eliminateParticipantEvent } from "@/services/events";
 import Link from "next/link";
+import { formatNumber } from "@/services/generalServices";
 
 export default function LineTable({
   id_event,
@@ -26,11 +27,22 @@ export default function LineTable({
     funcion(true);
   };
 
+  function getColor(saldoActual) {
+    let color = "";
+    if (saldoActual > 0) {
+      color = "green";
+    } else if (saldoActual < 0) {
+      color = "red";
+    }
+
+    return color;
+  }
+
   return (
     <div className="LineTable">
       <p>{name}</p>
-      <p>{"$ " + saldo}</p>
-      {!participa && idCreador==null && id_user!=idLog ? (
+      <p className={`${getColor(saldo)}`}>{"$ " + formatNumber(saldo < 0 ? saldo * -1 : saldo)}</p>
+      {!participa && idCreador == null && id_user != idLog ? (
         <BsTrash
           className="trash"
           onClick={() => {

@@ -2,6 +2,7 @@ import "./eventCard.css";
 import { useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
+import Loader from "../loader/Loader";
 
 export const EventCard = ({
   id,
@@ -13,6 +14,7 @@ export const EventCard = ({
 }) => {
   const { appState, setAppState } = useAppContext();
   const router = useRouter();
+  const [changePage, setChangePage] = useState(false);
 
   const mapType = (type) => {
     switch (type) {
@@ -44,8 +46,11 @@ export const EventCard = ({
         <button
           onClick={() => {
             router.push(`/application/events/${id}`);
+            setChangePage(true);
           }}
+          disabled={changePage ? true : false}
         >
+          {changePage ? <Loader /> : null}
           Ver Más
         </button>
       </div>

@@ -64,6 +64,20 @@ export function filterData(data, filtro, atribute, id_user) {
   return newData;
 }
 
+export function clearData(data, id) {
+  const newData = {
+    error: data.error,
+    data: {
+      ...data.data,
+      saldos: data.data.saldos.filter(
+        (item) => item.usuario_id != parseInt(id)
+      ),
+    },
+  };
+
+  return newData;
+}
+
 function toArrayOfObjects(object) {
   const array = [];
 

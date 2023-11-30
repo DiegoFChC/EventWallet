@@ -72,6 +72,7 @@
       font-weight: 700;
       font-size: 1rem;
       transition: background-color 0.3s ease;
+      position: relative;
 
       &:hover {
         cursor: pointer;
