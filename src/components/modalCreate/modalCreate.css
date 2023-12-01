@@ -100,7 +100,7 @@
           background-color: rgb(var(--color-error));
 
           &:hover {
-            background-color: rgb(var(--color-error), 0.8);
+            background-color: rgb(var(--color-error), 0.3);
           }
         }
       }

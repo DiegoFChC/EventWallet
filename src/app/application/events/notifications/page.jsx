@@ -85,7 +85,7 @@ export default function Notifications() {
                   );
                 }
               })
-            : null}
+            : <h3>No tienes notificaciones</h3>}
         </div>
       </div>
       <ToastContainer

@@ -347,6 +347,19 @@
           }
         }
       }
+
+      .createActivity {
+        bottom: 10px;
+
+        &::before {
+          top: 0%;
+          transform: translate(-50%, -25%);
+        }
+      }
+
+      & .button-add {
+        bottom: 100px;
+      }
     }
   }
 }
@@ -371,6 +384,19 @@
           }
         }
       }
+
+      .createActivity {
+        bottom: 10px;
+
+        &::before {
+          top: 0%;
+          transform: translate(-50%, -25%);
+        }
+      }
+
+      & .button-add {
+        bottom: 100px;
+      }
     }
   }
 }
@@ -380,6 +406,19 @@
     & .container {
       .encabezado {
         flex-direction: row;
+      }
+
+      .createActivity {
+        bottom: 10px;
+
+        &::before {
+          top: 0%;
+          transform: translate(-50%, -25%);
+        }
+      }
+
+      & .button-add {
+        bottom: 100px;
       }
     }
   }

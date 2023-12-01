@@ -65,7 +65,7 @@ export default function LineTable({
           onCloseModal={closeModal}
           axios={eliminateParticipantEvent}
           buttonName={"Eliminar Participante"}
-          title={"¿Estas seguro de que deseas eliminar este participante?"}
+          title={"¿Estas seguro de que deseas eliminar a este participante?"}
           additionalFields={{ evento: id_event, contacto: id_user }}
         />
       ) : null}
