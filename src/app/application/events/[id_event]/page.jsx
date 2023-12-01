@@ -122,6 +122,7 @@ export default function Manage({ params }) {
       setIdCreador(event.creador);
       const activity = await getActivity(params.id_event);
       setMyActivity(activity.data);
+      console.log("actividades:",myActivity);
       setIdLog(activity.user);
       const getBalances = await getParticipantsBalances(params.id_event);
       setBalances(getBalances.data);
@@ -212,7 +213,7 @@ export default function Manage({ params }) {
                       </button>
                       <button type="submit">Guardar cambios</button>
                     </div>
-                  ) : originalData.creator == "me" ? (
+                  ) : originalData.creator == "me"  && myActivity.length==0? (
                     <button
                       onClick={() => {
                         setChangeData(true);
