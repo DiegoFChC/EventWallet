@@ -37,10 +37,8 @@ export const ModalCreate = ({
     if (additionalFields != null) {
       data = Object.assign(data, additionalFields);
     }
-    console.log(data);
 
     const response = await axios(data);
-    console.log(response);
 
     if (!response.error) {
       onCloseModal(true);

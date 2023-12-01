@@ -43,7 +43,7 @@ export const ContactCard = ({
       </button>
       {deleteContact ? (
         <ModalConfirm
-          title={"¿Estas seguro de que quieres eliminar este contacto?"}
+          title={"¿Estas seguro de que quieres eliminar a este contacto?"}
           labelName={"Correo electronico"}
           action={"Eliminar contacto"}
           idInput={"email"}

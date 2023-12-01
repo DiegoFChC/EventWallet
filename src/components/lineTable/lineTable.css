@@ -13,11 +13,11 @@
   }
 
   & .green {
-    color: rgb(var(--color-correct));
+    color: rgb(24, 185, 2);
   }
 
   & .red {
-    color: rgb(var(--color-error));
+    color: rgb(255, 11, 11);
   }
 
   & p {

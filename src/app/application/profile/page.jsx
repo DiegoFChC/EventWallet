@@ -12,12 +12,14 @@ import { Topbar } from "@/components/topbar/Topbar";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import AvatarModal from "@/components/avatarModal/AvatarModal";
+import Loader from "@/components/loader/Loader";
 
 export default function Profile() {
   const [changeData, setChangeData] = useState(false);
   const [modalPassword, setModalPassword] = useState(false);
   const [modalDeleteUser, setModalDeleteUser] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
   const [originalData, setOriginalData] = useState({
     nombre: "",
     apellidos: "",
@@ -34,11 +36,11 @@ export default function Profile() {
 
   const handleSelectAvatar = (selectedAvatar) => {
     setIsModalOpen(false);
-    setData({ ...data, foto: selectedAvatar  });
+    setData({ ...data, foto: selectedAvatar });
   };
 
   const handleOpenModal = () => {
-    if(changeData){
+    if (changeData) {
       setIsModalOpen(true);
     }
   };
@@ -69,14 +71,15 @@ export default function Profile() {
   useEffect(() => {
     if (getCookie("Token") == undefined) {
       router.push("/login");
+    } else {
+      async function dataProfile() {
+        const response = await profileGet();
+        setData(response);
+        setOriginalData(response);
+        setLoadingPage(false);
+      }
+      dataProfile();
     }
-    async function dataProfile() {
-      const response = await profileGet();
-      setData(response);
-      setOriginalData(response);
-      console.log("response", response)
-    }
-    dataProfile();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -93,7 +96,9 @@ export default function Profile() {
     setChangeData(false);
     notify();
   };
-  return (
+  return loadingPage ? (
+    <Loader />
+  ) : (
     <div className="Profile">
       <Topbar />
       <Header title={"PERFIL"} information={"Información de mi cuenta"} />
@@ -217,12 +222,12 @@ export default function Profile() {
             /> */}
           </div>
           {isModalOpen && (
-              <AvatarModal
-                onSelectAvatar={handleSelectAvatar}
-                onClose={handleCloseModal}
-                type={"avatars"}
-              />
-            )}
+            <AvatarModal
+              onSelectAvatar={handleSelectAvatar}
+              onClose={handleCloseModal}
+              type={"avatars"}
+            />
+          )}
           <h2>{originalData.nombre + " " + originalData.apellidos}</h2>
           <h3>{originalData.apodo}</h3>
         </div>

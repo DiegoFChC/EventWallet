@@ -5,25 +5,37 @@ import { Topbar } from "@/components/topbar/Topbar";
 import { Header } from "@/components/header/Header";
 import { getUserBalances, clearData } from "@/services/balances";
 import BalancesCard from "@/components/balancesCard.jsx/BalancesCard";
+import Loader from "@/components/loader/Loader";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 export default function BalancesUser({ params, searchParams }) {
   const [loading, setLoading] = useState(true);
   const [balances, setBalances] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    async function balancesUser() {
-      const response = await getUserBalances(
-        params.id_event,
-        searchParams.user
-      );
-      const data = clearData(response, searchParams.user);
-      setBalances(data);
-      setLoading(false);
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    } else {
+      async function balancesUser() {
+        const response = await getUserBalances(
+          params.id_event,
+          searchParams.user
+        );
+        const data = clearData(response, searchParams.user);
+        setBalances(data);
+        setLoading(false);
+        setLoadingPage(false);
+      }
+      balancesUser();
     }
-    balancesUser();
   }, []);
 
-  return (
+  return loadingPage ? (
+    <Loader />
+  ) : (
     <div className="Balances">
       <Topbar />
       <Header

@@ -72,16 +72,6 @@ export const ActivityCard = ({
           Ver Más
         </button>
       </div>
-      {creador == idLog ? (
-        <button
-          className="deleteActivity"
-          onClick={() => {
-            setDeleteActivity(true);
-          }}
-        >
-          <BsTrash></BsTrash>
-        </button>
-      ) : null}
 
       {constDeleteActivity ? (
         <ModalCreate
