@@ -95,13 +95,19 @@
 
       & form {
         width: 100%;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 15px;
         color: rgb(var(--text-dark));
+
+        & p {
+          text-align: center;
+          font-size: 1.7rem;
+          padding-bottom: 20px;
+        }
 
         & select {
           width: 60%;
@@ -131,6 +137,63 @@
         & button {
           width: 200px;
           height: 40px;
+          font-size: 1.2rem;
+          border: none;
+          border-radius: 10px;
+          background-color: rgb(var(--primary-color-dark));
+          color: rgb(var(--text-lightest));
+          transition: 0.3s ease;
+
+          &:hover {
+            cursor: pointer;
+            background-color: rgb(var(--primary-color-dark), 0.6);
+          }
+        }
+      }
+
+      & .pago {
+        width: 100%;
+        height: auto;
+        padding-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 1.5rem;
+        text-align: center;
+        border-top: 2px solid rgb(var(--text-dark));
+
+        & input {
+          width: 150px;
+          height: 30px;
+          padding: 5px;
+          font-size: 1.1rem;
+          color: rgb(var(--text-dark));
+          border-radius: 5px;
+          outline: none;
+          border: 1px solid rgb(var(--text-darkest));
+          background-color: transparent;
+          text-align: center;
+        }
+
+        & .optionsButtons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        & form {
+          width: 100%;
+        }
+
+        & button {
+          min-width: 200px;
+          width: auto;
+          height: 40px;
+          padding: 10px;
           font-size: 1.2rem;
           border: none;
           border-radius: 10px;

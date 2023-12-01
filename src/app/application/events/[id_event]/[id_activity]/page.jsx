@@ -11,6 +11,11 @@ import AddContactActivity from "@/components/addContactActivity/AddContactActivi
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { formatNumber } from "@/services/generalServices";
+import Loader from "@/components/loader/Loader";
+import { getActivityParticipants } from "@/services/activities";
+import { BsTrash } from "react-icons/bs";
+import { deleteActivity } from "@/services/activities";
+import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 
 export default function Activity({ params }) {
   const [activity, setActivity] = useState(null);
@@ -21,33 +26,49 @@ export default function Activity({ params }) {
   const [changeData, setChangeData] = useState(false);
   const [reload, setReload] = useState(false);
   const [addContact, setAddContact] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [participantsActivity, setParticipantsActivity] = useState(null);
+  const [constDeleteActivity, setDeleteActivity] = useState(false);
   const router = useRouter();
 
   const closeModal = (notification) => {
-    setAddContact(false)
+    setAddContact(false);
     setReload(!reload);
     if (notification) {
       notify("Tu petición ha terminado exitosamente");
     }
   };
 
-  // console.log(params);
+  const closeModal2 = () => {
+    router.push(`/application/events/${params.id_event}`);
+    setDeleteActivity(false);
+  };
+
   useEffect(() => {
     if (getCookie("Token") == undefined) {
       router.push("/login");
+    } else {
+      async function thisActivity() {
+        const data = await getActivity(params.id_event);
+        const myActivity = data.data.filter(
+          (item) => item.id == params.id_activity
+        );
+        setActivity(myActivity[0]);
+        setData(myActivity[0]);
+        setOriginalData(myActivity[0]);
+      }
+      thisActivity();
+      async function getParticipantsActivity() {
+        const response = await getActivityParticipants(params.id_event);
+        const activity = response.data.filter(
+          (item) => item.actividad == params.id_activity
+        );
+        setParticipantsActivity(activity[0]);
+        setLoading(false);
+        setLoadingPage(false);
+      }
+      getParticipantsActivity();
     }
-    async function thisActivity() {
-      const data = await getActivity(params.id_event);
-      const myActivity = data.data.filter(
-        (item) => item.id == params.id_activity
-      );
-      setActivity(myActivity[0]);
-      setData(myActivity[0]);
-      setOriginalData(myActivity[0]);
-      setLoading(false);
-    }
-
-    thisActivity();
   }, [reload]);
 
   const notify = (message) => {
@@ -78,7 +99,9 @@ export default function Activity({ params }) {
     setReload(!reload);
   }
 
-  return (
+  return loadingPage ? (
+    <Loader />
+  ) : (
     <div className="Activity">
       <Topbar />
       <Header
@@ -90,69 +113,98 @@ export default function Activity({ params }) {
         <>loading</>
       ) : (
         <div className="container">
-          <form onSubmit={handleSubmit} className="info_activity">
-            <input
-              type="text"
-              id="title"
-              value={`${changeData ? data.nombre : originalData.nombre}`}
-              disabled={!changeData}
-              onChange={(e) => {
-                setData({ ...data, nombre: e.target.value });
-              }}
-              className={`${changeData ? "changeData" : ""}`}
-            />
-            <textarea
-              name="description"
-              id="description"
-              value={`${
-                changeData ? data.descripcion : originalData.descripcion
-              }`}
-              disabled={!changeData}
-              onChange={(e) => {
-                setData({ ...data, descripcion: e.target.value });
-              }}
-              className={`${changeData ? "changeData" : ""}`}
-            ></textarea>
-            <div className="value_activity">
-              <h1>$ </h1>
+          <div className="activityInfo">
+            <form onSubmit={handleSubmit} className="info_activity">
               <input
                 type="text"
-                id="valor"
-                value={formatNumber(originalData.valor)}
-                disabled
+                id="title"
+                value={`${changeData ? data.nombre : originalData.nombre}`}
+                disabled={!changeData}
+                onChange={(e) => {
+                  setData({ ...data, nombre: e.target.value });
+                }}
+                className={`${changeData ? "changeData" : ""}`}
               />
-            </div>
-            {changeData ? (
-              <div className="changeData_buttons">
+              <textarea
+                name="description"
+                id="description"
+                value={`${
+                  changeData ? data.descripcion : originalData.descripcion
+                }`}
+                disabled={!changeData}
+                onChange={(e) => {
+                  setData({ ...data, descripcion: e.target.value });
+                }}
+                className={`${changeData ? "changeData" : ""}`}
+              ></textarea>
+              <div className="value_activity">
+                <h1>$ </h1>
+                <input
+                  type="text"
+                  id="valor"
+                  value={formatNumber(originalData.valor)}
+                  disabled
+                />
+              </div>
+              {changeData ? (
+                <div className="changeData_buttons">
+                  <button
+                    className="cancel"
+                    onClick={() => {
+                      setChangeData(false);
+                      setData(originalData);
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                  <button type="submit">Guardar cambios</button>
+                </div>
+              ) : (
                 <button
-                  className="cancel"
                   onClick={() => {
-                    setChangeData(false);
-                    setData(originalData);
+                    setChangeData(true);
                   }}
                 >
-                  Cancelar
+                  Editar datos
                 </button>
-                <button type="submit">Guardar cambios</button>
-              </div>
-            ) : (
+              )}
+            </form>
+            {participantsActivity.participantes != [] &&
+            participantsActivity.participantes.length <= 1 ? (
               <button
+                className="deleteActivity"
                 onClick={() => {
-                  setChangeData(true);
+                  setDeleteActivity(true);
                 }}
               >
-                Editar datos
+                <BsTrash />
               </button>
-            )}
-          </form>
-          <button
-            className="button-add"
-            onClick={() => {
-              setAddContact(true);
-            }}
-          >
-            <AiOutlineUserAdd />
-          </button>
+            ) : null}
+          </div>
+          <div className="participantes">
+            <h1>Participantes de esta actividad</h1>
+            {participantsActivity.participantes.length != 0
+              ? participantsActivity.participantes.map((item) => {
+                  return (
+                    <p key={item.participante.id}>
+                      {item.participante.nombre +
+                        " " +
+                        item.participante.apellidos}
+                    </p>
+                  );
+                })
+              : "No hay participantes aún"}
+          </div>
+          {participantsActivity.participantes.length == 0 ? (
+            <button
+              className="button-add"
+              onClick={() => {
+                setAddContact(true);
+              }}
+            >
+              <AiOutlineUserAdd />
+            </button>
+          ) : null}
         </div>
       )}
       {addContact ? (
@@ -161,6 +213,15 @@ export default function Activity({ params }) {
           idActivity={params.id_activity}
           valueActivity={originalData.valor}
           changePage={closeModal}
+        />
+      ) : null}
+      {constDeleteActivity ? (
+        <ModalCreate
+          onCloseModal={closeModal2}
+          axios={deleteActivity}
+          buttonName={"Eliminar Actividad"}
+          title={"¿Estas seguro de que deseas eliminar esta actividad?"}
+          additionalFields={{ actividad_id: params.id_activity }}
         />
       ) : null}
       <ToastContainer

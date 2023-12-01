@@ -81,6 +81,8 @@
       font-weight: 700;
       font-size: 1rem;
       transition: background-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
 
       &:nth-child(1) {
         background-color: rgb(var(--color-correct));

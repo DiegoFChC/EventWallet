@@ -24,116 +24,178 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     gap: 10px;
 
-    & .info_activity {
+    & .activityInfo {
       min-height: 40px;
       width: 100%;
       height: auto;
+      position: relative;
+
+      & form {
+        min-height: 40px;
+        width: 100%;
+        height: auto;
+        background-color: var(--background-alpha);
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        & .changeData {
+          background-color: rgb(var(--background), 0.5);
+          border-radius: 10px;
+        }
+
+        & input {
+          width: 100%;
+          padding: 5px;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          white-space: nowrap;
+          overflow: scroll;
+
+          &:focus {
+            outline: none;
+            border-bottom: 2px solid rgb(var(--text-darkest));
+          }
+
+          &:nth-child(1) {
+            font-size: 2rem;
+            font-weight: 700;
+            color: rgb(var(--text-darkest));
+          }
+        }
+
+        & .value_activity {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgb(var(--text-darkest));
+
+          & h1 {
+            font-size: 3rem;
+            font-weight: 300;
+          }
+
+          & #valor {
+            font-size: 3rem;
+            font-weight: 300;
+            color: rgb(var(--text-darkest));
+          }
+        }
+
+        & textarea {
+          width: 100%;
+          height: 100px;
+          padding: 5px;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          font-size: 1.2rem;
+          font-weight: 500;
+          color: rgb(var(--text-dark));
+          resize: none;
+
+          &:focus {
+            outline: none;
+            border-bottom: 2px solid rgb(var(--text-darkest));
+          }
+        }
+
+        & .changeData_buttons {
+          width: 100%;
+          height: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        & button {
+          width: 130px;
+          height: 35px;
+          margin-top: 15px;
+          font-weight: 500;
+          font-size: 1rem;
+          border-radius: 10px;
+          background-color: rgb(var(--secondary-color-dark));
+          color: rgb(var(--text-light));
+          border: none;
+          box-shadow: 1px 1px 2px rgb(var(--secondary-color-light));
+          transition: 0.3s ease;
+
+          &:hover {
+            cursor: pointer;
+            background-color: rgb(var(--secondary-color-dark), 0.8);
+          }
+        }
+
+        & .cancel {
+          background-color: rgb(var(--color-error));
+
+          &:hover {
+            background-color: rgb(var(--color-error), 0.8);
+          }
+        }
+      }
+
+      & .deleteActivity {
+        width: auto;
+        height: auto;
+        padding: 5px;
+        background-color: rgb(var(--color-error));
+        color: rgb(var(--text-lightest));
+        border-radius: 5px;
+        text-align: center;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+
+        &:hover {
+          background-color: rgb(var(--color-error), 0.5);
+          cursor: pointer;
+        }
+
+        & svg {
+          color: white;
+          font-size: 1.7rem;
+        }
+      }
+    }
+
+    & .participantes {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
       background-color: var(--background-alpha);
       border-radius: 10px;
       padding: 15px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
+      overflow: scroll;
 
-      & .changeData {
-        background-color: rgb(var(--background), 0.5);
-        border-radius: 10px;
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
       }
 
-      & input {
-        width: 100%;
-        padding: 5px;
+      &::-webkit-scrollbar-thumb {
         background-color: transparent;
-        border: none;
-        outline: none;
-        white-space: nowrap;
-        overflow: scroll;
-
-        &:focus {
-          outline: none;
-          border-bottom: 2px solid rgb(var(--text-darkest));
-        }
-
-        &:nth-child(1) {
-          font-size: 2rem;
-          font-weight: 700;
-          color: rgb(var(--text-darkest));
-        }
       }
 
-      & .value_activity {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: rgb(var(--text-darkest));
-
-        & h1 {
-          font-size: 3rem;
-          font-weight: 300;
-        }
-
-        & #valor {
-          font-size: 3rem;
-          font-weight: 300;
-          color: rgb(var(--text-darkest));
-        }
-      }
-
-      & textarea {
-        width: 100%;
-        height: 100px;
-        padding: 5px;
+      &::-webkit-scrollbar-track {
         background-color: transparent;
-        border: none;
-        outline: none;
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: rgb(var(--text-dark));
-        resize: none;
-
-        &:focus {
-          outline: none;
-          border-bottom: 2px solid rgb(var(--text-darkest));
-        }
       }
 
-      & .changeData_buttons {
-        width: 100%;
-        height: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 10px;
+      & h1 {
+        margin-bottom: 10px;
       }
 
-      & button {
-        width: 130px;
-        height: 35px;
-        margin-top: 15px;
-        font-weight: 500;
-        font-size: 1rem;
-        border-radius: 10px;
-        background-color: rgb(var(--secondary-color-dark));
-        color: rgb(var(--text-light));
-        border: none;
-        box-shadow: 1px 1px 2px rgb(var(--secondary-color-light));
-        transition: 0.3s ease;
-
-        &:hover {
-          cursor: pointer;
-          background-color: rgb(var(--secondary-color-dark), 0.8);
-        }
-      }
-
-      & .cancel {
-        background-color: rgb(var(--color-error));
-
-        &:hover {
-          background-color: rgb(var(--color-error), 0.8);
-        }
+      & p {
+        font-size: 1.3rem;
       }
     }
 
@@ -158,19 +220,40 @@
 
       &:hover {
         cursor: pointer;
-      } 
+      }
     }
   }
 }
 
 @media (min-width: 768px) {
+  .Activity {
+    .container {
+      flex-direction: row;
+      gap: 15px;
+
+      .activityInfo {
+        width: 48%;
+      }
+
+      .participantes {
+        width: 48%;
+      }
+    }
+  }
 }
 
 @media (min-width: 1024px) {
   .Activity {
     .container {
-      .info_activity {
-        width: 50%;
+      flex-direction: row;
+      gap: 20px;
+
+      .activityInfo {
+        width: 48%;
+      }
+
+      .participantes {
+        width: 48%;
       }
     }
   }

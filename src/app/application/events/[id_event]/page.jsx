@@ -24,6 +24,8 @@ import { ActivityCard } from "@/components/activityCard/ActivityCard";
 import LineTable from "@/components/lineTable/LineTable";
 import AvatarModal from "@/components/avatarModal/AvatarModal";
 import Loader from "@/components/loader/Loader";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 function getTypeEvent(type) {
   if (type == "H") {
@@ -63,6 +65,7 @@ const postDataCreateActivity = [
     name: "descripcion",
     id: "descripcion",
     placeholder: "Descripcion",
+    maxlength: 249,
   },
   {
     label: "Valor de la actividad",
@@ -88,6 +91,7 @@ export default function Manage({ params }) {
   const [idLog, setIdLog] = useState(null);
   const [idCreador, setIdCreador] = useState(null);
   const [loadingPage, setLoadingPage] = useState(true);
+  const router = useRouter();
 
   const handleSelectAvatar = (selectedAvatar) => {
     setIsModalOpen(false);
@@ -114,22 +118,25 @@ export default function Manage({ params }) {
   };
 
   useEffect(() => {
-    async function myEvents() {
-      const responseEvents = await getEvents();
-      const event = processData(responseEvents, params.id_event);
-      setOriginalData(event);
-      setData(event);
-      setIdCreador(event.creador);
-      const activity = await getActivity(params.id_event);
-      setMyActivity(activity.data);
-      console.log("actividades:",myActivity);
-      setIdLog(activity.user);
-      const getBalances = await getParticipantsBalances(params.id_event);
-      setBalances(getBalances.data);
-      setLoading(false);
-      setLoadingPage(false);
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    } else {
+      async function myEvents() {
+        const responseEvents = await getEvents();
+        const event = processData(responseEvents, params.id_event);
+        setOriginalData(event);
+        setData(event);
+        setIdCreador(event.creador);
+        const activity = await getActivity(params.id_event);
+        setMyActivity(activity.data);
+        setIdLog(activity.user);
+        const getBalances = await getParticipantsBalances(params.id_event);
+        setBalances(getBalances.data);
+        setLoading(false);
+        setLoadingPage(false);
+      }
+      myEvents();
     }
-    myEvents();
   }, [reload]);
 
   const notify = (message) => {
@@ -160,7 +167,9 @@ export default function Manage({ params }) {
     setReload(!reload);
   };
 
-  return (
+  return loadingPage ? (
+    <Loader />
+  ) : (
     <div className="Manage">
       {loadingPage ? <Loader /> : null}
       <Topbar />
@@ -213,7 +222,7 @@ export default function Manage({ params }) {
                       </button>
                       <button type="submit">Guardar cambios</button>
                     </div>
-                  ) : originalData.creator == "me"  && myActivity.length==0? (
+                  ) : originalData.creator == "me" && myActivity.length == 0 ? (
                     <button
                       onClick={() => {
                         setChangeData(true);
@@ -240,7 +249,7 @@ export default function Manage({ params }) {
                 </div>
               </div>
               <div className="participants">
-                <h1>Participantes del evento</h1>
+                <h1>Participantes del evento - Saldos</h1>
                 <div className="balances">
                   {balances && balances.saldos.length > 0 ? (
                     balances.saldos.map((item) => {
@@ -298,13 +307,15 @@ export default function Manage({ params }) {
           onClick={() => {
             setAddActivity(true);
           }}
+          title="Crear actividad"
         ></div>
-        {idCreador==null? (
+        {idCreador == null ? (
           <button
             className="button-add"
             onClick={() => {
               setAddContact(true);
             }}
+            title="Añadir nuevo participante"
           >
             <AiOutlineUserAdd />
           </button>

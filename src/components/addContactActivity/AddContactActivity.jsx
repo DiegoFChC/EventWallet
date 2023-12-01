@@ -69,7 +69,6 @@ export default function AddContactActivity({
         value: item.datos.valor,
       });
     });
-    console.log(participantesValores);
     let allParticipants = participants.participantes;
     let participantesValoresAuto = [];
     const numberParticipants = allParticipants.length;
@@ -80,7 +79,6 @@ export default function AddContactActivity({
       });
     });
 
-    console.log(participantesValoresAuto);
 
     let data = {};
     if (valoresAuto) {

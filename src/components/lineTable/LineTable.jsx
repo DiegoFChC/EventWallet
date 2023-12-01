@@ -40,14 +40,15 @@ export default function LineTable({
 
   return (
     <div className="LineTable">
-      <p>{name}</p>
-      <p className={`${getColor(saldo)}`}>{"$ " + formatNumber(saldo < 0 ? saldo * -1 : saldo)}</p>
+      <p title="Nombre del participante">{name}</p>
+      <p title="Saldo" className={`${getColor(saldo)}`}>{"$ " + formatNumber(saldo < 0 ? saldo * -1 : saldo)}</p>
       {!participa && idCreador == null && id_user != idLog ? (
         <BsTrash
           className="trash"
           onClick={() => {
             setDeleteParticipant(true);
           }}
+          title="Eliminar contacto"
         ></BsTrash>
       ) : (
         <Link
@@ -55,6 +56,7 @@ export default function LineTable({
             pathname: `/application/events/${id_event}/balancesEvent`,
             query: { user: id_user },
           }}
+          title="Ver más"
         >
           <RxOpenInNewWindow />
         </Link>

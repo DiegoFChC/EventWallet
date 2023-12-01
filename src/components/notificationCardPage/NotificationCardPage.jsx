@@ -1,8 +1,11 @@
+'use client'
 import "./notificationCardPage.css";
 import Image from "next/image";
 import { postNotifications } from "@/services/notifications";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import Loader from "../loader/Loader";
 
 export default function NotificationCardPage({
   id,
@@ -12,15 +15,13 @@ export default function NotificationCardPage({
   image,
   onClose,
 }) {
+  const [loading, setLoading] = useState(false);
+
   async function respond(res) {
-    console.log(id);
     const data = { invitacion_id: id, respuesta: res };
     const response = await postNotifications(data);
-    console.log(response);
     onClose();
   }
-
-  
 
   return (
     <div className="NotificationCardPage">
@@ -39,8 +40,10 @@ export default function NotificationCardPage({
         <button
           onClick={() => {
             respond(true);
+            setLoading(true)
           }}
         >
+          {loading ? <Loader /> : null}
           Aceptar
         </button>
         <button

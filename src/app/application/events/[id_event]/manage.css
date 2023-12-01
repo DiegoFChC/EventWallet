@@ -312,6 +312,10 @@
       bottom: 220px;
       right: 25px;
       overflow: hidden;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

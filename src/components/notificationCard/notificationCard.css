@@ -6,6 +6,8 @@
   & a {
     text-decoration: none;
     color: rgb(var(--text-darkest));
+    position: relative;
+    overflow: hidden;
 
     & h1 {
       width: 100%;

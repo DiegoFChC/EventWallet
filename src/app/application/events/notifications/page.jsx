@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/loader/Loader";
 
 function getTypeEvent(type) {
   if (type == "H") {
@@ -27,6 +28,7 @@ function getTypeEvent(type) {
 export default function Notifications() {
   const [dataNotifications, setDataNotifications] = useState(null);
   const [reload, setReload] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
   const router = useRouter();
 
   function onCloseModal() {
@@ -37,12 +39,14 @@ export default function Notifications() {
   useEffect(() => {
     if (getCookie("Token") == undefined) {
       router.push("/login");
+    } else {
+      async function getData() {
+        const data = await getNotifications();
+        setDataNotifications(data);
+        setLoadingPage(false);
+      }
+      getData();
     }
-    async function getData() {
-      const data = await getNotifications();
-      setDataNotifications(data);
-    }
-    getData();
   }, [reload]);
 
   const notifySuccess = (message) => {
@@ -58,7 +62,9 @@ export default function Notifications() {
     });
   };
 
-  return (
+  return loadingPage ? (
+    <Loader />
+  ) : (
     <div className="Notifications">
       <Topbar />
       <Header
