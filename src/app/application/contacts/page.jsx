@@ -11,6 +11,7 @@ import { ModalCreate } from "@/components/modalCreate/ModalCreate";
 import { Topbar } from "@/components/topbar/Topbar";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/loader/Loader";
 
 const postData = [
   {
@@ -26,6 +27,7 @@ export default function Contacts() {
   const [createContact, setCreateContact] = useState(false);
   const [contacts, setContacts] = useState(null);
   const [reload, setReload] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
   const router = useRouter();
 
   function closeModalDelete(notify) {
@@ -59,16 +61,19 @@ export default function Contacts() {
   useEffect(() => {
     if (getCookie("Token") == undefined) {
       router.push("/login");
+    } else {
+      async function getData() {
+        const data = await getContacts();
+        setContacts(data.contacts);
+        setLoadingPage(false);
+      }
+      getData();
     }
-    async function getData() {
-      const data = await getContacts();
-      setContacts(data.contacts);
-    }
+  }, [reload]);
 
-    getData();
-  }, [reload,]);
-
-  return (
+  return loadingPage ? (
+    <Loader />
+  ) : (
     <div className="Contacts">
       <Topbar />
       <Header
@@ -77,23 +82,25 @@ export default function Contacts() {
       />
       <div className="container">
         <div className="cards">
-          {contacts && contacts.length > 0
-            ? contacts.map((item) => {
-                if (item.is_active) {
-                  return (
-                    <ContactCard
-                      key={item.usuario2.id}
-                      name={item.usuario2.nombre}
-                      lastname={item.usuario2.apellidos}
-                      nickname={item.usuario2.apodo}
-                      email={item.usuario2.email}
-                      foto={item.usuario2.foto}
-                      changeContact={closeModalDelete}
-                    />
-                  );
-                }
-              })
-            : <h3>No Tienes Contactos</h3>}
+          {contacts && contacts.length > 0 ? (
+            contacts.map((item) => {
+              if (item.is_active) {
+                return (
+                  <ContactCard
+                    key={item.usuario2.id}
+                    name={item.usuario2.nombre}
+                    lastname={item.usuario2.apellidos}
+                    nickname={item.usuario2.apodo}
+                    email={item.usuario2.email}
+                    foto={item.usuario2.foto}
+                    changeContact={closeModalDelete}
+                  />
+                );
+              }
+            })
+          ) : (
+            <h3>No Tienes Contactos</h3>
+          )}
         </div>
         <div
           className="createContact"

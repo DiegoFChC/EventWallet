@@ -18,8 +18,9 @@
     flex-direction: column;
 
     & p {
-      color: rgb(var(--primary-color-dark));
+      color: rgb(var(--text-dark));
     }
+
     & h1 {
       white-space: nowrap;
       overflow: hidden;
@@ -52,6 +53,7 @@
       font-size: 1rem;
       transition: background-color 0.3s ease;
       position: relative;
+      overflow: hidden;
 
       &:hover {
         cursor: pointer;

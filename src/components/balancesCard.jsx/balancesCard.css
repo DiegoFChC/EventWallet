@@ -37,12 +37,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-  
+
         & p {
           color: rgb(var(--text-darkest));
           font-weight: 500;
         }
-  
+
         & h1 {
           color: rgb(var(--text-darkest));
           font-weight: 600;
@@ -50,7 +50,6 @@
         }
       }
     }
-
   }
 
   & p {
@@ -85,9 +84,7 @@
 
 @media (min-width: 768px) {
   .BalancesCard {
-
     .container {
-
       .info {
         flex-direction: row;
 
@@ -112,12 +109,5 @@
 @media (min-width: 1250px) {
   .BalancesCard {
     width: 48%;
-
-    .container {
-
-      .info {
-
-      }
-    }
   }
 }

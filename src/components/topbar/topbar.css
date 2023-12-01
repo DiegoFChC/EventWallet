@@ -197,6 +197,7 @@
         background-color: rgb(var(--primary-color-dark));
         text-decoration: none;
         transition: 0.3s ease;
+        position: relative;
 
         &:hover {
           background-color: rgb(var(--primary-color-dark), 0.6);
@@ -211,6 +212,7 @@
         color: rgb(var(--text-light));
         background-color: rgb(var(--secondary-color-dark));
         transition: 0.3s ease;
+        position: relative;
 
         &:hover {
           cursor: pointer;

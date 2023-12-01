@@ -30,7 +30,7 @@ const postData = [
     name: "descripcion",
     id: "descripcion",
     placeholder: "Descripcion",
-    maxlength: 249
+    maxlength: 249,
   },
   {
     label: "Tipo",
@@ -81,20 +81,21 @@ export default function Events() {
   useEffect(() => {
     if (getCookie("Token") == undefined) {
       router.push("/login");
+    } else {
+      async function getData() {
+        const data = await getEvents();
+        setMyEvents(data.eventos_creador);
+        setEvents(data.eventos_participante);
+        setLoadingPage(false);
+      }
+      getData();
     }
-    async function getData() {
-      const data = await getEvents();
-      setMyEvents(data.eventos_creador);
-      setEvents(data.eventos_participante);
-      setLoadingPage(false);
-    }
+  }, [reaload]);
 
-    getData();
-  }, [reaload,]);
-
-  return (
+  return loadingPage ? (
+    <Loader />
+  ) : (
     <div className="Events">
-      {loadingPage ? <Loader /> : null}
       <Topbar />
       <Header
         title={"Eventos"}
@@ -106,21 +107,23 @@ export default function Events() {
             <div>
               <h1 className="title">Mis eventos</h1>
               <div className="cards">
-                {myEvents && myEvents.length > 0
-                  ? myEvents.map((item) => {
-                      return (
-                        <EventCard
-                          key={item.id}
-                          id={item.id}
-                          name={item.nombre}
-                          description={item.descripcion}
-                          type={item.tipo}
-                          photo={item.foto}
-                          isMyEvent={true}
-                        />
-                      );
-                    })
-                  :  <h3>No Tienes Eventos</h3>}
+                {myEvents && myEvents.length > 0 ? (
+                  myEvents.map((item) => {
+                    return (
+                      <EventCard
+                        key={item.id}
+                        id={item.id}
+                        name={item.nombre}
+                        description={item.descripcion}
+                        type={item.tipo}
+                        photo={item.foto}
+                        isMyEvent={true}
+                      />
+                    );
+                  })
+                ) : (
+                  <h3>No Tienes Eventos</h3>
+                )}
               </div>
             </div>
           }
@@ -130,21 +133,23 @@ export default function Events() {
             <div>
               <h1 className="title">Otros Eventos</h1>
               <div className="cards">
-                {events && events.length > 0
-                  ? events.map((item) => {
-                      return (
-                        <EventCard
-                          key={item.evento.id}
-                          id={item.evento.id}
-                          name={item.evento.nombre}
-                          description={item.evento.descripcion}
-                          type={item.evento.tipo}
-                          photo={item.evento.foto}
-                          isMyEvent={false}
-                        />
-                      );
-                    })
-                  : <h3>No Tienes Eventos</h3>}
+                {events && events.length > 0 ? (
+                  events.map((item) => {
+                    return (
+                      <EventCard
+                        key={item.evento.id}
+                        id={item.evento.id}
+                        name={item.evento.nombre}
+                        description={item.evento.descripcion}
+                        type={item.evento.tipo}
+                        photo={item.evento.foto}
+                        isMyEvent={false}
+                      />
+                    );
+                  })
+                ) : (
+                  <h3>No Tienes Eventos</h3>
+                )}
               </div>
             </div>
           }
@@ -154,6 +159,7 @@ export default function Events() {
           onClick={() => {
             setCreateEvent(true);
           }}
+          title="Crear evento"
         ></div>
       </div>
       {createEvent ? (
@@ -163,7 +169,7 @@ export default function Events() {
           title={"Crear nuevo evento"}
           fields={postData}
           buttonName={"Crear evento"}
-          additionalFields={{ foto: '/images/otros.jpg'}}
+          additionalFields={{ foto: "/images/otros.jpg" }}
         />
       ) : null}
       <ToastContainer

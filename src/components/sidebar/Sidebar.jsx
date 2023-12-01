@@ -2,14 +2,16 @@
 import Image from "next/image";
 import "./sidebar.css";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsCalendarEvent } from "react-icons/bs";
 import { RiContactsBookLine } from "react-icons/ri";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
+import Loader from "../loader/Loader";
 
 export const Sidebar = () => {
+  const [changePage, setChangePage] = useState(false);
   const [linkSelected, setLinkSelected] = useState({
     dashboard: "",
     events: "",
@@ -18,8 +20,12 @@ export const Sidebar = () => {
     profile: "",
   });
 
+  // useEffect(() => {
+  // }, [linkSelected]);
+
   return (
     <nav className="Sidebar">
+      {changePage ? <Loader /> : null}
       <div className="container">
         <header>
           <div className="image-text">
@@ -45,8 +51,9 @@ export const Sidebar = () => {
                   profile: "",
                 });
               }}
+              title="Dashboard"
             >
-              <AiOutlineHome size={"2em"}/>
+              <AiOutlineHome size={"2em"} />
               Dashboard
             </Link>
             <Link
@@ -61,8 +68,9 @@ export const Sidebar = () => {
                   profile: "",
                 });
               }}
+              title="Eventos"
             >
-              <BsCalendarEvent size={"2em"}/>
+              <BsCalendarEvent size={"2em"} />
               Eventos
             </Link>
             <Link
@@ -77,8 +85,9 @@ export const Sidebar = () => {
                   profile: "",
                 });
               }}
+              title="Contactos"
             >
-              <RiContactsBookLine size={"2em"}/>
+              <RiContactsBookLine size={"2em"} />
               Contactos
             </Link>
             <Link
@@ -93,8 +102,9 @@ export const Sidebar = () => {
                   profile: "",
                 });
               }}
+              title="Deudas"
             >
-              <BiMoneyWithdraw size={"2em"}/>
+              <BiMoneyWithdraw size={"2em"} />
               Deudas
             </Link>
             <Link
@@ -109,8 +119,9 @@ export const Sidebar = () => {
                   profile: "selected",
                 });
               }}
+              title="Perfil"
             >
-              <CgProfile size={"2em"}/>
+              <CgProfile size={"2em"} />
               Perfil
             </Link>
           </div>

@@ -11,6 +11,9 @@ import PaymentForm from "@/components/creditCard/CreditCard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { formatNumber } from "@/services/generalServices";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/loader/Loader";
 
 export default function Balances() {
   const [inButton, setInButton] = useState({
@@ -24,15 +27,23 @@ export default function Balances() {
   const [dataEventToPay, setDataEventToPay] = useState(null);
   const [valueToPay, setValueToPay] = useState(0);
   const [reload, setReload] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [pagoApp, setPagoApp] = useState(false);
+  const [pagoManoAMano, setPagoManoAMano] = useState(false);
+  const [autopago, setAutopago] = useState(false);
   const context = useContext(AppContext);
 
   useEffect(() => {
-    async function getGeneralBalances() {
-      const response = await getUserGeneralBalances();
-      console.log(response);
-      setDataBalances(response.data);
+    if (getCookie("Token") == undefined) {
+      router.push("/login");
+    } else {
+      async function getGeneralBalances() {
+        const response = await getUserGeneralBalances();
+        setDataBalances(response.data);
+        setLoadingPage(false);
+      }
+      getGeneralBalances();
     }
-    getGeneralBalances();
   }, [reload]);
 
   function handleSubmmit(e) {
@@ -44,7 +55,6 @@ export default function Balances() {
       event,
       dataBalances.usuario_id
     );
-    console.log(myEvent);
     if (pay) {
       setDataEventToPay(myEvent);
       setParticipantSelected(myEvent.saldos[0]);
@@ -53,20 +63,35 @@ export default function Balances() {
     }
   }
 
-  async function payValue() {
-    const data = {
-      evento: dataEventToPay.evento_id,
-      prestador: participantSelected.usuario_id,
-      valor: valueToPay,
-    };
+  async function payValue(e) {
+    e.preventDefault();
+    let data = {};
+    if (autopago) {
+      data = {
+        evento: dataEventToPay.evento_id,
+        deudor: participantSelected.usuario_id,
+        prestador: dataBalances.usuario_id,
+        valor: valueToPay,
+      };
+    } else if (pagoApp || pagoManoAMano) {
+      data = {
+        evento: dataEventToPay.evento_id,
+        deudor: dataBalances.usuario_id,
+        prestador: participantSelected.usuario_id,
+        valor: valueToPay,
+      };
+    }
     const response = await payAmount(data);
-    console.log(response);
     if (!response.error) {
       notify(response.informacion);
       setReload(!reload);
       setDataEventToPay(null);
       setValueToPay(0);
-      setDataEvent(null)
+      setDataEvent(null);
+      setAutopago(false);
+      setPagoApp(false);
+      setPagoManoAMano(false);
+      setParticipantSelected(null);
     }
   }
 
@@ -83,7 +108,9 @@ export default function Balances() {
     });
   };
 
-  return (
+  return loadingPage ? (
+    <Loader />
+  ) : (
     <div className="Balances">
       <Topbar />
       <Header title={"Deudas"} information={"Deudas y pagos"} />
@@ -126,7 +153,11 @@ export default function Balances() {
                   onChange={() => {
                     setDataEventToPay(null);
                     setValueToPay(0);
-                    setDataEvent(null)
+                    setDataEvent(null);
+                    setPagoApp(false);
+                    setPagoManoAMano(false);
+                    setAutopago(false);
+                    setParticipantSelected(null);
                   }}
                 >
                   {dataBalances.saldo_eventos.map((item) => {
@@ -155,6 +186,8 @@ export default function Balances() {
                           (item) => item.nombre == e.target.value
                         );
                         setParticipantSelected(participant[0]);
+                        setPagoApp(false);
+                        setPagoManoAMano(false);
                       }}
                     >
                       {dataEventToPay.saldos.map((item) => {
@@ -170,31 +203,99 @@ export default function Balances() {
                       })}
                     </select>
                     <p>
-                      {participantSelected.saldo <= 0
-                        ? `No le debes a este usuario`
-                        : `Saldo: $ ${formatNumber(participantSelected.saldo)}`}
+                      {participantSelected.saldo < 0
+                        ? `Este usuario te debe un saldo de: $${formatNumber(
+                            participantSelected.saldo * -1
+                          )}`
+                        : participantSelected.saldo > 0
+                        ? `Le debes a este usuario un saldo de: $${formatNumber(
+                            participantSelected.saldo
+                          )}`
+                        : `Tu saldo con este usuario es neutro`}
                     </p>
-                    {participantSelected.saldo > 0 ? (
-                      <input
-                        type="number"
-                        min={0}
-                        max={participantSelected.saldo * -1}
-                        onChange={(e) => setValueToPay(e.target.value)}
-                      />
-                    ) : null}
                   </>
                 ) : null}
               </form>
+              {pay &&
+              participantSelected != null &&
+              participantSelected.saldo > 0 ? (
+                <div className="pago">
+                  A continuación podrás registrar un pago
+                  <input
+                    type="number"
+                    placeholder="Monto"
+                    min={0}
+                    max={participantSelected.saldo}
+                    onChange={(e) => setValueToPay(e.target.value)}
+                  />
+                  <div className="optionsButtons">
+                    {valueToPay != 0 ? (
+                      <>
+                        <button
+                          onClick={() => {
+                            setPagoApp(true);
+                            setPagoManoAMano(false);
+                            setAutopago(false);
+                          }}
+                        >
+                          Hacer pago desde app
+                        </button>
+                        <form onSubmit={payValue}>
+                          <button
+                            type="submit"
+                            onClick={() => {
+                              setPagoManoAMano(true);
+                              setPagoApp(false);
+                              setAutopago(false);
+                            }}
+                          >
+                            Registrar pago mano a mano
+                          </button>
+                        </form>
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+              ) : pay &&
+                participantSelected != null &&
+                participantSelected.saldo < 0 ? (
+                <div className="pago">
+                  A continuación podrás registrar un pago que ya te han hecho
+                  <input
+                    type="number"
+                    placeholder="Monto"
+                    min={0}
+                    max={participantSelected.saldo}
+                    onChange={(e) => setValueToPay(e.target.value)}
+                  />
+                  <div className="optionsButtons">
+                    {valueToPay != 0 ? (
+                      <form onSubmit={payValue}>
+                        <button
+                          type="submit"
+                          onClick={() => {
+                            setAutopago(true);
+                          }}
+                        >
+                          Registrar pago
+                        </button>
+                      </form>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </>
-        ) : <h3 className="mensajeEvento">No estas asociado a ningún evento</h3>}
-        {pay && valueToPay != 0 ? (
+        ) : (
+          <h3 className="mensajeEvento">No estas asociado a ningún evento</h3>
+        )}
+        {pay && pagoApp && valueToPay != 0 ? (
           <div className="generatePay">
             <h1>Pago</h1>
             <div className="creditCard">
               <PaymentForm />
             </div>
-            <button onClick={payValue}>Enviar dinero</button>
+            <button onClick={payValue}>Hacer pago</button>
           </div>
         ) : null}
         {pay == false && dataEvent != null ? (
@@ -217,7 +318,9 @@ export default function Balances() {
                   );
                 })
               ) : (
-                <h3 className="mensajeDinero">Todavia no hay movimientos de dinero</h3>
+                <h3 className="mensajeDinero">
+                  Todavia no hay movimientos de dinero
+                </h3>
               )}
             </div>
           </div>

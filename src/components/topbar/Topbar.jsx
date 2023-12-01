@@ -11,6 +11,7 @@ import Link from "next/link";
 import ThemeToggle from "@/theme/ThemeToggle";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import Loader from "../loader/Loader";
 
 export function Topbar() {
   const [notifications, setNotifications] = useState(false);
@@ -18,23 +19,25 @@ export function Topbar() {
   const [countNotifications, setCountNotifications] = useState(0);
   const [user, setUser] = useState(false);
   const [dataUser, setDataUser] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [changePage, setChangePage] = useState(false);
+  const [exit, setExit] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     async function getData() {
       const data = await getNotifications();
       setDataNotifications(data);
-      // console.log("Mis invitaciones", data);
       setCountNotifications(data.invitations.length);
-      // console.log("Numero", countNotifications);
       const profile = await profileGet();
-      // console.log(profile)
       setDataUser(profile);
+      setLoadingPage(false);
     }
     getData();
   }, [notifications, user]);
 
   function signOff() {
+    setExit(true);
     deleteCookie("Token");
     router.push("/");
   }
@@ -84,7 +87,14 @@ export function Topbar() {
             </div>
           )}
           <div className="button_all">
-            <Link href="/application/events/notifications" className="all">
+            <Link
+              href="/application/events/notifications"
+              className="all"
+              onClick={() => {
+                setChangePage(true);
+              }}
+            >
+              {changePage ? <Loader /> : null}
               Ver todas mis notificaciones
             </Link>
           </div>
@@ -101,12 +111,22 @@ export function Topbar() {
               <ThemeToggle />
             </div>
             <div className="buttons">
-              <Link href={"/application/profile"}>Editar datos</Link>
+              <Link
+                href={"/application/profile"}
+                onClick={() => {
+                  setChangePage(true);
+                }}
+              >
+                {changePage ? <Loader /> : null}
+                Editar datos
+              </Link>
               <button
                 onClick={() => {
                   signOff();
                 }}
+                disabled={exit ? true : false}
               >
+                {exit ? <Loader /> : null}
                 Cerrar sesión
               </button>
             </div>
